@@ -1,0 +1,46 @@
+{
+  "project_info": {
+    "project_number": "739444544736",
+    "project_id": "wishystore-5e1e9",
+    "storage_bucket": "wishystore-5e1e9.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:739444544736:android:7869a7c805e1ea25666c85",
+        "android_client_info": {
+          "package_name": "com.example.wishy_store"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "739444544736-l0rnkkdb590rk2vne9fd6nm11e1rl33e.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyAq6w2_0MHxoP90m9N_gBh0iJCFwq9-y8g"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "739444544736-l0rnkkdb590rk2vne9fd6nm11e1rl33e.apps.googleusercontent.com",
+              "client_type": 3
+            },
+            {
+              "client_id": "739444544736-93snjqah51u7g0vq154c6ro5hdd4si5e.apps.googleusercontent.com",
+              "client_type": 2,
+              "ios_info": {
+                "bundle_id": "com.graduation.wishyStore"
+              }
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
