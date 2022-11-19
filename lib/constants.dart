@@ -12,3 +12,6 @@ const kButtonPadding = SizedBox(
 );
 
 const kButtonColor = Color(0xFF5E57A5);
+
+const kActiveCardColour = Color(0xFF1D1E33);
+const kInactiveCardColour = Color(0xFF111328);

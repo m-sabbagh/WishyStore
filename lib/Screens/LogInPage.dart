@@ -1,4 +1,3 @@
-import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:modal_progress_hud_nsn/modal_progress_hud_nsn.dart';
 import 'package:wishy_store/Screens/HomePage.dart';
@@ -10,7 +9,6 @@ import 'package:wishy_store/Widgets/LogInToast.dart';
 import 'package:wishy_store/constants.dart';
 import 'package:wishy_store/FirebaseNetowrkFile/ForgotPassword.dart';
 import 'package:google_sign_in/google_sign_in.dart';
-import 'package:provider/provider.dart';
 
 class LoginScreen extends StatefulWidget {
   static String id = 'login_screen';
@@ -225,7 +223,7 @@ class _LoginScreenState extends State<LoginScreen> {
                   Buttons.Google,
                   text: "Sign up with Google",
                   onPressed: () {
-                    // signInWithGoogle(context);
+                    GoogleSignIn().signIn();
                   },
                 ),
               ],

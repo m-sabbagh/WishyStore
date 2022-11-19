@@ -1,5 +1,6 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
+import 'package:fluttertoast/fluttertoast.dart';
 import 'package:wishy_store/Widgets/buttonPadding.dart';
 import 'package:modal_progress_hud_nsn/modal_progress_hud_nsn.dart';
 import 'package:firebase_auth/firebase_auth.dart';
@@ -41,6 +42,11 @@ class _MyHomePageState extends State<SignUpPage> {
   final GlobalKey<FormState> _formKey = GlobalKey<FormState>();
 
   bool showSpinner = false;
+  RegExp pass_valid = RegExp(r"(?=.*\d)(?=.*[a-z])(?=.*[A-Z])(?=.*\W)");
+
+  RegExp email_valid = RegExp(
+      r"^[a-zA-Z0-9.a-zA-Z0-9.!#$%&'*+-/=?^_`{|}~]+@[a-zA-Z0-9]+.[a-zA-Z]+");
+
   final _auth = FirebaseAuth.instance;
   final _firstNamecontroller = TextEditingController();
   final _lastNamecontroller = TextEditingController();
@@ -68,7 +74,38 @@ class _MyHomePageState extends State<SignUpPage> {
         setState(() {
           showSpinner = false;
         });
-      } else if (_passwordcontroller.text == _confirmPasswordcontroller.text) {
+      } else if (_passwordcontroller.text.length < 8) {
+        FlutterToastErorrStyle("Password must be at least 8 characters");
+        setState(() {
+          showSpinner = false;
+        });
+      } else if (_passwordcontroller.text != _confirmPasswordcontroller.text) {
+        FlutterToastErorrStyle("Password and Confirm Password must be same");
+        setState(() {
+          showSpinner = false;
+        });
+      } else if (pass_valid.hasMatch(_passwordcontroller.text) == false) {
+        Fluttertoast.showToast(
+            msg:
+                'Password must contain at least one uppercase letter, one lowercase letter, one number and one special character',
+            toastLength: Toast.LENGTH_LONG,
+            gravity: ToastGravity.BOTTOM,
+            timeInSecForIosWeb: 5,
+            backgroundColor: Colors.red,
+            textColor: Colors.white,
+            fontSize: 16.0);
+        setState(() {
+          showSpinner = false;
+        });
+      } else if (email_valid.hasMatch(_emailcontroller.text) == false) {
+        FlutterToastErorrStyle("Please enter a valid email");
+        setState(() {
+          showSpinner = false;
+        });
+      } else if (_passwordcontroller.text == _confirmPasswordcontroller.text &&
+          pass_valid.hasMatch(_passwordcontroller.text) == true &&
+          _passwordcontroller.text.length >= 8 &&
+          email_valid.hasMatch(_emailcontroller.text) == true) {
         await _auth.createUserWithEmailAndPassword(
             email: _emailcontroller.text.trim(),
             password: _passwordcontroller.text.toString());
@@ -88,11 +125,6 @@ class _MyHomePageState extends State<SignUpPage> {
           showSpinner = false;
         });
         clearallfields();
-      } else {
-        FlutterToastErorrStyle("Password does not match");
-        setState(() {
-          showSpinner = false;
-        });
       }
     } on FirebaseAuthException catch (e) {
       if (e.code == 'weak-password') {
@@ -303,7 +335,7 @@ class _MyHomePageState extends State<SignUpPage> {
                 ),
                 SizedBox(height: 8.0),
                 Text(
-                  '   Use 6 or more characters',
+                  'Use 8 or more characters with a mix of letters, numbers & symbols',
                   style: TextStyle(color: Colors.grey, fontSize: 12),
                 ),
                 ButtonPadding(
