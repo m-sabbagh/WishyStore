@@ -1,9 +1,11 @@
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:wishy_store/Widgets/buttonPadding.dart';
 import 'package:modal_progress_hud_nsn/modal_progress_hud_nsn.dart';
-import 'package:wishy_store/constants.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'HomePage.dart';
+import 'package:wishy_store/Widgets/LogInToast.dart';
+import 'package:wishy_store/StoreOwnerPage.dart';
 
 class SignUpPage extends StatefulWidget {
   static String id = 'signUpPage_screen';
@@ -14,20 +16,116 @@ class SignUpPage extends StatefulWidget {
 
 class _MyHomePageState extends State<SignUpPage> {
   @override
+  // // EmailVerficationPage obj = EmailVerficationPage();
+  // bool isVerfied = false;
+  //
+  // void setState(VoidCallback fn) {
+  //   super.setState(fn);
+  //   // isVerfied = FirebaseAuth.instance.currentUser!.emailVerified;
+  //
+  //   if (isVerfied == false) {
+  //     FirebaseAuth.instance.currentUser!.sendEmailVerification();
+  //     Timer.periodic(Duration(seconds: 3), (timer) {
+  //       if (FirebaseAuth.instance.currentUser!.emailVerified) {
+  //         // isVerfied = true;
+  //         timer.cancel();
+  //       }
+  //     });
+  //   }
+  // }
+  //verfication
+
+  CollectionReference collection =
+      FirebaseFirestore.instance.collection('users');
+
+  final GlobalKey<FormState> _formKey = GlobalKey<FormState>();
+
   bool showSpinner = false;
   final _auth = FirebaseAuth.instance;
-  String firstName;
-  String lastName;
-  String email;
-  String password;
-  String confirmPassword;
+  final _firstNamecontroller = TextEditingController();
+  final _lastNamecontroller = TextEditingController();
+  final _emailcontroller = TextEditingController();
+  final _passwordcontroller = TextEditingController();
+  final _confirmPasswordcontroller = TextEditingController();
   //text filed sizedBox height named as sizedBoxHeightTextF
   double sizedBoxHeightTextF = 45.0;
-  String selecteditem;
+  String? selecteditem;
+
   var items = [
     'User',
     'Store Owner',
   ];
+
+  void signup() async {
+    try {
+      if (_passwordcontroller.text.isEmpty == true ||
+          _emailcontroller.text.isEmpty == true ||
+          _firstNamecontroller.text.isEmpty == true ||
+          _lastNamecontroller.text.isEmpty == true ||
+          selecteditem.toString().isEmpty == true ||
+          _confirmPasswordcontroller.text.isEmpty == true) {
+        FlutterToastErorrStyle("Please fill all the fields");
+        setState(() {
+          showSpinner = false;
+        });
+      } else if (_passwordcontroller.text == _confirmPasswordcontroller.text) {
+        await _auth.createUserWithEmailAndPassword(
+            email: _emailcontroller.text.trim(),
+            password: _passwordcontroller.text.toString());
+        collection.add({
+          'email': _emailcontroller.text,
+          'password': _passwordcontroller.text,
+          'firstName': _firstNamecontroller.text,
+          'lastName': _lastNamecontroller.text,
+          'userType': selecteditem,
+        });
+        if (selecteditem == 'User') {
+          Navigator.pushNamed(context, HomePage.id);
+        } else if (selecteditem == 'Store Owner') {
+          Navigator.pushNamed(context, StoreOwnerPage.id);
+        }
+        setState(() {
+          showSpinner = false;
+        });
+        clearallfields();
+      } else {
+        FlutterToastErorrStyle("Password does not match");
+        setState(() {
+          showSpinner = false;
+        });
+      }
+    } on FirebaseAuthException catch (e) {
+      if (e.code == 'weak-password') {
+        FlutterToastErorrStyle("The password provided is too weak.");
+      } else if (e.code == 'email-already-in-use') {
+        FlutterToastErorrStyle("The account already exists for that email.");
+      } else if (e.code == 'user-not-found') {
+        FlutterToastErorrStyle("No user found for that email.");
+        setState(() {
+          showSpinner = false;
+        });
+      } else if (e.code == 'wrong-password') {
+        setState(() {
+          showSpinner = false;
+        });
+        FlutterToastErorrStyle("Wrong password provided for that user.");
+      } else
+        FlutterToastErorrStyle("Wrong input");
+      setState(() {
+        showSpinner = false;
+      });
+    }
+  }
+
+  void clearallfields() {
+    _emailcontroller.clear();
+    _passwordcontroller.clear();
+    _firstNamecontroller.clear();
+    _lastNamecontroller.clear();
+    selecteditem = null;
+    _confirmPasswordcontroller.clear();
+    _formKey.currentState!.reset();
+  }
 
   Widget build(BuildContext context) {
     return ModalProgressHUD(
@@ -74,10 +172,10 @@ class _MyHomePageState extends State<SignUpPage> {
                         setState(() {
                           if (value == 'User') {
                             value = items[0];
-                            selecteditem = value;
+                            selecteditem = value.toString() ?? 'User';
                           } else if (value == 'Store Owner') {
                             value = items[1];
-                            selecteditem = value;
+                            selecteditem = value.toString() ?? 'Store Owner';
                           }
                         });
                       },
@@ -91,8 +189,12 @@ class _MyHomePageState extends State<SignUpPage> {
                       child: SizedBox(
                         height: sizedBoxHeightTextF,
                         child: TextField(
+                          controller: _firstNamecontroller,
                           decoration: InputDecoration(
                             hintText: 'First Name',
+                            hintStyle: TextStyle(
+                              color: Colors.grey,
+                            ),
                             border: OutlineInputBorder(
                               borderRadius: BorderRadius.circular(10.0),
                               borderSide: BorderSide(
@@ -102,9 +204,6 @@ class _MyHomePageState extends State<SignUpPage> {
                             ),
                           ),
                           keyboardType: TextInputType.emailAddress,
-                          onChanged: (value) {
-                            firstName = value;
-                          },
                           // decoration: kTextfiledDecoration.copyWith(
                           // hintText: 'Enter your password'
                         ),
@@ -115,8 +214,12 @@ class _MyHomePageState extends State<SignUpPage> {
                       child: SizedBox(
                         height: sizedBoxHeightTextF,
                         child: TextField(
+                          controller: _lastNamecontroller,
                           decoration: InputDecoration(
                             hintText: 'Last Name',
+                            hintStyle: TextStyle(
+                              color: Colors.grey,
+                            ),
                             border: OutlineInputBorder(
                               borderRadius: BorderRadius.circular(10.0),
                               borderSide: BorderSide(
@@ -126,9 +229,6 @@ class _MyHomePageState extends State<SignUpPage> {
                             ),
                           ),
                           keyboardType: TextInputType.emailAddress,
-                          onChanged: (value) {
-                            lastName = value;
-                          },
                           // decoration: kTextfiledDecoration.copyWith(
                           // hintText: 'Enter your password'
                         ),
@@ -140,8 +240,12 @@ class _MyHomePageState extends State<SignUpPage> {
                 SizedBox(
                   height: sizedBoxHeightTextF,
                   child: TextField(
+                    controller: _emailcontroller,
                     decoration: InputDecoration(
                       hintText: 'Enter your email',
+                      hintStyle: TextStyle(
+                        color: Colors.grey,
+                      ),
                       border: OutlineInputBorder(
                         borderRadius: BorderRadius.circular(10.0),
                         borderSide: BorderSide(
@@ -151,87 +255,78 @@ class _MyHomePageState extends State<SignUpPage> {
                       ),
                     ),
                     keyboardType: TextInputType.emailAddress,
-                    onChanged: (value) {
-                      email = value;
-                    },
                   ),
                 ),
                 SizedBox(height: 8),
-                Row(
-                  children: [
-                    Expanded(
-                      child: SizedBox(
-                        height: sizedBoxHeightTextF,
-                        child: TextField(
-                          obscureText: true,
-                          decoration: InputDecoration(
-                            hintText: 'Password',
-                            filled: true,
-                            fillColor: Colors.white,
-                            border: OutlineInputBorder(
-                              borderRadius: BorderRadius.circular(10.0),
-                            ),
-                          ),
-                          style: TextStyle(
-                            color: Colors.black,
-                          ),
-                          onChanged: (value) {
-                            password = value;
-                          },
-                        ),
+                SizedBox(
+                  height: sizedBoxHeightTextF,
+                  child: TextField(
+                    controller: _passwordcontroller,
+                    obscureText: true,
+                    decoration: InputDecoration(
+                      hintText: 'Password',
+                      hintStyle: TextStyle(
+                        color: Colors.grey,
+                      ),
+                      filled: true,
+                      fillColor: Colors.white,
+                      border: OutlineInputBorder(
+                        borderRadius: BorderRadius.circular(10.0),
                       ),
                     ),
-                    SizedBox(width: 8),
-                    Expanded(
-                      child: SizedBox(
-                        height: sizedBoxHeightTextF,
-                        child: TextField(
-                          obscureText: true,
-                          decoration: InputDecoration(
-                            hintText: 'Confirm Password',
-                            filled: true,
-                            fillColor: Colors.white,
-                            border: OutlineInputBorder(
-                              borderRadius: BorderRadius.circular(10.0),
-                            ),
-                          ),
-                          style: TextStyle(
-                            color: Colors.black,
-                          ),
-                          onChanged: (value) {
-                            if (password == value) {
-                              print('password is correct');
-                              confirmPassword = value;
-                            } else {
-                              //package pop up password doesnt match
-                              print('password is not correct');
-                            }
-                          },
-                        ),
+                    style: TextStyle(
+                      color: Colors.black,
+                    ),
+                  ),
+                ),
+                SizedBox(height: 8),
+                SizedBox(
+                  height: sizedBoxHeightTextF,
+                  child: TextField(
+                    controller: _confirmPasswordcontroller,
+                    obscureText: true,
+                    decoration: InputDecoration(
+                      hintText: 'Confirm Password',
+                      hintStyle: TextStyle(
+                        color: Colors.grey,
+                      ),
+                      filled: true,
+                      fillColor: Colors.white,
+                      border: OutlineInputBorder(
+                        borderRadius: BorderRadius.circular(10.0),
                       ),
                     ),
-                  ],
+                    style: TextStyle(
+                      color: Colors.black,
+                    ),
+                  ),
+                ),
+                SizedBox(height: 8.0),
+                Text(
+                  '   Use 6 or more characters',
+                  style: TextStyle(color: Colors.grey, fontSize: 12),
                 ),
                 ButtonPadding(
                   buttonName: 'Sign Up',
                   buttonColor: Color(0xFF5E57A5),
-                  onPressed: () async {
+                  onPressed: () {
+                    //check if the email and password are valid
+                    // obj.verfiedEmail(
+                    //     _emailcontroller.text,
+                    //     _passwordcontroller.text,
+                    //     _auth,
+                    //     firstName,
+                    //     lastName,
+                    //     context,
+                    //     _formKey,
+                    //     isVerfied
+                    //     // selecteditem,
+                    //     );
+                    // verfication
                     setState(() {
                       showSpinner = true;
                     });
-                    try {
-                      final newUser =
-                          await _auth.createUserWithEmailAndPassword(
-                              email: email, password: password);
-                      if (newUser != null) {
-                        Navigator.pushNamed(context, HomePage.id);
-                      }
-                      setState(() {
-                        showSpinner = false;
-                      });
-                    } catch (e) {
-                      print(e);
-                    }
+                    signup();
                   },
                 ),
               ],
@@ -242,3 +337,78 @@ class _MyHomePageState extends State<SignUpPage> {
     );
   }
 }
+
+// // if (_confirmPasswordcontroller != _passwordcontroller) {
+// //     //   FlutterToastErorrStyle("Password does not match");
+// //     // }
+// //     // else{
+// //     //   try {
+// //     //     final newUser = await _auth.createUserWithEmailAndPassword(
+// //     //         email: _emailcontroller.text.trim(),
+// //     //         password: _passwordcontroller.text.trim());
+// //     //     if (newUser != null) {
+// //     //       Navigator.pushNamed(context, HomePage.id);
+// //     //     }
+// //     //   } on FirebaseAuthException catch (e) {
+// //     //     if (_passwordcontroller.text.isEmpty == true ||
+// //     //         _emailcontroller.text.isEmpty == true) {
+// //     //       FlutterToastErorrStyle("Please fill all the fields");
+// //     //       setState(() {
+// //     //         showSpinner = false;
+// //     //       });
+// //     //     } else if (e.code == 'weak-password') {
+// //     //       FlutterToastErorrStyle("The password provided is too weak.");
+// //     //       setState(() {
+// //     //         showSpinner = false;
+// //     //       });
+// //     //     } else if (e.code == 'email-already-in-use') {
+// //     //       FlutterToastErorrStyle("The account already exists for that email.");
+// //     //       setState(() {
+// //     //         showSpinner = false;
+// //     //       });
+// //     //     } else
+// //     //       FlutterToastErorrStyle("Wrong input");
+// //     //     setState(() {
+// //     //       showSpinner = false;
+// //     //     });
+// //     //   }
+// //     // }
+
+// Container(
+//                 //       padding: EdgeInsets.only(left: 20, right: 16),
+//                 //       alignment: Alignment.center,
+//                 //       decoration: BoxDecoration(
+//                 //         border: Border.all(color: Colors.grey, width: 2.0),
+//                 //         borderRadius: BorderRadius.circular(10),
+//                 //       ),
+//                 //       child: DropdownSearch<String>(
+//                 //         selectedItem: _selectedItemcontroller.text,
+//                 //         onChanged: (v) {
+//                 //           _selectedItemcontroller.text = v!;
+//                 //         },
+//                 //
+//                 //         popupProps: PopupProps.menu(
+//                 //           // searchFieldProps: TextFieldProps(
+//                 //           //   controller: _selectedItemcontroller,
+//                 //           //   decoration: InputDecoration(
+//                 //           //     border: OutlineInputBorder(),
+//                 //           //     labelText: "Search",
+//                 //           //   ),
+//                 //           // ),
+//                 //           fit: FlexFit.values[1],
+//                 //           showSelectedItems: true,
+//                 //         ),
+//                 //         items: [
+//                 //           "User",
+//                 //           "Store Owner",
+//                 //         ],
+//                 //         dropdownDecoratorProps: DropDownDecoratorProps(
+//                 //           dropdownSearchDecoration: InputDecoration(
+//                 //             labelText: "I am a",
+//                 //             // hintText: "country in menu mode",
+//                 //           ),
+//                 //         ),
+//                 //         // onChanged: print,
+//                 //         // selectedItem: "Brazil",
+//                 //       ),
+//                 //     )),

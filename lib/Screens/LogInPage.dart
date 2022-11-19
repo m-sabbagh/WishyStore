@@ -1,5 +1,4 @@
-import 'dart:io';
-
+import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:modal_progress_hud_nsn/modal_progress_hud_nsn.dart';
 import 'package:wishy_store/Screens/HomePage.dart';
@@ -9,6 +8,9 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'SignUpPage.dart';
 import 'package:wishy_store/Widgets/LogInToast.dart';
 import 'package:wishy_store/constants.dart';
+import 'package:wishy_store/FirebaseNetowrkFile/ForgotPassword.dart';
+import 'package:google_sign_in/google_sign_in.dart';
+import 'package:provider/provider.dart';
 
 class LoginScreen extends StatefulWidget {
   static String id = 'login_screen';
@@ -33,7 +35,7 @@ class _LoginScreenState extends State<LoginScreen> {
     try {
       final user = await _auth.signInWithEmailAndPassword(
           email: _emailcontroller.text.trim(),
-          password: _passwordcontroller.text.trim());
+          password: _passwordcontroller.text.toString());
       if (user != null) {
         Navigator.pushNamed(context, HomePage.id);
       }
@@ -61,6 +63,45 @@ class _LoginScreenState extends State<LoginScreen> {
       });
     }
   }
+
+  // Future<void> signInWithGoogle(BuildContext context) async {
+  //   try {
+  //     if (kIsWeb) {
+  //       GoogleAuthProvider googleProvider = GoogleAuthProvider();
+  //
+  //       googleProvider
+  //           .addScope('https://www.googleapis.com/auth/contacts.readonly');
+  //
+  //       await _auth.signInWithPopup(googleProvider);
+  //     } else {
+  //       final GoogleSignInAccount? googleUser = await GoogleSignIn().signIn();
+  //
+  //       final GoogleSignInAuthentication? googleAuth =
+  //           await googleUser?.authentication;
+  //
+  //       if (googleAuth?.accessToken != null && googleAuth?.idToken != null) {
+  //         // Create a new credential
+  //         final credential = GoogleAuthProvider.credential(
+  //           accessToken: googleAuth?.accessToken,
+  //           idToken: googleAuth?.idToken,
+  //         );
+  //         UserCredential userCredential =
+  //             await _auth.signInWithCredential(credential);
+  //
+  //         // if you want to do specific task like storing information in firestore
+  //         // only for new users using google sign in (since there are no two options
+  //         // for google sign in and google sign up, only one as of now),
+  //         // do the following:
+  //
+  //         // if (userCredential.user != null) {
+  //         //   if (userCredential.additionalUserInfo!.isNewUser) {}
+  //         // }
+  //       }
+  //     }
+  //   } on FirebaseAuthException catch (e) {
+  //     FlutterToastErorrStyle(e.message!); // Displaying the error message
+  //   }
+  // }
 
   //text filed sizedBox height named as sizedBoxHeightTextF
   double sizedBoxHeightTextF = 45.0;
@@ -140,10 +181,18 @@ class _LoginScreenState extends State<LoginScreen> {
                 SizedBox(
                   height: 12.0,
                 ),
-                Center(
-                  child: Text(
-                    'Forgot password?',
-                    style: TextStyle(),
+                GestureDetector(
+                  onTap: () {
+                    Navigator.push(
+                        context,
+                        MaterialPageRoute(
+                            builder: (context) => ForgotPassword()));
+                  },
+                  child: Center(
+                    child: Text(
+                      'Forgot password?',
+                      style: TextStyle(color: Colors.blueAccent),
+                    ),
                   ),
                 ),
                 ButtonPadding(
@@ -175,7 +224,9 @@ class _LoginScreenState extends State<LoginScreen> {
                 SignInButton(
                   Buttons.Google,
                   text: "Sign up with Google",
-                  onPressed: () {},
+                  onPressed: () {
+                    // signInWithGoogle(context);
+                  },
                 ),
               ],
             ),

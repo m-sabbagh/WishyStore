@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:wishy_store/Screens/HomePage.dart';
+import 'package:wishy_store/StoreOwnerPage.dart';
 import 'package:wishy_store/stayLoggedIn.dart';
 import 'Screens/LogInPage.dart';
 import 'Screens/SignUpPage.dart';
@@ -24,6 +25,7 @@ class WishyStore extends StatelessWidget {
       routes: {
         SignUpPage.id: (context) => SignUpPage(),
         HomePage.id: (context) => HomePage(),
+        StoreOwnerPage.id: (context) => StoreOwnerPage(),
       },
     );
   }

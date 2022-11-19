@@ -4,22 +4,19 @@ import 'package:flutter/material.dart';
 import 'package:wishy_store/Screens/HomePage.dart';
 import 'package:wishy_store/Screens//LogInPage.dart';
 
-class HomePage extends StatefulWidget {
-  static String id = 'home_screen';
+class StoreOwnerPage extends StatefulWidget {
+  static String id = 'StoreOwnerPage';
 
   @override
-  State<HomePage> createState() => _HomePageState();
+  State<StoreOwnerPage> createState() => _StoreOwnerPage();
 }
 
-class _HomePageState extends State<HomePage> {
+class _StoreOwnerPage extends State<StoreOwnerPage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: Color(0xFF313040),
       appBar: AppBar(
-        automaticallyImplyLeading: false,
-        backgroundColor: Color(0xFF313040),
-        title: Text('WishyStore'),
+        title: Text('store owner pageeeee Page'),
       ),
       body: Center(
         child: MaterialButton(
