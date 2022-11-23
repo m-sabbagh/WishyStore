@@ -1,3 +1,4 @@
+import 'package:flash/flash.dart';
 import 'package:flutter/material.dart';
 import 'package:fluttertoast/fluttertoast.dart';
 import 'package:rflutter_alert/rflutter_alert.dart';
@@ -53,7 +54,6 @@ class _ForgotPasswordState extends State<ForgotPassword> {
       });
     } on FirebaseAuthException catch (e) {
       if (_emailcontroller.text.isEmpty == true) {
-        FlutterToastErorrStyle("Please fill all the fields");
       } else if (e.code == 'user-not-found') {
         FlutterToastErorrStyle("No user found for that email.");
       } else

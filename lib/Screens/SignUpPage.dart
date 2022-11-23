@@ -86,8 +86,8 @@ class _MyHomePageState extends State<SignUpPage> {
         });
       } else if (pass_valid.hasMatch(_passwordcontroller.text) == false) {
         Fluttertoast.showToast(
-            msg:
-                'Password must contain at least one uppercase letter, one lowercase letter, one number and one special character',
+            msg: 'Password is too weak',
+            // must contain at least one uppercase letter, one lowercase letter, one number and one special character
             toastLength: Toast.LENGTH_LONG,
             gravity: ToastGravity.BOTTOM,
             timeInSecForIosWeb: 5,

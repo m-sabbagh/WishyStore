@@ -25,15 +25,15 @@ class _HomePageState extends State<HomePage> {
       style: optionStyle,
     ),
     Text(
-      'Index 1: Business',
+      'Index 1: Stores',
       style: optionStyle,
     ),
     Text(
-      'Index 2: School',
+      'Index 2: Groups',
       style: optionStyle,
     ),
     Text(
-      'Index 3: Profile',
+      'Index 3: Settings',
       style: optionStyle,
     ),
   ];
@@ -78,13 +78,13 @@ class _HomePageState extends State<HomePage> {
                   'images/asd2.jpeg',
                   'images/asd.jpeg',
                   'images/asd3.jpeg',
+                  'images/leaderz.jpeg',
                 ].map((item) {
                   return Builder(
                     builder: (BuildContext context) {
                       return Container(
                         width: MediaQuery.of(context).size.width,
                         margin: EdgeInsets.symmetric(horizontal: 5.0),
-                        decoration: BoxDecoration(color: Colors.amber),
                         child: Image.asset(
                           item,
                           fit: BoxFit.fill,
@@ -104,7 +104,7 @@ class _HomePageState extends State<HomePage> {
                     width: 20,
                   ),
                   Text(
-                    "Store",
+                    "Stores",
                     style: TextStyle(
                       color: Colors.white,
                       fontWeight: FontWeight.bold,
@@ -122,23 +122,26 @@ class _HomePageState extends State<HomePage> {
                   children: [
                     ReusableCard(
                         colour: kActiveCardColour,
-                        cardChild: Text('hello'),
+                        cardChild: Image.asset('images/ledrz.jpeg'),
                         onPress: () {}),
                     ReusableCard(
                         colour: kActiveCardColour,
-                        cardChild: Text('hello'),
+                        cardChild: Image.asset('images/gift_center.jpeg'),
                         onPress: () {}),
                     ReusableCard(
                         colour: kActiveCardColour,
-                        cardChild: Text('hello'),
+                        cardChild: Image.asset('images/zara.jpg'),
                         onPress: () {}),
                     ReusableCard(
                         colour: kActiveCardColour,
-                        cardChild: Text('hello'),
+                        cardChild: Image.asset(
+                            'images/Deal_of_the_Day-11_400x400.png'),
                         onPress: () {}),
                     ReusableCard(
                         colour: kActiveCardColour,
-                        cardChild: Text('hello'),
+                        cardChild: Image.asset(
+                          'images/frame0.jpg',
+                        ),
                         onPress: () {}),
                   ],
                 ),
@@ -151,7 +154,7 @@ class _HomePageState extends State<HomePage> {
                   SizedBox(
                     width: 20,
                   ),
-                  Text("MY wishlist"),
+                  Text("My wishlists"),
                   SizedBox(
                     width: 240,
                   ),
