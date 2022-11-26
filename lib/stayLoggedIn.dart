@@ -1,8 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:firebase_auth/firebase_auth.dart';
-import 'package:flutter/material.dart';
-import 'package:wishy_store/Screens/HomePage.dart';
-import 'package:wishy_store/Screens//LogInPage.dart';
+import 'package:wishy_store/Screens/User/StoreOwner%20shared%20screens/NavigationBAR.dart';
+import 'package:wishy_store/Screens/User/StoreOwner%20shared%20screens/LogInPage.dart';
 
 class StayLoggedIn extends StatelessWidget {
   const StayLoggedIn({Key? key}) : super(key: key);
@@ -14,7 +13,7 @@ class StayLoggedIn extends StatelessWidget {
         stream: FirebaseAuth.instance.authStateChanges(),
         builder: (context, snapshot) {
           if (snapshot.hasData) {
-            return HomePage();
+            return NavigationBarsssss();
             //else if user else if store owner
           } else {
             return LoginScreen();

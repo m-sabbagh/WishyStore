@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:modal_progress_hud_nsn/modal_progress_hud_nsn.dart';
-import 'package:wishy_store/Screens/HomePage.dart';
+import 'package:wishy_store/Screens/User/StoreOwner%20shared%20screens/NavigationBAR.dart';
 import 'package:wishy_store/Widgets/buttonPadding.dart';
 import 'package:flutter_signin_button/flutter_signin_button.dart';
 import 'package:firebase_auth/firebase_auth.dart';
@@ -35,7 +35,7 @@ class _LoginScreenState extends State<LoginScreen> {
           email: _emailcontroller.text.trim(),
           password: _passwordcontroller.text.toString());
       if (user != null) {
-        Navigator.pushNamed(context, HomePage.id);
+        Navigator.pushNamed(context, NavigationBarsssss.id);
       }
     } on FirebaseAuthException catch (e) {
       if (_passwordcontroller.text.isEmpty == true ||

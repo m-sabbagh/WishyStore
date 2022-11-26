@@ -1,10 +1,10 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:fluttertoast/fluttertoast.dart';
+import 'package:wishy_store/Screens/UserScreens/UserHomePage.dart';
 import 'package:wishy_store/Widgets/buttonPadding.dart';
 import 'package:modal_progress_hud_nsn/modal_progress_hud_nsn.dart';
 import 'package:firebase_auth/firebase_auth.dart';
-import 'HomePage.dart';
 import 'package:wishy_store/Widgets/LogInToast.dart';
 import 'package:wishy_store/StoreOwnerPage.dart';
 
@@ -117,7 +117,7 @@ class _MyHomePageState extends State<SignUpPage> {
           'userType': selecteditem,
         });
         if (selecteditem == 'User') {
-          Navigator.pushNamed(context, HomePage.id);
+          Navigator.pushNamed(context, UserHomePage.id);
         } else if (selecteditem == 'Store Owner') {
           Navigator.pushNamed(context, StoreOwnerPage.id);
         }

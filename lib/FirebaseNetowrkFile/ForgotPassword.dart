@@ -1,9 +1,6 @@
-import 'package:flash/flash.dart';
 import 'package:flutter/material.dart';
-import 'package:fluttertoast/fluttertoast.dart';
 import 'package:rflutter_alert/rflutter_alert.dart';
-import 'package:wishy_store/Screens/HomePage.dart';
-import 'package:wishy_store/Screens/LogInPage.dart';
+import 'package:wishy_store/Screens/User/StoreOwner%20shared%20screens/LogInPage.dart';
 import 'package:wishy_store/Widgets/buttonPadding.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:wishy_store/Widgets/LogInToast.dart';

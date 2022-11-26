@@ -1,49 +1,22 @@
-import 'package:flutter/material.dart';
+import 'package:carousel_slider/carousel_slider.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
-import 'package:wishy_store/Screens/HomePage.dart';
-import 'package:wishy_store/Screens//LogInPage.dart';
-import 'package:wishy_store/Screens/SettingsPage.dart';
-import 'package:wishy_store/Widgets/cardformain.dart';
 import 'package:wishy_store/constants.dart';
-import 'package:carousel_slider/carousel_slider.dart';
 
-class HomePage extends StatefulWidget {
-  static String id = 'home_screen';
+import '../../Widgets/cardformain.dart';
+import '../User/StoreOwner shared screens/LogInPage.dart';
+
+class UserHomePage extends StatefulWidget {
+  static String id = 'user_home_page';
+
+  const UserHomePage({Key? key}) : super(key: key);
 
   @override
-  State<HomePage> createState() => _HomePageState();
+  State<UserHomePage> createState() => _UserHomePageState();
 }
 
-class _HomePageState extends State<HomePage> {
-  int _selectedIndex = 0;
-  static const TextStyle optionStyle =
-      TextStyle(fontSize: 30, fontWeight: FontWeight.bold);
-  static const List<Widget> _widgetOptions = <Widget>[
-    Text(
-      'Index 0: Home',
-      style: optionStyle,
-    ),
-    Text(
-      'Index 1: Stores',
-      style: optionStyle,
-    ),
-    Text(
-      'Index 2: Groups',
-      style: optionStyle,
-    ),
-    Text(
-      'Index 3: Settings',
-      style: optionStyle,
-    ),
-  ];
-
-  void _onItemTapped(int index) {
-    setState(() {
-      _selectedIndex = index;
-    });
-  }
-
+class _UserHomePageState extends State<UserHomePage> {
+  @override
   Widget build(BuildContext context) {
     return Scaffold(
       backgroundColor: Color(0xFF313050),
@@ -94,7 +67,7 @@ class _HomePageState extends State<HomePage> {
                   );
                 }).toList(),
               ),
-              _widgetOptions.elementAt(_selectedIndex),
+              // _widgetOptions.elementAt(_selectedIndex),
               SizedBox(
                 height: 30,
               ),
@@ -228,44 +201,9 @@ class _HomePageState extends State<HomePage> {
               SizedBox(
                 height: 10,
               ),
-              MaterialButton(
-                color: Colors.blue,
-                onPressed: () {
-                  FirebaseAuth.instance.signOut();
-                  Navigator.pushReplacement(context,
-                      MaterialPageRoute(builder: (context) => LoginScreen()));
-                },
-              ),
             ],
           ),
         ),
-      ),
-      bottomNavigationBar: BottomNavigationBar(
-        currentIndex: _selectedIndex,
-        selectedItemColor: Colors.amber[800],
-        onTap: _onItemTapped,
-        items: const <BottomNavigationBarItem>[
-          BottomNavigationBarItem(
-            icon: Icon(Icons.home),
-            backgroundColor: Colors.deepPurpleAccent,
-            label: 'Home',
-          ),
-          BottomNavigationBarItem(
-            icon: Icon(Icons.widgets_sharp),
-            backgroundColor: Colors.blue,
-            label: 'Wish',
-          ),
-          BottomNavigationBarItem(
-            icon: Icon(Icons.group_sharp),
-            backgroundColor: Colors.blue,
-            label: 'Groups',
-          ),
-          BottomNavigationBarItem(
-            icon: Icon(Icons.settings),
-            backgroundColor: Colors.blue,
-            label: 'Settings',
-          ),
-        ],
       ),
     );
   }
