@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:wishy_store/Screens/UserScreens/UserHomePage.dart';
 
-import '../../UserScreens/Groups.dart';
+import '../../UserScreens/MyWishPage.dart';
 
 class TabNavigation extends StatelessWidget {
   final GlobalKey<NavigatorState>? navigatorKey;

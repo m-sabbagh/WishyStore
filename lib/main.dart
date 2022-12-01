@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/services.dart';
 import 'package:wishy_store/Screens/User/StoreOwner%20shared%20screens/NavigationBAR.dart';
-import 'package:wishy_store/Screens/UserScreens/Groups.dart';
+import 'package:wishy_store/Screens/UserScreens/MyWishPage.dart';
 import 'package:wishy_store/Screens/UserScreens/UserSettingsPage.dart';
 import 'package:wishy_store/Screens/UserScreens/StoresPage.dart';
 import 'package:wishy_store/Screens/UserScreens/UserHomePage.dart';

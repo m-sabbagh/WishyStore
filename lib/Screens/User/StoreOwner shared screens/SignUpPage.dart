@@ -1,6 +1,7 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:fluttertoast/fluttertoast.dart';
+import 'package:wishy_store/FirebaseNetowrkFile/allUser.dart';
 import 'package:wishy_store/Screens/UserScreens/UserHomePage.dart';
 import 'package:wishy_store/Widgets/buttonPadding.dart';
 import 'package:modal_progress_hud_nsn/modal_progress_hud_nsn.dart';
@@ -17,6 +18,21 @@ class SignUpPage extends StatefulWidget {
 
 class _MyHomePageState extends State<SignUpPage> {
   @override
+  void addNewUser() async {
+    FirebaseFirestore db = FirebaseFirestore.instance;
+    User? user = await _auth.currentUser;
+    Alluser alluser = Alluser();
+
+    alluser.firstname = _firstNamecontroller.text;
+    alluser.lastname = _lastNamecontroller.text;
+    alluser.email = _emailcontroller.text;
+    alluser.password = _passwordcontroller.text;
+    alluser.userType = selecteditem;
+    alluser.uId = user!.uid;
+
+    await db.collection('alluser').doc(user.uid).set(alluser.toMap());
+  }
+
   // // EmailVerficationPage obj = EmailVerficationPage();
   // bool isVerfied = false;
   //
@@ -74,7 +90,7 @@ class _MyHomePageState extends State<SignUpPage> {
         setState(() {
           showSpinner = false;
         });
-      } else if (_passwordcontroller.text.length < 8) {
+      } else if (_passwordcontroller.text.length < 6) {
         FlutterToastErorrStyle("Password must be at least 8 characters");
         setState(() {
           showSpinner = false;
@@ -84,38 +100,43 @@ class _MyHomePageState extends State<SignUpPage> {
         setState(() {
           showSpinner = false;
         });
-      } else if (pass_valid.hasMatch(_passwordcontroller.text) == false) {
-        Fluttertoast.showToast(
-            msg: 'Password is too weak',
-            // must contain at least one uppercase letter, one lowercase letter, one number and one special character
-            toastLength: Toast.LENGTH_LONG,
-            gravity: ToastGravity.BOTTOM,
-            timeInSecForIosWeb: 5,
-            backgroundColor: Colors.red,
-            textColor: Colors.white,
-            fontSize: 16.0);
-        setState(() {
-          showSpinner = false;
-        });
-      } else if (email_valid.hasMatch(_emailcontroller.text) == false) {
+      }
+      // else if (pass_valid.hasMatch(_passwordcontroller.text) == false) {
+      //   Fluttertoast.showToast(
+      //       msg: 'Password is too weak',
+      //       // must contain at least one uppercase letter, one lowercase letter, one number and one special character
+      //       toastLength: Toast.LENGTH_LONG,
+      //       gravity: ToastGravity.BOTTOM,
+      //       timeInSecForIosWeb: 5,
+      //       backgroundColor: Colors.red,
+      //       textColor: Colors.white,
+      //       fontSize: 16.0);
+      //   setState(() {
+      //     showSpinner = false;
+      //   });
+      // }
+      else if (email_valid.hasMatch(_emailcontroller.text) == false) {
         FlutterToastErorrStyle("Please enter a valid email");
         setState(() {
           showSpinner = false;
         });
       } else if (_passwordcontroller.text == _confirmPasswordcontroller.text &&
-          pass_valid.hasMatch(_passwordcontroller.text) == true &&
-          _passwordcontroller.text.length >= 8 &&
+          // pass_valid.hasMatch(_passwordcontroller.text) == true &&
+          // _passwordcontroller.text.length >= 8 &&
           email_valid.hasMatch(_emailcontroller.text) == true) {
-        await _auth.createUserWithEmailAndPassword(
-            email: _emailcontroller.text.trim(),
-            password: _passwordcontroller.text.toString());
-        collection.add({
-          'email': _emailcontroller.text,
-          'password': _passwordcontroller.text,
-          'firstName': _firstNamecontroller.text,
-          'lastName': _lastNamecontroller.text,
-          'userType': selecteditem,
-        });
+        await _auth
+            .createUserWithEmailAndPassword(
+                email: _emailcontroller.text.trim(),
+                password: _passwordcontroller.text.toString())
+            .then((value) => addNewUser());
+        // collection.add({
+        //   'email': _emailcontroller.text,
+        //   'password': _passwordcontroller.text,
+        //   'firstName': _firstNamecontroller.text,
+        //   'lastName': _lastNamecontroller.text,
+        //   'userType': selecteditem,
+        //   'uid': _auth.currentUser!.uid,
+        // });
         if (selecteditem == 'User') {
           Navigator.pushNamed(context, UserHomePage.id);
         } else if (selecteditem == 'Store Owner') {

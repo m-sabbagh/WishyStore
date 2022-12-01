@@ -1,10 +1,6 @@
 import 'package:carousel_slider/carousel_slider.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
-import 'package:wishy_store/constants.dart';
-
-import '../../Widgets/cardformain.dart';
-import '../User/StoreOwner shared screens/LogInPage.dart';
 
 class UserHomePage extends StatefulWidget {
   static String id = 'user_home_page';
@@ -93,29 +89,74 @@ class _UserHomePageState extends State<UserHomePage> {
                 scrollDirection: Axis.horizontal,
                 child: Row(
                   children: [
-                    ReusableCard(
-                        colour: kActiveCardColour,
-                        cardChild: Image.asset('images/ledrz.jpeg'),
-                        onPress: () {}),
-                    ReusableCard(
-                        colour: kActiveCardColour,
-                        cardChild: Image.asset('images/gift_center.jpeg'),
-                        onPress: () {}),
-                    ReusableCard(
-                        colour: kActiveCardColour,
-                        cardChild: Image.asset('images/zara.jpg'),
-                        onPress: () {}),
-                    ReusableCard(
-                        colour: kActiveCardColour,
-                        cardChild: Image.asset(
-                            'images/Deal_of_the_Day-11_400x400.png'),
-                        onPress: () {}),
-                    ReusableCard(
-                        colour: kActiveCardColour,
-                        cardChild: Image.asset(
-                          'images/frame0.jpg',
-                        ),
-                        onPress: () {}),
+                    // ReusableCard(
+                    //     colour: kActiveCardColour,
+                    //     cardChild: Image.asset('images/ledrz.jpeg'),
+                    //     onPress: () {}),
+                    GestureDetector(
+                      child: Container(
+                          margin: EdgeInsets.all(10),
+                          child: ClipRRect(
+                            borderRadius:
+                                BorderRadius.circular(20), // Image border
+                            child: SizedBox.fromSize(
+                              size: Size.fromRadius(55), // Image radius
+                              child: Image.asset('images/ledrz.jpeg',
+                                  fit: BoxFit.cover),
+                            ),
+                          )),
+                    ),
+                    GestureDetector(
+                      child: Container(
+                          margin: EdgeInsets.all(10),
+                          child: ClipRRect(
+                            borderRadius:
+                                BorderRadius.circular(20), // Image border
+                            child: SizedBox.fromSize(
+                              size: Size.fromRadius(55), // Image radius
+                              child: Image.asset(
+                                  'images/Deal_of_the_Day-11_400x400.png',
+                                  fit: BoxFit.cover),
+                            ),
+                          )),
+                    ),
+                    GestureDetector(
+                      child: Container(
+                          margin: EdgeInsets.all(10),
+                          child: ClipRRect(
+                            borderRadius:
+                                BorderRadius.circular(20), // Image border
+                            child: SizedBox.fromSize(
+                              size: Size.fromRadius(55), // Image radius
+                              child: Image.asset('images/frame0.jpg',
+                                  fit: BoxFit.cover),
+                            ),
+                          )),
+                    ),
+                    GestureDetector(
+                      child: Container(
+                          margin: EdgeInsets.all(10),
+                          child: ClipRRect(
+                            borderRadius: BorderRadius.circular(20),
+                            child: SizedBox.fromSize(
+                              size: Size.fromRadius(55), // Image radius
+                              child: Image.asset('images/zara.jpg',
+                                  fit: BoxFit.cover),
+                            ),
+                          )),
+                    ),
+                    GestureDetector(
+                      child: Container(
+                          margin: EdgeInsets.all(10),
+                          child: ClipRRect(
+                            borderRadius: BorderRadius.circular(20),
+                            child: SizedBox.fromSize(
+                              size: Size.fromRadius(55), // Image radius
+                              child: Image.asset('images/gift_center.jpeg',
+                                  fit: BoxFit.cover),
+                            ),
+                          )),
+                    ),
                   ],
                 ),
               ),
@@ -127,11 +168,15 @@ class _UserHomePageState extends State<UserHomePage> {
                   SizedBox(
                     width: 20,
                   ),
-                  Text("My wishlists"),
-                  SizedBox(
-                    width: 240,
+                  Text(
+                    "My wishlists",
+                    style: TextStyle(
+                        color: Colors.white, fontWeight: FontWeight.bold),
                   ),
-                  Text('view all'),
+                  SizedBox(
+                    width: 210,
+                  ),
+                  Text('view all', style: TextStyle(color: Colors.white)),
                 ],
               ),
               Column(
