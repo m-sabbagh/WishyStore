@@ -31,6 +31,17 @@ class _MyHomePageState extends State<SignUpPage> {
     alluser.uId = user!.uid;
 
     await db.collection('alluser').doc(user.uid).set(alluser.toMap());
+
+    if (selecteditem == 'User') {
+      await db.collection('wishlists').doc(user!.uid).set({
+        'uid': user.uid,
+        'email address': _emailcontroller.text,
+        'userWishlists': {},
+      });
+    }
+    // if(selecteditem=='storeOwner'){
+    //   //for admin area
+    // }
   }
 
   // // EmailVerficationPage obj = EmailVerficationPage();
@@ -51,9 +62,6 @@ class _MyHomePageState extends State<SignUpPage> {
   //   }
   // }
   //verfication
-
-  CollectionReference collection =
-      FirebaseFirestore.instance.collection('users');
 
   final GlobalKey<FormState> _formKey = GlobalKey<FormState>();
 
@@ -90,7 +98,7 @@ class _MyHomePageState extends State<SignUpPage> {
         setState(() {
           showSpinner = false;
         });
-      } else if (_passwordcontroller.text.length < 6) {
+      } else if (_passwordcontroller.text.length < 8) {
         FlutterToastErorrStyle("Password must be at least 8 characters");
         setState(() {
           showSpinner = false;
@@ -100,29 +108,27 @@ class _MyHomePageState extends State<SignUpPage> {
         setState(() {
           showSpinner = false;
         });
-      }
-      // else if (pass_valid.hasMatch(_passwordcontroller.text) == false) {
-      //   Fluttertoast.showToast(
-      //       msg: 'Password is too weak',
-      //       // must contain at least one uppercase letter, one lowercase letter, one number and one special character
-      //       toastLength: Toast.LENGTH_LONG,
-      //       gravity: ToastGravity.BOTTOM,
-      //       timeInSecForIosWeb: 5,
-      //       backgroundColor: Colors.red,
-      //       textColor: Colors.white,
-      //       fontSize: 16.0);
-      //   setState(() {
-      //     showSpinner = false;
-      //   });
-      // }
-      else if (email_valid.hasMatch(_emailcontroller.text) == false) {
+      } else if (pass_valid.hasMatch(_passwordcontroller.text) == false) {
+        Fluttertoast.showToast(
+            msg: 'Password is too weak',
+            // must contain at least one uppercase letter, one lowercase letter, one number and one special character
+            toastLength: Toast.LENGTH_LONG,
+            gravity: ToastGravity.BOTTOM,
+            timeInSecForIosWeb: 5,
+            backgroundColor: Colors.red,
+            textColor: Colors.white,
+            fontSize: 16.0);
+        setState(() {
+          showSpinner = false;
+        });
+      } else if (email_valid.hasMatch(_emailcontroller.text) == false) {
         FlutterToastErorrStyle("Please enter a valid email");
         setState(() {
           showSpinner = false;
         });
       } else if (_passwordcontroller.text == _confirmPasswordcontroller.text &&
-          // pass_valid.hasMatch(_passwordcontroller.text) == true &&
-          // _passwordcontroller.text.length >= 8 &&
+          pass_valid.hasMatch(_passwordcontroller.text) == true &&
+          _passwordcontroller.text.length >= 8 &&
           email_valid.hasMatch(_emailcontroller.text) == true) {
         await _auth
             .createUserWithEmailAndPassword(

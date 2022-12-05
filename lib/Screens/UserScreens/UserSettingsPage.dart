@@ -7,6 +7,7 @@ import 'package:flutter/material.dart';
 import 'package:image_picker/image_picker.dart';
 import '../../FirebaseNetowrkFile/ReadData/GetUserName.dart';
 import '../User/StoreOwner shared screens/LogInPage.dart';
+
 // import 'package:firebase_storage/firebase_storage.dart';
 // import 'package:image_picker/image_picker.dart';
 
@@ -42,40 +43,34 @@ Image backgroundimage() {
 }
 
 class _UserSettingsPageState extends State<UserSettingsPage> {
-  User user = FirebaseAuth.instance.currentUser!;
-
+  final user = FirebaseAuth.instance.currentUser!;
+  TextEditingController _oldPasswordController = TextEditingController();
+  TextEditingController _newPasswordController = TextEditingController();
+  TextEditingController _confirmPasswordController = TextEditingController();
+  String? oldPassword;
+  RegExp pass_valid = RegExp(r"(?=.*\d)(?=.*[a-z])(?=.*[A-Z])(?=.*\W)");
+  var firstname;
+  var lastname;
   CollectionReference users = FirebaseFirestore.instance.collection('alluser');
 
-////checccckkkk
+  getpassword() {
+    users.doc(user.uid).get().then((value) {
+      setState(() {
+        oldPassword = value['password'];
+      });
+    });
+  }
 
-  // String? sadasd;
-  // String? firstName;
-  // String? lastName;
-  // @override
-  // void initState() {
-  //   sadasd = user.uid;
-  //   firstName =users.doc(sadasd).get().then((value) => value['firstname']).toString();
-  //   lastName =
-  //       users.doc(sadasd).get().then((value) => value['Lastname']).toString();
-  // }
-
-// String docid = 'hii';
-//   Future GetCurrentDocId() async {
-//     return FirebaseFirestore.instance
-//         .collection('users')
-//         .where('email', isEqualTo: user.email)
-//         .get()
-//         .then((value) {
-//       value.docs.forEach((element) {
-//         docid = element.id;
-//       });
-//     });
-//   }
+  @override
+  void initState() {
+    getpassword();
+    super.initState();
+  }
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: Color(0xFF313050),
+      backgroundColor: Color.fromARGB(255, 17, 14, 35),
       body: Center(
         child: SingleChildScrollView(
           child: Column(
@@ -93,22 +88,27 @@ class _UserSettingsPageState extends State<UserSettingsPage> {
                       height: 20,
                     ),
                     CircleAvatar(
+                      backgroundColor: Colors.grey,
                       radius: 55,
                       backgroundImage: backgroundimage().image,
-                      child: IconButton(
-                        onPressed: () {
-                          getImage();
-                        },
-                        icon: Icon(
-                          Icons.camera_alt,
-                          color: Colors.black,
+                    ),
+                    SizedBox(
+                      height: 10,
+                    ),
+                    GestureDetector(
+                      onTap: () {
+                        getImage();
+                      },
+                      child: Center(
+                        child: Text(
+                          'Edit picture',
+                          style: TextStyle(color: Colors.blueAccent),
                         ),
                       ),
                     ),
                     SizedBox(
                       height: 20,
                     ),
-                    // Text(firstName!, style: TextStyle(fontSize: 20)),
                     GetUserName(user.uid),
                     Text(
                       user.email!,
@@ -118,15 +118,60 @@ class _UserSettingsPageState extends State<UserSettingsPage> {
                           color: Colors.grey),
                     ),
                     ListTile(
-                      title: const Text(
-                        'Edit Profile',
-                        style: TextStyle(fontWeight: FontWeight.normal),
-                      ),
-                      leading: Icon(
-                        Icons.person,
-                        color: Color(0xFF5E57A5),
-                      ),
-                    ),
+                        title: const Text(
+                          'Edit Profile',
+                          style: TextStyle(fontWeight: FontWeight.normal),
+                        ),
+                        leading: Icon(
+                          Icons.person,
+                          color: Color(0xFF5E57A5),
+                        ),
+                        onTap: () {
+                          showDialog(
+                              context: context,
+                              builder: (context) {
+                                return AlertDialog(
+                                  title: Text('Edit Profile'),
+                                  content: Column(
+                                    mainAxisSize: MainAxisSize.min,
+                                    children: [
+                                      TextField(
+                                        decoration: InputDecoration(
+                                          hintText: 'Change first name',
+                                        ),
+                                        onChanged: (value) {
+                                          firstname = value;
+                                        },
+                                      ),
+                                      TextField(
+                                        decoration: InputDecoration(
+                                          hintText: 'change last name',
+                                        ),
+                                        onChanged: (value) {
+                                          lastname = value;
+                                        },
+                                      ),
+                                    ],
+                                  ),
+                                  actions: [
+                                    TextButton(
+                                        onPressed: () {
+                                          Navigator.pop(context);
+                                        },
+                                        child: Text('Cancel')),
+                                    TextButton(
+                                        onPressed: () {
+                                          users.doc(user.uid).update({
+                                            'firstname': firstname,
+                                            'Lastname': lastname,
+                                          });
+                                          Navigator.pop(context);
+                                        },
+                                        child: Text('Save'))
+                                  ],
+                                );
+                              });
+                        }),
                     const Divider(
                       color: Colors.black,
                       thickness: 0.2,
@@ -138,6 +183,94 @@ class _UserSettingsPageState extends State<UserSettingsPage> {
                         'Change password',
                         style: TextStyle(fontWeight: FontWeight.normal),
                       ),
+                      onTap: () {
+                        showDialog(
+                            context: context,
+                            builder: (context) {
+                              return AlertDialog(
+                                title: Text('Change Password'),
+                                content: Column(
+                                  mainAxisSize: MainAxisSize.min,
+                                  children: [
+                                    TextField(
+                                      controller: _oldPasswordController,
+                                      decoration: InputDecoration(
+                                        hintText: 'Enter your old password',
+                                      ),
+                                    ),
+                                    TextField(
+                                      controller: _newPasswordController,
+                                      decoration: InputDecoration(
+                                        hintText: 'Enter your new password',
+                                      ),
+                                    ),
+                                    TextField(
+                                      controller: _confirmPasswordController,
+                                      decoration: InputDecoration(
+                                        hintText: 'Confirm your new password',
+                                      ),
+                                    ),
+                                  ],
+                                ),
+                                actions: [
+                                  TextButton(
+                                    onPressed: () {
+                                      Navigator.pop(context);
+                                    },
+                                    child: Text('Cancel'),
+                                  ),
+                                  TextButton(
+                                    onPressed: () {
+                                      if (_oldPasswordController.text ==
+                                          oldPassword) {
+                                        if (_newPasswordController.text ==
+                                            _confirmPasswordController.text) {
+                                          if (pass_valid.hasMatch(
+                                              _newPasswordController.text)) {
+                                            if (_newPasswordController
+                                                    .text.length >=
+                                                8) {
+                                              users
+                                                  .doc(user.uid)
+                                                  .update({
+                                                    'password':
+                                                        _newPasswordController
+                                                            .text
+                                                  })
+                                                  .then(
+                                                      (value) => print('done'))
+                                                  .catchError((error) =>
+                                                      print('error'));
+                                              FirebaseAuth.instance.currentUser!
+                                                  .updatePassword(
+                                                      _newPasswordController
+                                                          .text);
+                                              Navigator.pop(context);
+                                            }
+                                          }
+                                        } else if (_newPasswordController
+                                                .text !=
+                                            _confirmPasswordController.text) {
+                                          print('password not match');
+                                        }
+                                      } else if (_oldPasswordController.text !=
+                                          oldPassword) {
+                                        print('old password not match');
+                                      } else if (!pass_valid.hasMatch(
+                                          _newPasswordController.text)) {
+                                        print('password not valid');
+                                      } else if (_newPasswordController
+                                              .text.length <
+                                          8) {
+                                        print('password length must be 8');
+                                      }
+                                    },
+                                    child: Text('Confirm'),
+                                  ),
+                                ],
+                              );
+                            });
+                      },
                       leading: Icon(
                         Icons.password,
                         color: Color(0xFF5E57A5),
@@ -150,6 +283,16 @@ class _UserSettingsPageState extends State<UserSettingsPage> {
                       endIndent: 20,
                     ),
                     ListTile(
+                      onTap: () {
+                        showDialog(
+                            context: context,
+                            builder: (context) {
+                              return AlertDialog(
+                                title: Text(
+                                    'contact us through email:\nsupport@wishystore.com'),
+                              );
+                            });
+                      },
                       title: const Text(
                         'Contact us',
                         style: TextStyle(fontWeight: FontWeight.normal),
@@ -182,6 +325,35 @@ class _UserSettingsPageState extends State<UserSettingsPage> {
                       endIndent: 20,
                     ),
                     ListTile(
+                      onTap: () {
+                        showDialog(
+                            context: context,
+                            builder: (context) {
+                              return AlertDialog(
+                                title:
+                                    Text('Are you sure you want to log out?'),
+                                actions: [
+                                  TextButton(
+                                    onPressed: () {
+                                      Navigator.pop(context);
+                                    },
+                                    child: Text('Cancel'),
+                                  ),
+                                  TextButton(
+                                    onPressed: () {
+                                      FirebaseAuth.instance.signOut();
+                                      Navigator.pushReplacement(
+                                          context,
+                                          MaterialPageRoute(
+                                              builder: (context) =>
+                                                  LoginScreen()));
+                                    },
+                                    child: Text('Confirm'),
+                                  ),
+                                ],
+                              );
+                            });
+                      },
                       title: const Text(
                         'Log out',
                         style: TextStyle(fontWeight: FontWeight.normal),
@@ -193,20 +365,6 @@ class _UserSettingsPageState extends State<UserSettingsPage> {
                     ),
                     SizedBox(
                       height: 20,
-                    ),
-                    MaterialButton(
-                      color: Color(0xFF5E57A5),
-                      onPressed: () {
-                        FirebaseAuth.instance.signOut();
-                        Navigator.pushReplacement(
-                            context,
-                            MaterialPageRoute(
-                                builder: (context) => LoginScreen()));
-                      },
-                      child: Text(
-                        "Log out",
-                        style: TextStyle(color: Colors.white),
-                      ),
                     ),
                   ],
                 ),

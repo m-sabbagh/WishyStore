@@ -1,5 +1,5 @@
 import 'package:carousel_slider/carousel_slider.dart';
-import 'package:firebase_auth/firebase_auth.dart';
+import 'package:eva_icons_flutter/eva_icons_flutter.dart';
 import 'package:flutter/material.dart';
 
 class UserHomePage extends StatefulWidget {
@@ -15,19 +15,28 @@ class _UserHomePageState extends State<UserHomePage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: Color(0xFF313050),
+      backgroundColor: Color.fromARGB(255, 17, 14, 35),
       appBar: AppBar(
-        // automaticallyImplyLeading: false,
-        backgroundColor: Color(0xFF313045),
-        title: Text('WishyStore'),
-        leading: IconButton(
-          padding: EdgeInsets.symmetric(vertical: 20, horizontal: 350),
-          icon: Icon(
-            Icons.search,
-          ),
-          onPressed: () {
-            Navigator.pop(context);
-          },
+        elevation: 0,
+        automaticallyImplyLeading: false,
+        backgroundColor: Colors.transparent,
+        title: Row(
+          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+          children: [
+            Text(
+              'WishyStore',
+              style: TextStyle(
+                  color: Color.fromARGB(255, 104, 94, 220), fontSize: 30),
+            ),
+            Row(
+              children: [
+                IconButton(
+                  onPressed: () {},
+                  icon: Icon(EvaIcons.search, color: Colors.white),
+                ),
+              ],
+            ),
+          ],
         ),
       ),
       body: SingleChildScrollView(

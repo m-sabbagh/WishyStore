@@ -1,9 +1,11 @@
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:modal_progress_hud_nsn/modal_progress_hud_nsn.dart';
 import 'package:wishy_store/Screens/User/StoreOwner%20shared%20screens/NavigationBAR.dart';
 import 'package:wishy_store/Widgets/buttonPadding.dart';
 import 'package:flutter_signin_button/flutter_signin_button.dart';
 import 'package:firebase_auth/firebase_auth.dart';
+import '../../../StoreOwnerPage.dart';
 import 'SignUpPage.dart';
 import 'package:wishy_store/Widgets/LogInToast.dart';
 import 'package:wishy_store/constants.dart';
@@ -21,6 +23,20 @@ class _LoginScreenState extends State<LoginScreen> {
   final _auth = FirebaseAuth.instance;
   final _emailcontroller = TextEditingController();
   final _passwordcontroller = TextEditingController();
+
+  getusertype() {
+    FirebaseFirestore.instance
+        .collection('alluser')
+        .doc(_auth.currentUser!.uid)
+        .get()
+        .then((value) {
+      if (value.data()!['userType'] == 'User') {
+        Navigator.pushNamed(context, NavigationBarsssss.id);
+      } else if (value.data()!['userType'] == 'Store Owner') {
+        Navigator.pushNamed(context, StoreOwnerPage.id);
+      }
+    });
+  }
 
   void dispose() {
     _emailcontroller.dispose();
