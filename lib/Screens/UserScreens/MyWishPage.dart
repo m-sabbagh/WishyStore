@@ -8,8 +8,7 @@ import 'package:eva_icons_flutter/eva_icons_flutter.dart';
 import 'package:fluttertoast/fluttertoast.dart';
 import 'package:rflutter_alert/rflutter_alert.dart';
 import 'package:wishy_store/Screens/UserScreens/CreateWishList.dart';
-
-import '../../FirebaseNetowrkFile/ReadData/test.dart';
+import 'package:wishy_store/Screens/UserScreens/wishlistsImages.dart';
 
 class MyWishPage extends StatefulWidget {
   const MyWishPage({Key? key}) : super(key: key);
@@ -32,7 +31,6 @@ class _MyWishPageState extends State<MyWishPage> {
   var wishlistTypes = [
     'Birthday',
     'Wedding',
-    'Anniversary',
     'Graduation',
     'Baby Shower',
     'House Warming',
@@ -46,38 +44,6 @@ class _MyWishPageState extends State<MyWishPage> {
 
   Map wishlistData = {};
 
-  // Widget build(BuildContext context) {
-  //    CollectionReference wishlists =
-  //     FirebaseFirestore.instance.collection('wishlists');
-  //   FutureBuilder<DocumentSnapshot>(
-  //     future: wishlists.doc(FirebaseAuth.instance.currentUser!.uid).get(),
-  //     builder: ((context, snapshot) {
-  //       if (snapshot.connectionState == ConnectionState.done) {
-  //         Map<String, dynamic> data =
-  //             snapshot.data!.data() as Map<String, dynamic>;
-  //         data.forEach((key, value) {
-  //           print(key);
-  //           print(value);
-  //         });
-  //         return Text(
-  //           // "First Name: ${data['firstName']} last Name: ${data['lastName']}");
-  //           "${data['userWishlists']}",
-  //           style: TextStyle(
-  //               fontSize: 20,
-  //               fontWeight: FontWeight.bold,
-  //               color: Colors.black),
-  //         );
-  //       }
-  //       // return CircularProgressIndicator();
-  //       return Text(
-  //         "Loading...",
-  //         style: TextStyle(
-  //             fontSize: 20, fontWeight: FontWeight.bold, color: Colors.black),
-  //       );
-  //     }),
-  //   );
-  // }
-
   List<String> wishlistNames = [];
 
   List<String> wishlistTypeNew = [];
@@ -87,8 +53,7 @@ class _MyWishPageState extends State<MyWishPage> {
     print(wishlistData);
   }
 
-  void getWishLists() {
-    //gets the wishlists that the user haves if there's any
+  void trying() {
     FirebaseFirestore wishlist = FirebaseFirestore.instance;
     wishlist
         .collection('wishlists')
@@ -125,7 +90,7 @@ class _MyWishPageState extends State<MyWishPage> {
   @override
   void initState() {
     super.initState();
-    getWishLists();
+    trying();
     // printwhatinside();
   }
 
@@ -157,16 +122,26 @@ class _MyWishPageState extends State<MyWishPage> {
                 SizedBox(
                   width: 10,
                 ),
-                ClipRRect(
-                  borderRadius: BorderRadius.circular(20), // Image border
-                  child: SizedBox.fromSize(
-                    size: Size.fromRadius(48), // Image radius
-                    child: Image.asset(
-                      'images/asd2.jpeg',
-                      fit: BoxFit.cover,
+                if (wishlistTps == 'Other')
+                  ClipRRect(
+                    borderRadius: BorderRadius.circular(20),
+                    child: SizedBox.fromSize(
+                      size: Size.fromRadius(48),
+                      child: Image.asset(
+                        'images/asd.jpeg',
+                        fit: BoxFit.cover,
+                      ),
                     ),
                   ),
-                ),
+                if (wishlistTps != 'Other')
+                  ClipRRect(
+                    borderRadius: BorderRadius.circular(20),
+                    key: Key(wishlistTps),
+                    child: SizedBox.fromSize(
+                      size: Size.fromRadius(48), // Image radius
+                      child: wishlistImages(wishlistTps),
+                    ),
+                  ),
                 Text(" " + wishlistn,
                     style: TextStyle(
                         color: Colors.black,
@@ -355,6 +330,17 @@ class _MyWishPageState extends State<MyWishPage> {
                             fontSize: 16.0);
                       } else {
                         setState(() {
+                          if (_wishListName.text.length > 10) {
+                            Fluttertoast.showToast(
+                                msg:
+                                    "Wishlist name can't be more than 10 characters",
+                                toastLength: Toast.LENGTH_SHORT,
+                                gravity: ToastGravity.BOTTOM,
+                                timeInSecForIosWeb: 1,
+                                backgroundColor: Colors.red,
+                                textColor: Colors.white,
+                                fontSize: 16.0);
+                          }
                           if (wishlistNames.length == 4) {
                             Fluttertoast.showToast(
                                 msg: "You can only create 4 wishlists",

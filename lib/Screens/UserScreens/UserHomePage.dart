@@ -1,6 +1,9 @@
 import 'package:carousel_slider/carousel_slider.dart';
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:eva_icons_flutter/eva_icons_flutter.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
+import 'MyWishPage.dart';
 
 class UserHomePage extends StatefulWidget {
   static String id = 'user_home_page';
@@ -12,6 +15,56 @@ class UserHomePage extends StatefulWidget {
 }
 
 class _UserHomePageState extends State<UserHomePage> {
+  void getMywishPage() {
+    Navigator.pushNamed(context, MyWishPage.id);
+  }
+
+  List<String> wishlistNames = [];
+
+  List<String> wishlistTypeNew = [];
+  Map wishlistData = {};
+
+  void trying() {
+    FirebaseFirestore wishlist = FirebaseFirestore.instance;
+    wishlist
+        .collection('wishlists')
+        .doc(FirebaseAuth.instance.currentUser!.uid)
+        .get()
+        .asStream()
+        .toList()
+        .then((value) {
+      value.forEach((element) {
+        print(element.data());
+        wishlistData = element.data() as Map;
+        print(wishlistData['userWishlists']);
+        print(wishlistData['userWishlists'].length);
+        // if (wishlistData['userWishlists'].length == 0) {
+        //   print('no wishlist');
+        //   isthereIsWishlissts = false;
+        // }
+
+        print('there is wishlist');
+        // isthereIsWishlissts = true;
+        wishlistData['userWishlists'].forEach((key, value) {
+          print("the name of the wishlist is " + key);
+
+          print(value);
+          print(value['wishlistType']);
+          // createWishlistInThePage(key, wishlist type);
+          wishlistNames.add(key);
+          wishlistTypeNew.add(value['wishlistType']);
+        });
+      });
+    });
+  }
+
+  @override
+  void initState() {
+    // TODO: implement initState
+    super.initState();
+    trying();
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -185,7 +238,10 @@ class _UserHomePageState extends State<UserHomePage> {
                   SizedBox(
                     width: 210,
                   ),
-                  Text('view all', style: TextStyle(color: Colors.white)),
+                  GestureDetector(
+                      onTap: getMywishPage,
+                      child: Text('view all',
+                          style: TextStyle(color: Colors.white))),
                 ],
               ),
               Column(
@@ -207,7 +263,10 @@ class _UserHomePageState extends State<UserHomePage> {
                           ),
                         ),
                       ),
-                      Text('Wishlist1'),
+                      Text(
+                        'Wishlist1',
+                        style: TextStyle(color: Colors.white),
+                      ),
                       SizedBox(
                         width: 80,
                       ),
@@ -218,7 +277,7 @@ class _UserHomePageState extends State<UserHomePage> {
                           color: Colors.red,
                         ),
                       ),
-                      Text('Wishlist2')
+                      Text('Wishlist2', style: TextStyle(color: Colors.white)),
                     ],
                   ),
                   SizedBox(
@@ -236,7 +295,7 @@ class _UserHomePageState extends State<UserHomePage> {
                           color: Colors.red,
                         ),
                       ),
-                      Text('Wishlist3'),
+                      Text('Wishlist3', style: TextStyle(color: Colors.white)),
                       SizedBox(
                         width: 80,
                       ),
@@ -247,7 +306,7 @@ class _UserHomePageState extends State<UserHomePage> {
                           color: Colors.red,
                         ),
                       ),
-                      Text('Wishlist4')
+                      Text('Wishlist4', style: TextStyle(color: Colors.white)),
                     ],
                   ),
                 ],
