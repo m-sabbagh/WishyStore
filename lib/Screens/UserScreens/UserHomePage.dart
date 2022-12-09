@@ -156,32 +156,50 @@ class _UserHomePageState extends State<UserHomePage> {
                     //     colour: kActiveCardColour,
                     //     cardChild: Image.asset('images/ledrz.jpeg'),
                     //     onPress: () {}),
-                    GestureDetector(
-                      child: Container(
-                          margin: EdgeInsets.all(10),
-                          child: ClipRRect(
-                            borderRadius:
-                                BorderRadius.circular(20), // Image border
-                            child: SizedBox.fromSize(
-                              size: Size.fromRadius(55), // Image radius
-                              child: Image.asset('images/ledrz.jpeg',
-                                  fit: BoxFit.cover),
-                            ),
-                          )),
+                    Column(
+                      mainAxisAlignment: MainAxisAlignment.center,
+                      children: [
+                        GestureDetector(
+                          child: Container(
+                              margin: EdgeInsets.all(10),
+                              child: ClipRRect(
+                                borderRadius:
+                                    BorderRadius.circular(20), // Image border
+                                child: SizedBox.fromSize(
+                                  size: Size.fromRadius(55), // Image radius
+                                  child: Image.asset('images/ledrz.jpeg',
+                                      fit: BoxFit.cover),
+                                ),
+                              )),
+                        ),
+                        Text(
+                          'Leaders', //should capitlize the first letter
+                          style: TextStyle(color: Colors.white),
+                        )
+                      ],
                     ),
-                    GestureDetector(
-                      child: Container(
-                          margin: EdgeInsets.all(10),
-                          child: ClipRRect(
-                            borderRadius:
-                                BorderRadius.circular(20), // Image border
-                            child: SizedBox.fromSize(
-                              size: Size.fromRadius(55), // Image radius
-                              child: Image.asset(
-                                  'images/Deal_of_the_Day-11_400x400.png',
-                                  fit: BoxFit.cover),
-                            ),
-                          )),
+
+                    Column(
+                      children: [
+                        GestureDetector(
+                          child: Container(
+                              margin: EdgeInsets.all(10),
+                              child: ClipRRect(
+                                borderRadius:
+                                    BorderRadius.circular(20), // Image border
+                                child: SizedBox.fromSize(
+                                  size: Size.fromRadius(55), // Image radius
+                                  child: Image.asset(
+                                      'images/Deal_of_the_Day-11_400x400.png',
+                                      fit: BoxFit.cover),
+                                ),
+                              )),
+                        ),
+                        Text(
+                          'Smartbuy',
+                          style: TextStyle(color: Colors.white),
+                        ),
+                      ],
                     ),
                     GestureDetector(
                       child: Container(

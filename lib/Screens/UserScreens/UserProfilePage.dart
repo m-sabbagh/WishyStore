@@ -1,22 +1,23 @@
 import 'dart:io';
 
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:eva_icons_flutter/eva_icons_flutter.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_storage/firebase_storage.dart';
 import 'package:flutter/material.dart';
 import 'package:image_picker/image_picker.dart';
-import '../../FirebaseNetowrkFile/ReadData/GetUserName.dart';
+import '../../FirebaseNetowrkFile/ReadData/userData/GetUserName.dart';
 import '../User/StoreOwner shared screens/LogInPage.dart';
 
 // import 'package:firebase_storage/firebase_storage.dart';
 // import 'package:image_picker/image_picker.dart';
 
-class UserSettingsPage extends StatefulWidget {
-  const UserSettingsPage({Key? key}) : super(key: key);
+class UserProfilePage extends StatefulWidget {
+  const UserProfilePage({Key? key}) : super(key: key);
   static String id = 'user_settings_page';
 
   @override
-  State<UserSettingsPage> createState() => _UserSettingsPageState();
+  State<UserProfilePage> createState() => _UserProfilePageState();
 }
 
 Future getImage() async {
@@ -26,7 +27,6 @@ Future getImage() async {
     maxHeight: 512,
     maxWidth: 512,
   );
-
   Reference ref = FirebaseStorage.instance.ref().child('user_profile_image');
   await ref.putFile(File(image!.path));
   ref.getDownloadURL().then((value) async {
@@ -42,7 +42,7 @@ Image backgroundimage() {
   }
 }
 
-class _UserSettingsPageState extends State<UserSettingsPage> {
+class _UserProfilePageState extends State<UserProfilePage> {
   final user = FirebaseAuth.instance.currentUser!;
   TextEditingController _oldPasswordController = TextEditingController();
   TextEditingController _newPasswordController = TextEditingController();
@@ -70,6 +70,29 @@ class _UserSettingsPageState extends State<UserSettingsPage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      appBar: AppBar(
+        automaticallyImplyLeading: false,
+        backgroundColor: Colors.transparent,
+        elevation: 0,
+        title: Row(
+          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+          children: [
+            Text('My Profile',
+                style: TextStyle(color: Colors.white, fontSize: 30)),
+            Row(
+              children: [
+                // IconButton(
+                //   onPressed: () {},
+                //   icon: Icon(
+                //     EvaIcons.search,
+                //     color: Colors.white,
+                //   ),
+                // ),
+              ],
+            ),
+          ],
+        ),
+      ),
       backgroundColor: Color.fromARGB(255, 17, 14, 35),
       body: Center(
         child: SingleChildScrollView(
@@ -79,7 +102,6 @@ class _UserSettingsPageState extends State<UserSettingsPage> {
                 shape: RoundedRectangleBorder(
                   borderRadius: BorderRadius.circular(15.0),
                 ),
-                margin: EdgeInsets.fromLTRB(20, 100, 20, 100),
                 color: Colors.white,
                 child: Column(
                   mainAxisAlignment: MainAxisAlignment.start,

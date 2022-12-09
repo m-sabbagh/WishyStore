@@ -2,17 +2,18 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 
-class CreateWishList {
-  // CreateWishList(
-  //   {required this.wishlistName,
-  //   required this.wishlistType,
-  //   required this.wishlistCount});
+class AddItemsToWishlist {
+  // String? wishlistName;
+  // String? photoUrl;
+  // String? ItemTitle;
+  // String? ItemPrice;
 
-  String? wishlistName;
-  String? wishlistType;
-  int? wishlistCount;
-
-  void addNewWishlist(String? wName, wType) async {
+  void addNewItems({
+    String? wName,
+    String? photoUrl,
+    String? itemTitle,
+    String? itemPrice,
+  }) async {
     FirebaseFirestore wishlist = FirebaseFirestore.instance;
     User? user = await FirebaseAuth.instance.currentUser;
     // CollectionReference wish =
@@ -23,8 +24,11 @@ class CreateWishList {
     await wishlist.collection('wishlists').doc(user!.uid).set({
       'userWishlists': {
         wName: {
-          'wishlistType': wType,
-          'UserItems': {},
+          'UserItems': {
+            'photoUrl': photoUrl,
+            'itemTitle': itemTitle,
+            'temPrice': itemPrice,
+          },
         },
       },
     }, SetOptions(merge: true));

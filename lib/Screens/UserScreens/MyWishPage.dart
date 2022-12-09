@@ -2,12 +2,12 @@ import 'dart:ui';
 
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
-import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
 import 'package:eva_icons_flutter/eva_icons_flutter.dart';
 import 'package:fluttertoast/fluttertoast.dart';
 import 'package:rflutter_alert/rflutter_alert.dart';
 import 'package:wishy_store/Screens/UserScreens/CreateWishList.dart';
+import 'package:wishy_store/Screens/UserScreens/wishlistPage.dart';
 import 'package:wishy_store/Screens/UserScreens/wishlistsImages.dart';
 
 class MyWishPage extends StatefulWidget {
@@ -19,14 +19,6 @@ class MyWishPage extends StatefulWidget {
 }
 
 class _MyWishPageState extends State<MyWishPage> {
-//else {get the wishlist name and type for each and disply them }
-
-//if the user dont have a wishlist show msg 'you dont have any wishlist yet'
-
-//if the user have a wishlists get the wishlist name and type for each and disply them
-
-//dismis the creation of wishlist and assume that's its already been created
-
   String? selecteditem;
   var wishlistTypes = [
     'Birthday',
@@ -48,12 +40,7 @@ class _MyWishPageState extends State<MyWishPage> {
 
   List<String> wishlistTypeNew = [];
 
-  void printwhatinside() {
-    print('thissss');
-    print(wishlistData);
-  }
-
-  void trying() {
+  void checkIftheresWishlists() {
     FirebaseFirestore wishlist = FirebaseFirestore.instance;
     wishlist
         .collection('wishlists')
@@ -67,10 +54,9 @@ class _MyWishPageState extends State<MyWishPage> {
         wishlistData = element.data() as Map;
         print(wishlistData['userWishlists']);
         print(wishlistData['userWishlists'].length);
-        // if (wishlistData['userWishlists'].length == 0) {
-        //   print('no wishlist');
-        //   isthereIsWishlissts = false;
-        // }
+        if (wishlistData['userWishlists'].length == 0) {
+          isthereIsWishlissts = false;
+        }
 
         print('there is wishlist');
         // isthereIsWishlissts = true;
@@ -90,7 +76,7 @@ class _MyWishPageState extends State<MyWishPage> {
   @override
   void initState() {
     super.initState();
-    trying();
+    checkIftheresWishlists();
     // printwhatinside();
   }
 
@@ -105,76 +91,137 @@ class _MyWishPageState extends State<MyWishPage> {
 //   }
 // }
 
-//IMPORTTTTTANNTTTTTT
-
   Widget wishlistCard(String wishlistn, String wishlistTps) {
-    return Container(
-        child: Column(
-      children: [
-        SizedBox(
-          height: 10,
-        ),
-        Container(
-          child:
-              Row(mainAxisAlignment: MainAxisAlignment.spaceBetween, children: [
-            Row(
-              children: [
-                SizedBox(
-                  width: 10,
-                ),
-                if (wishlistTps == 'Other')
-                  ClipRRect(
-                    borderRadius: BorderRadius.circular(20),
-                    child: SizedBox.fromSize(
-                      size: Size.fromRadius(48),
-                      child: Image.asset(
-                        'images/asd.jpeg',
-                        fit: BoxFit.cover,
-                      ),
-                    ),
-                  ),
-                if (wishlistTps != 'Other')
-                  ClipRRect(
-                    borderRadius: BorderRadius.circular(20),
-                    child: SizedBox.fromSize(
-                      size: Size.fromRadius(48), // Image radius
-                      child: wishlistImages(wishlistTps),
-                    ),
-                  ),
-                Text(" " + wishlistn,
-                    style: TextStyle(
-                        color: Colors.black,
-                        fontSize: 15,
-                        fontWeight: FontWeight.bold)),
-              ],
-            ),
-            Row(
-              children: [
-                Icon(Icons.share),
-                SizedBox(
-                  height: 40,
-                ),
-                IconButton(
-                  onPressed: () {
-                    //delete wishlist from the database
-                  },
-                  icon: Icon(Icons.delete),
-                )
-              ],
-            ),
-          ]),
-          width: 350,
-          height: 100,
-          decoration: BoxDecoration(
-            color: Color(0xFF5E57A5),
-            borderRadius: BorderRadius.circular(10),
+    return GestureDetector(
+      onTap: () {
+        Navigator.push(
+            context,
+            MaterialPageRoute(
+                builder: (context) => WishlistPage(
+                      wishlistName: wishlistn,
+                      wishlistType: wishlistTps,
+                    )));
+      },
+      child: Container(
+          child: Column(
+        children: [
+          SizedBox(
+            height: 10,
           ),
-        ),
-        SizedBox(
-          height: 10,
-        ),
-      ],
-    ));
+          Container(
+            child: Row(
+                mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                children: [
+                  Row(
+                    children: [
+                      SizedBox(
+                        width: 10,
+                      ),
+                      if (wishlistTps == 'Other')
+                        Padding(
+                          padding: const EdgeInsets.all(6.0),
+                          child: ClipRRect(
+                            borderRadius: BorderRadius.circular(20),
+                            child: SizedBox.fromSize(
+                              size: Size.fromRadius(48),
+                              child: Image.asset(
+                                'images/asd.jpeg',
+                                fit: BoxFit.cover,
+                              ),
+                            ),
+                          ),
+                        ),
+                      if (wishlistTps != 'Other')
+                        Padding(
+                          padding: const EdgeInsets.all(6.0),
+                          child: ClipRRect(
+                            borderRadius: BorderRadius.circular(20),
+                            child: SizedBox.fromSize(
+                              size: Size.fromRadius(48), // Image radius
+                              child: wishlistImages(wishlistTps),
+                            ),
+                          ),
+                        ),
+                      Text(" " + wishlistn,
+                          style: TextStyle(
+                              color: Colors.black,
+                              fontSize: 15,
+                              fontWeight: FontWeight.bold)),
+                    ],
+                  ),
+                  Row(
+                    children: [
+                      IconButton(onPressed: () {}, icon: Icon(Icons.share)),
+                      SizedBox(
+                        height: 40,
+                      ),
+                      IconButton(
+                        highlightColor: Colors.transparent,
+                        splashColor: Colors.transparent,
+                        onPressed: () {
+                          setState(() {
+                            // delete them from firebase
+
+                            showDialog(
+                                context: context,
+                                builder: (context) {
+                                  return AlertDialog(
+                                    title: Text(
+                                        'Are you sure you want to delete your wishlist?'),
+                                    content: Row(
+                                      children: [
+                                        DialogButton(
+                                          color: Color(0xFF5E57A5),
+                                          onPressed: () {
+                                            Navigator.pop(context);
+                                            setState(() {
+                                              wishlistNames.remove(wishlistn);
+                                              wishlistTypeNew
+                                                  .remove(wishlistTps);
+                                            });
+                                          },
+                                          child: Text(
+                                            "Yes",
+                                            style: TextStyle(
+                                                color: Colors.white,
+                                                fontSize: 20),
+                                          ),
+                                        ),
+                                        DialogButton(
+                                          color: Color(0xFF5E57A5),
+                                          onPressed: () =>
+                                              Navigator.pop(context),
+                                          child: Text(
+                                            "Cancel",
+                                            style: TextStyle(
+                                                color: Colors.white,
+                                                fontSize: 20),
+                                          ),
+                                        ),
+                                      ],
+                                    ),
+                                  );
+                                });
+                          });
+                        },
+                        icon: Icon(Icons.delete),
+                      )
+                    ],
+                  ),
+                ]),
+            width: 350,
+            height: 100,
+            decoration: BoxDecoration(
+              color: Color(0xFF5E57A5),
+              borderRadius: BorderRadius.circular(10),
+            ),
+          ),
+          SizedBox(
+            height: 10,
+          ),
+        ],
+      )),
+    );
   }
 
   final _wishListName = TextEditingController();
@@ -220,7 +267,8 @@ class _MyWishPageState extends State<MyWishPage> {
               if (snapshot.connectionState == ConnectionState.done) {
                 Map<String, dynamic> data =
                     snapshot.data!.data() as Map<String, dynamic>;
-                if (data['userWishlists'].isEmpty) {
+                if (data['userWishlists'].isEmpty ||
+                    data['userWishlists'] == null) {
                   return Text(
                     "You dont have any wishlist yet",
                     style: TextStyle(
@@ -334,21 +382,20 @@ class _MyWishPageState extends State<MyWishPage> {
                             fontSize: 16.0);
                       } else {
                         setState(() {
-                          if (_wishListName.text.length > 10) {
+                          if (wishlistNames.length == 4) {
                             Fluttertoast.showToast(
-                                msg:
-                                    "Wishlist name can't be more than 10 characters",
+                                msg: "You can only create 4 wishlists",
                                 toastLength: Toast.LENGTH_SHORT,
                                 gravity: ToastGravity.BOTTOM,
                                 timeInSecForIosWeb: 1,
                                 backgroundColor: Colors.red,
                                 textColor: Colors.white,
                                 fontSize: 16.0);
-                          }
-                          if (wishlistNames.length == 4) {
+                          } else if (_wishListName.text.length > 11) {
                             Fluttertoast.showToast(
-                                msg: "You can only create 4 wishlists",
-                                toastLength: Toast.LENGTH_SHORT,
+                                msg:
+                                    "Wishlist name can't be more than 10 characters",
+                                toastLength: Toast.LENGTH_LONG,
                                 gravity: ToastGravity.BOTTOM,
                                 timeInSecForIosWeb: 1,
                                 backgroundColor: Colors.red,

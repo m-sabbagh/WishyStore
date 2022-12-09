@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:wishy_store/Screens/UserScreens/MyWishPage.dart';
-import 'package:wishy_store/Screens/UserScreens/UserSettingsPage.dart';
-import 'package:wishy_store/Screens/UserScreens/StoresPage.dart';
+import 'package:wishy_store/Screens/UserScreens/UserProfilePage.dart';
+import 'package:wishy_store/Screens/UserScreens/stores/StoresPage.dart';
 import 'package:wishy_store/Screens/UserScreens/UserHomePage.dart';
 
 class NavigationBarsssss extends StatefulWidget {
@@ -18,7 +18,7 @@ class _NavigationBarsssssState extends State<NavigationBarsssss> {
     UserHomePage(),
     UserStorePage(),
     MyWishPage(),
-    UserSettingsPage(),
+    UserProfilePage(),
   ];
 
   void _onItemTapped(int index) {
