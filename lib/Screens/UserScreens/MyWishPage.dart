@@ -136,7 +136,6 @@ class _MyWishPageState extends State<MyWishPage> {
                 if (wishlistTps != 'Other')
                   ClipRRect(
                     borderRadius: BorderRadius.circular(20),
-                    key: Key(wishlistTps),
                     child: SizedBox.fromSize(
                       size: Size.fromRadius(48), // Image radius
                       child: wishlistImages(wishlistTps),
@@ -155,7 +154,12 @@ class _MyWishPageState extends State<MyWishPage> {
                 SizedBox(
                   height: 40,
                 ),
-                Icon(Icons.delete),
+                IconButton(
+                  onPressed: () {
+                    //delete wishlist from the database
+                  },
+                  icon: Icon(Icons.delete),
+                )
               ],
             ),
           ]),

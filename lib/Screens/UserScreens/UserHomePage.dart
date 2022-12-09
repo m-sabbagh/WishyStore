@@ -24,6 +24,8 @@ class _UserHomePageState extends State<UserHomePage> {
   List<String> wishlistTypeNew = [];
   Map wishlistData = {};
 
+//got it from my wish page
+
   void trying() {
     FirebaseFirestore wishlist = FirebaseFirestore.instance;
     wishlist
@@ -62,7 +64,6 @@ class _UserHomePageState extends State<UserHomePage> {
   void initState() {
     // TODO: implement initState
     super.initState();
-    trying();
   }
 
   @override
