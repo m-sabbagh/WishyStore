@@ -1,6 +1,6 @@
 // import  'dart:ffi';
 
-class Alluser {
+class UsersCollection {
   String? firstname;
   String? email;
   String? lastname;
@@ -8,7 +8,7 @@ class Alluser {
   String? userType;
   String? uId;
 
-  Alluser(
+  UsersCollection(
       {this.firstname,
       this.email,
       this.lastname,
@@ -16,8 +16,8 @@ class Alluser {
       this.userType,
       this.uId});
 
-  factory Alluser.fromMap(Map<String, dynamic> Map) {
-    return Alluser(
+  factory UsersCollection.fromMap(Map<String, dynamic> Map) {
+    return UsersCollection(
       firstname: Map['firstname'],
       email: Map['email'],
       lastname: Map['Lastname'],

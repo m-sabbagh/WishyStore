@@ -3,7 +3,8 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:eva_icons_flutter/eva_icons_flutter.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
-import 'MyWishPage.dart';
+import 'package:wishy_store/Screens/User/StoreOwner%20shared%20screens/NavigationBAR.dart';
+import 'MyWishPage/MyWishPage.dart';
 
 class UserHomePage extends StatefulWidget {
   static String id = 'user_home_page';

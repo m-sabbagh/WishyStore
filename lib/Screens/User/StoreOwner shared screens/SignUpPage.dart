@@ -1,13 +1,17 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:eva_icons_flutter/eva_icons_flutter.dart';
 import 'package:flutter/material.dart';
 import 'package:fluttertoast/fluttertoast.dart';
-import 'package:wishy_store/FirebaseNetowrkFile/allUser.dart';
+import 'package:wishy_store/FirebaseNetowrkFile/UsersCollection.dart';
+import 'package:wishy_store/FirebaseNetowrkFile/StoreOwnersCollection.dart';
+
 import 'package:wishy_store/Screens/UserScreens/UserHomePage.dart';
 import 'package:wishy_store/Widgets/buttonPadding.dart';
 import 'package:modal_progress_hud_nsn/modal_progress_hud_nsn.dart';
 import 'package:firebase_auth/firebase_auth.dart';
-import 'package:wishy_store/Widgets/LogInToast.dart';
+import 'package:wishy_store/Widgets/ErrorToast.dart';
 import 'package:wishy_store/StoreOwnerPage.dart';
+import 'package:wishy_store/Widgets/postiontedArrowBack.dart';
 
 class SignUpPage extends StatefulWidget {
   static String id = 'signUpPage_screen';
@@ -17,26 +21,39 @@ class SignUpPage extends StatefulWidget {
 }
 
 class _MyHomePageState extends State<SignUpPage> {
-  @override
   void addNewUser() async {
     FirebaseFirestore db = FirebaseFirestore.instance;
     User? user = await _auth.currentUser;
-    Alluser alluser = Alluser();
+    UsersCollection usersCollection = UsersCollection();
+    StoreOwnersCollection storeOwnersCollection = StoreOwnersCollection();
 
-    alluser.firstname = _firstNamecontroller.text;
-    alluser.lastname = _lastNamecontroller.text;
-    alluser.email = _emailcontroller.text;
-    alluser.password = _passwordcontroller.text;
-    alluser.userType = selecteditem;
-    alluser.uId = user!.uid;
+    if (selectedUser == 'Store Owner') {
+      storeOwnersCollection.firstname = _firstNamecontroller.text;
+      storeOwnersCollection.lastname = _lastNamecontroller.text;
+      storeOwnersCollection.email = _emailcontroller.text;
+      storeOwnersCollection.password = _passwordcontroller.text;
+      storeOwnersCollection.userType = selectedUser;
+      storeOwnersCollection.uId = user!.uid;
+      await db
+          .collection('StoreOwners')
+          .doc(user.uid)
+          .set(storeOwnersCollection.toMap());
+    }
 
-    await db.collection('alluser').doc(user.uid).set(alluser.toMap());
+    if (selectedUser == 'User') {
+      usersCollection.firstname = _firstNamecontroller.text;
+      usersCollection.lastname = _lastNamecontroller.text;
+      usersCollection.email = _emailcontroller.text;
+      usersCollection.password = _passwordcontroller.text;
+      usersCollection.userType = selectedUser;
+      usersCollection.uId = user!.uid;
+      await db.collection('Users').doc(user.uid).set(usersCollection.toMap());
 
-    if (selecteditem == 'User') {
       await db.collection('wishlists').doc(user!.uid).set({
         'uid': user.uid,
         'email address': _emailcontroller.text,
         'userWishlists': {},
+        "sharedWishlistsFromUsers": {}
       });
     }
     // if(selecteditem=='storeOwner'){
@@ -79,9 +96,9 @@ class _MyHomePageState extends State<SignUpPage> {
   final _confirmPasswordcontroller = TextEditingController();
   //text filed sizedBox height named as sizedBoxHeightTextF
   double sizedBoxHeightTextF = 45.0;
-  String? selecteditem;
+  String? selectedUser;
 
-  var items = [
+  var userType = [
     'User',
     'Store Owner',
   ];
@@ -92,19 +109,25 @@ class _MyHomePageState extends State<SignUpPage> {
           _emailcontroller.text.isEmpty == true ||
           _firstNamecontroller.text.isEmpty == true ||
           _lastNamecontroller.text.isEmpty == true ||
-          selecteditem.toString().isEmpty == true ||
+          selectedUser.toString().isEmpty == true ||
           _confirmPasswordcontroller.text.isEmpty == true) {
-        FlutterToastErorrStyle("Please fill all the fields");
+        CustomFlutterToast_Error(
+            message: "Please fill all the fields",
+            toastLength: Toast.LENGTH_SHORT);
         setState(() {
           showSpinner = false;
         });
       } else if (_passwordcontroller.text.length < 8) {
-        FlutterToastErorrStyle("Password must be at least 8 characters");
+        CustomFlutterToast_Error(
+            message: "Password must be at least 8 characters",
+            toastLength: Toast.LENGTH_SHORT);
         setState(() {
           showSpinner = false;
         });
       } else if (_passwordcontroller.text != _confirmPasswordcontroller.text) {
-        FlutterToastErorrStyle("Password and Confirm Password must be same");
+        CustomFlutterToast_Error(
+            message: "Password and Confirm Password must be same",
+            toastLength: Toast.LENGTH_SHORT);
         setState(() {
           showSpinner = false;
         });
@@ -122,7 +145,9 @@ class _MyHomePageState extends State<SignUpPage> {
           showSpinner = false;
         });
       } else if (email_valid.hasMatch(_emailcontroller.text) == false) {
-        FlutterToastErorrStyle("Please enter a valid email");
+        CustomFlutterToast_Error(
+            message: "Please enter a valid email",
+            toastLength: Toast.LENGTH_SHORT);
         setState(() {
           showSpinner = false;
         });
@@ -143,9 +168,9 @@ class _MyHomePageState extends State<SignUpPage> {
         //   'userType': selecteditem,
         //   'uid': _auth.currentUser!.uid,
         // });
-        if (selecteditem == 'User') {
+        if (selectedUser == 'User') {
           Navigator.pushNamed(context, UserHomePage.id);
-        } else if (selecteditem == 'Store Owner') {
+        } else if (selectedUser == 'Store Owner') {
           Navigator.pushNamed(context, StoreOwnerPage.id);
         }
         setState(() {
@@ -155,11 +180,17 @@ class _MyHomePageState extends State<SignUpPage> {
       }
     } on FirebaseAuthException catch (e) {
       if (e.code == 'weak-password') {
-        FlutterToastErorrStyle("The password provided is too weak.");
+        CustomFlutterToast_Error(
+            message: "The password provided is too weak.",
+            toastLength: Toast.LENGTH_SHORT);
       } else if (e.code == 'email-already-in-use') {
-        FlutterToastErorrStyle("The account already exists for that email.");
+        CustomFlutterToast_Error(
+            message: "The account already exists for that email.",
+            toastLength: Toast.LENGTH_SHORT);
       } else if (e.code == 'user-not-found') {
-        FlutterToastErorrStyle("No user found for that email.");
+        CustomFlutterToast_Error(
+            message: "No user found for that email.",
+            toastLength: Toast.LENGTH_SHORT);
         setState(() {
           showSpinner = false;
         });
@@ -167,9 +198,12 @@ class _MyHomePageState extends State<SignUpPage> {
         setState(() {
           showSpinner = false;
         });
-        FlutterToastErorrStyle("Wrong password provided for that user.");
+        CustomFlutterToast_Error(
+            message: "Wrong password provided for that user.",
+            toastLength: Toast.LENGTH_SHORT);
       } else
-        FlutterToastErorrStyle("Wrong input");
+        CustomFlutterToast_Error(
+            message: "Wrong input", toastLength: Toast.LENGTH_SHORT);
       setState(() {
         showSpinner = false;
       });
@@ -181,7 +215,7 @@ class _MyHomePageState extends State<SignUpPage> {
     _passwordcontroller.clear();
     _firstNamecontroller.clear();
     _lastNamecontroller.clear();
-    selecteditem = null;
+    selectedUser = null;
     _confirmPasswordcontroller.clear();
     _formKey.currentState!.reset();
   }
@@ -197,6 +231,7 @@ class _MyHomePageState extends State<SignUpPage> {
               mainAxisAlignment: MainAxisAlignment.center,
               crossAxisAlignment: CrossAxisAlignment.stretch,
               children: [
+                positionedArrowBack(context, Colors.white),
                 SizedBox(
                   height: sizedBoxHeightTextF,
                 ),
@@ -217,11 +252,11 @@ class _MyHomePageState extends State<SignUpPage> {
                       borderRadius: BorderRadius.circular(10),
                     ),
                     child: DropdownButton(
-                      value: selecteditem,
+                      value: selectedUser,
                       isExpanded: true,
                       hint: Text('I am a'),
                       underline: Container(),
-                      items: items.map((item) {
+                      items: userType.map((item) {
                         return DropdownMenuItem(
                           child: Text(item),
                           value: item,
@@ -230,11 +265,11 @@ class _MyHomePageState extends State<SignUpPage> {
                       onChanged: (value) {
                         setState(() {
                           if (value == 'User') {
-                            value = items[0];
-                            selecteditem = value.toString() ?? 'User';
+                            value = userType[0];
+                            selectedUser = value.toString() ?? 'User';
                           } else if (value == 'Store Owner') {
-                            value = items[1];
-                            selecteditem = value.toString() ?? 'Store Owner';
+                            value = userType[1];
+                            selectedUser = value.toString() ?? 'Store Owner';
                           }
                         });
                       },

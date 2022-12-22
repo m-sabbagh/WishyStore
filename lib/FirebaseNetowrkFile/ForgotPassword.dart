@@ -1,9 +1,10 @@
 import 'package:flutter/material.dart';
+import 'package:fluttertoast/fluttertoast.dart';
 import 'package:rflutter_alert/rflutter_alert.dart';
 import 'package:wishy_store/Screens/User/StoreOwner%20shared%20screens/LogInPage.dart';
 import 'package:wishy_store/Widgets/buttonPadding.dart';
 import 'package:firebase_auth/firebase_auth.dart';
-import 'package:wishy_store/Widgets/LogInToast.dart';
+import 'package:wishy_store/Widgets/ErrorToast.dart';
 import 'package:wishy_store/constants.dart';
 
 class ForgotPassword extends StatefulWidget {
@@ -52,9 +53,12 @@ class _ForgotPasswordState extends State<ForgotPassword> {
     } on FirebaseAuthException catch (e) {
       if (_emailcontroller.text.isEmpty == true) {
       } else if (e.code == 'user-not-found') {
-        FlutterToastErorrStyle("No user found for that email.");
+        CustomFlutterToast_Error(
+            message: "No user found for that email.",
+            toastLength: Toast.LENGTH_SHORT);
       } else
-        FlutterToastErorrStyle("Wrong input");
+        CustomFlutterToast_Error(
+            message: "Wrong input", toastLength: Toast.LENGTH_SHORT);
     }
   }
 

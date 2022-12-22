@@ -10,14 +10,16 @@ class AddItemsToWishlist {
 
   void addNewItems({
     String? wName,
-    String? photoUrl,
+    String? imageUrl,
     String? itemTitle,
     String? itemPrice,
   }) async {
+    // print(wName);
+    // print(imageUrl);
+    // print(itemPrice);
+    // print(itemTitle);
     FirebaseFirestore wishlist = FirebaseFirestore.instance;
     User? user = await FirebaseAuth.instance.currentUser;
-    // CollectionReference wish =
-    //     FirebaseFirestore.instance.collection('wishlists');
 
     //here i want to add the new wishlist to the
     // userWishlists each time the user clicks the button
@@ -25,9 +27,11 @@ class AddItemsToWishlist {
       'userWishlists': {
         wName: {
           'UserItems': {
-            'photoUrl': photoUrl,
-            'itemTitle': itemTitle,
-            'temPrice': itemPrice,
+            itemTitle: {
+              'imageUrl': imageUrl,
+              'itemTitle': itemTitle,
+              'itemPrice': itemPrice,
+            }
           },
         },
       },

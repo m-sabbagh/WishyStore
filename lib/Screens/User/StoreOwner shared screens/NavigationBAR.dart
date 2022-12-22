@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:wishy_store/Screens/UserScreens/MyWishPage.dart';
+import 'package:wishy_store/Screens/UserScreens/MyWishPage/MyWishPage.dart';
 import 'package:wishy_store/Screens/UserScreens/UserProfilePage.dart';
 import 'package:wishy_store/Screens/UserScreens/stores/StoresPage.dart';
 import 'package:wishy_store/Screens/UserScreens/UserHomePage.dart';

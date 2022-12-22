@@ -51,7 +51,7 @@ class _UserProfilePageState extends State<UserProfilePage> {
   RegExp pass_valid = RegExp(r"(?=.*\d)(?=.*[a-z])(?=.*[A-Z])(?=.*\W)");
   var firstname;
   var lastname;
-  CollectionReference users = FirebaseFirestore.instance.collection('alluser');
+  CollectionReference users = FirebaseFirestore.instance.collection('Users');
 
   getpassword() {
     users.doc(user.uid).get().then((value) {
@@ -167,7 +167,7 @@ class _UserProfilePageState extends State<UserProfilePage> {
                                       ),
                                       TextField(
                                         decoration: InputDecoration(
-                                          hintText: 'change last name',
+                                          hintText: 'Change last name',
                                         ),
                                         onChanged: (value) {
                                           lastname = value;
@@ -398,72 +398,3 @@ class _UserProfilePageState extends State<UserProfilePage> {
     );
   }
 }
-
-// Card(
-//           shape: RoundedRectangleBorder(
-//             borderRadius: BorderRadius.circular(15.0),
-//           ),
-//           margin: EdgeInsets.fromLTRB(1, 100, 1, 100),
-//           color: Colors.white,
-//           child: Column(
-//             mainAxisAlignment: MainAxisAlignment.start,
-//             children: [
-//               SizedBox(
-//                 height: 20,
-//               ),
-//               CircleAvatar(
-//                 radius: 48, // Image radius
-//                 backgroundImage: Image.asset('images/user_defulat.png').image,
-//               ),
-//               Text(
-//                 'User Name',
-//                 style: TextStyle(
-//                     fontSize: 20,
-//                     fontWeight: FontWeight.bold,
-//                     color: Colors.white),
-//               ),
-//               Text(
-//                 'User email address',
-//                 style: TextStyle(
-//                     fontSize: 15,
-//                     fontWeight: FontWeight.bold,
-//                     color: Colors.grey),
-//               ),
-//               SizedBox(
-//                 height: 50,
-//               ),
-//               const Divider(
-//                 color: Colors.white,
-//                 thickness: 1,
-//                 indent: 20,
-//                 endIndent: 20,
-//               ),
-//               ListTile(
-//                 title: const Text(
-//                   'Edit Profile',
-//                   style: TextStyle(fontWeight: FontWeight.w500),
-//                 ),
-//                 leading: Icon(
-//                   Icons.person,
-//                   color: Colors.white,
-//                 ),
-//               ),
-//               ListTile(
-//                 title: const Text(
-//                   'Change password',
-//                   style: TextStyle(fontWeight: FontWeight.w500),
-//                 ),
-//               ),
-//               MaterialButton(
-//                 minWidth: 300,
-//                 color: Colors.white,
-//                 onPressed: () {
-//                   FirebaseAuth.instance.signOut();
-//                   Navigator.pushReplacement(context,
-//                       MaterialPageRoute(builder: (context) => LoginScreen()));
-//                 },
-//                 child: Text("Sign Out"),
-//               ),
-//             ],
-//           ),
-//         ),

@@ -1,0 +1,123 @@
+// import 'package:cloud_firestore/cloud_firestore.dart';
+// import 'package:eva_icons_flutter/eva_icons_flutter.dart';
+// import 'package:flutter/material.dart';
+// import 'package:fluttertoast/fluttertoast.dart';
+// import 'package:wishy_store/FirebaseNetowrkFile/allUser.dart';
+// import 'package:wishy_store/Screens/UserScreens/UserHomePage.dart';
+// import 'package:wishy_store/Widgets/buttonPadding.dart';
+// import 'package:modal_progress_hud_nsn/modal_progress_hud_nsn.dart';
+// import 'package:firebase_auth/firebase_auth.dart';
+// import 'package:wishy_store/Widgets/ErrorToast.dart';
+// import 'package:wishy_store/StoreOwnerPage.dart';
+// import 'package:wishy_store/Widgets/postiontedArrowBack.dart';
+  
+
+
+//copied from SignUpPage.dart
+ 
+//  void signup() async {
+//     try {
+//       if (_passwordcontroller.text.isEmpty == true ||
+//           _emailcontroller.text.isEmpty == true ||
+//           _firstNamecontroller.text.isEmpty == true ||
+//           _lastNamecontroller.text.isEmpty == true ||
+//           selectedUser.toString().isEmpty == true ||
+//           _confirmPasswordcontroller.text.isEmpty == true) {
+//         CustomFlutterToast_Error(
+//             message: "Please fill all the fields",
+//             toastLength: Toast.LENGTH_SHORT);
+//         setState(() {
+//           showSpinner = false;
+//         });
+//       } else if (_passwordcontroller.text.length < 8) {
+//         CustomFlutterToast_Error(
+//             message: "Password must be at least 8 characters",
+//             toastLength: Toast.LENGTH_SHORT);
+//         setState(() {
+//           showSpinner = false;
+//         });
+//       } else if (_passwordcontroller.text != _confirmPasswordcontroller.text) {
+//         CustomFlutterToast_Error(
+//             message: "Password and Confirm Password must be same",
+//             toastLength: Toast.LENGTH_SHORT);
+//         setState(() {
+//           showSpinner = false;
+//         });
+//       } else if (pass_valid.hasMatch(_passwordcontroller.text) == false) {
+//         Fluttertoast.showToast(
+//             msg: 'Password is too weak',
+//             // must contain at least one uppercase letter, one lowercase letter, one number and one special character
+//             toastLength: Toast.LENGTH_LONG,
+//             gravity: ToastGravity.BOTTOM,
+//             timeInSecForIosWeb: 5,
+//             backgroundColor: Colors.red,
+//             textColor: Colors.white,
+//             fontSize: 16.0);
+//         setState(() {
+//           showSpinner = false;
+//         });
+//       } else if (email_valid.hasMatch(_emailcontroller.text) == false) {
+//         CustomFlutterToast_Error(
+//             message: "Please enter a valid email",
+//             toastLength: Toast.LENGTH_SHORT);
+//         setState(() {
+//           showSpinner = false;
+//         });
+//       } else if (_passwordcontroller.text == _confirmPasswordcontroller.text &&
+//           pass_valid.hasMatch(_passwordcontroller.text) == true &&
+//           _passwordcontroller.text.length >= 8 &&
+//           email_valid.hasMatch(_emailcontroller.text) == true) {
+//         await _auth
+//             .createUserWithEmailAndPassword(
+//                 email: _emailcontroller.text.trim(),
+//                 password: _passwordcontroller.text.toString())
+//             .then((value) => addNewUser());
+//         // collection.add({
+//         //   'email': _emailcontroller.text,
+//         //   'password': _passwordcontroller.text,
+//         //   'firstName': _firstNamecontroller.text,
+//         //   'lastName': _lastNamecontroller.text,
+//         //   'userType': selecteditem,
+//         //   'uid': _auth.currentUser!.uid,
+//         // });
+//         if (selectedUser == 'User') {
+//           Navigator.pushNamed(context, UserHomePage.id);
+//         } else if (selectedUser == 'Store Owner') {
+//           Navigator.pushNamed(context, StoreOwnerPage.id);
+//         }
+//         setState(() {
+//           showSpinner = false;
+//         });
+//         clearallfields();
+//       }
+//     } on FirebaseAuthException catch (e) {
+//       if (e.code == 'weak-password') {
+//         CustomFlutterToast_Error(
+//             message: "The password provided is too weak.",
+//             toastLength: Toast.LENGTH_SHORT);
+//       } else if (e.code == 'email-already-in-use') {
+//         CustomFlutterToast_Error(
+//             message: "The account already exists for that email.",
+//             toastLength: Toast.LENGTH_SHORT);
+//       } else if (e.code == 'user-not-found') {
+//         CustomFlutterToast_Error(
+//             message: "No user found for that email.",
+//             toastLength: Toast.LENGTH_SHORT);
+//         setState(() {
+//           showSpinner = false;
+//         });
+//       } else if (e.code == 'wrong-password') {
+//         setState(() {
+//           showSpinner = false;
+//         });
+//         CustomFlutterToast_Error(
+//             message: "Wrong password provided for that user.",
+//             toastLength: Toast.LENGTH_SHORT);
+//       } else
+//         CustomFlutterToast_Error(
+//             message: "Wrong input", toastLength: Toast.LENGTH_SHORT);
+//       setState(() {
+//         showSpinner = false;
+//       });
+//     }
+//   }

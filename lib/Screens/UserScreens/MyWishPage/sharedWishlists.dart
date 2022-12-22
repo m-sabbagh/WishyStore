@@ -69,10 +69,12 @@ class _SharedWishlistsState extends State<SharedWishlists> {
       body: Center(
         child: Column(
           children: [
-            // ...wishlistNames.map((e) => Text(e)),
             // positionedArrowBack(context, Colors.white),
             Container(
-              child: Text("Shared Wishlists"),
+              child: Text(
+                "Shared Wishlists",
+                style: TextStyle(color: Colors.white),
+              ),
             ),
           ],
         ),

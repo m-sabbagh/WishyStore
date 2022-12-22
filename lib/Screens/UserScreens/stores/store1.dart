@@ -5,11 +5,12 @@ import 'package:flutter/material.dart';
 
 import 'package:fluttertoast/fluttertoast.dart';
 import 'package:rflutter_alert/rflutter_alert.dart';
-import 'package:wishy_store/Screens/UserScreens/CreateWishList.dart';
-import 'package:wishy_store/Screens/UserScreens/addItemsToWishlist.dart';
+import 'package:wishy_store/Screens/UserScreens/MyWishPage/CreateWishList.dart';
+import 'package:wishy_store/Screens/UserScreens/stores/addItemsToWishlist.dart';
 import 'package:wishy_store/Screens/UserScreens/stores/ItemsCard.dart';
 import 'package:wishy_store/Screens/UserScreens/stores/category.dart';
 import 'package:wishy_store/Screens/UserScreens/stores/StoreItems.dart';
+import 'package:wishy_store/Widgets/postiontedArrowBack.dart';
 
 class StoreOne extends StatefulWidget {
   const StoreOne({Key? key}) : super(key: key);
@@ -32,8 +33,7 @@ class _StoreOneState extends State<StoreOne> {
 
   String? wishlistOneName;
   String? wishlistOneType;
-  final _wishListName = TextEditingController();
-
+  String? wishlistName;
   bool isthereIsWishlissts = false;
 
   Map wishlistData = {};
@@ -125,33 +125,7 @@ class _StoreOneState extends State<StoreOne> {
                 ),
               ],
             ),
-            Positioned(
-              top: 0.0,
-              left: 9.0,
-              right: 0.0,
-              child: AppBar(
-                leading: Row(
-                  children: [
-                    Card(
-                      color: Color(0xff1F1C2C),
-                      shape: ShapeBorder.lerp(
-                          RoundedRectangleBorder(
-                              borderRadius: BorderRadius.circular(20)),
-                          RoundedRectangleBorder(
-                              borderRadius: BorderRadius.circular(20)),
-                          1),
-                      child: IconButton(
-                        icon:
-                            Icon(EvaIcons.arrowBackOutline, color: Colors.grey),
-                        onPressed: () => Navigator.of(context).pop(),
-                      ),
-                    ),
-                  ],
-                ),
-                backgroundColor: Colors.transparent,
-                elevation: 0,
-              ),
-            ),
+            positionedArrowBack(context, Color(0xff1F1C2C)),
           ],
         ),
         Row(
@@ -352,22 +326,44 @@ class _StoreOneState extends State<StoreOne> {
                                           value: "radio value",
                                           groupValue: "group value",
                                           onChanged: (value) {
-                                            print(value); //selected value
+                                            print(wishlistNames[i].toString());
+                                            wishlistName = wishlistNames[i];
+                                            setState(() {
+                                              AddItemsToWishlist().addNewItems(
+                                                //improtant , this works !
+                                                // wName: 'wishlist1',
+                                                wName: wishlistName,
+                                                itemPrice: storeitems[index]
+                                                    .price
+                                                    .toString(),
+                                                itemTitle: storeitems[index]
+                                                    .title
+                                                    .toString(),
+                                                imageUrl: storeitems[index]
+                                                    .image
+                                                    .toString(),
+                                              );
+                                            });
+                                            //selected value
                                           }),
                                       title: Text(wishlistNames[i]),
                                       onTap: () {
-                                        AddItemsToWishlist().addNewItems(
-                                          wName: _wishListName.text.toString(),
-                                          itemPrice: storeitems[index]
-                                              .price
-                                              .toString(),
-                                          itemTitle: storeitems[index]
-                                              .title
-                                              .toString(),
-                                          photoUrl: storeitems[index]
-                                              .image
-                                              .toString(),
-                                        );
+                                        //   setState(() {
+                                        //   AddItemsToWishlist().addNewItems(
+                                        //     //improtant , this works !
+                                        //     // wName: 'wishlist1',
+                                        //     wName: wishlistName,
+                                        //     itemPrice: storeitems[index]
+                                        //         .price
+                                        //         .toString(),
+                                        //     itemTitle: storeitems[index]
+                                        //         .title
+                                        //         .toString(),
+                                        //     photoUrl: storeitems[index]
+                                        //         .image
+                                        //         .toString(),
+                                        //   );
+                                        // });
                                       },
                                     ),
                                 ],

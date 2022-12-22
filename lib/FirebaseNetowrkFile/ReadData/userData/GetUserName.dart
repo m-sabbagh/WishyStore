@@ -8,8 +8,7 @@ class GetUserName extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    CollectionReference users =
-        FirebaseFirestore.instance.collection('alluser');
+    CollectionReference users = FirebaseFirestore.instance.collection('Users');
     return FutureBuilder<DocumentSnapshot>(
       future: users.doc(documentId).get(),
       builder: ((context, snapshot) {

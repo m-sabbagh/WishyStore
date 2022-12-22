@@ -1,5 +1,6 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
+import 'package:fluttertoast/fluttertoast.dart';
 import 'package:modal_progress_hud_nsn/modal_progress_hud_nsn.dart';
 import 'package:wishy_store/Screens/User/StoreOwner%20shared%20screens/NavigationBAR.dart';
 import 'package:wishy_store/Widgets/buttonPadding.dart';
@@ -7,7 +8,7 @@ import 'package:flutter_signin_button/flutter_signin_button.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import '../../../StoreOwnerPage.dart';
 import 'SignUpPage.dart';
-import 'package:wishy_store/Widgets/LogInToast.dart';
+import 'package:wishy_store/Widgets/ErrorToast.dart';
 import 'package:wishy_store/constants.dart';
 import 'package:wishy_store/FirebaseNetowrkFile/ForgotPassword.dart';
 import 'package:google_sign_in/google_sign_in.dart';
@@ -26,13 +27,20 @@ class _LoginScreenState extends State<LoginScreen> {
 
   getusertype() {
     FirebaseFirestore.instance
-        .collection('alluser')
+        .collection('Users')
         .doc(_auth.currentUser!.uid)
         .get()
         .then((value) {
       if (value.data()!['userType'] == 'User') {
         Navigator.pushNamed(context, NavigationBarsssss.id);
-      } else if (value.data()!['userType'] == 'Store Owner') {
+      }
+    });
+    FirebaseFirestore.instance
+        .collection('StoreOwners')
+        .doc(_auth.currentUser!.uid)
+        .get()
+        .then((value) {
+      if (value.data()!['userType'] == 'StoreOwner') {
         Navigator.pushNamed(context, StoreOwnerPage.id);
       }
     });
@@ -56,12 +64,16 @@ class _LoginScreenState extends State<LoginScreen> {
     } on FirebaseAuthException catch (e) {
       if (_passwordcontroller.text.isEmpty == true ||
           _emailcontroller.text.isEmpty == true) {
-        FlutterToastErorrStyle("Please fill all the fields");
+        CustomFlutterToast_Error(
+            message: "Please fill all the fields",
+            toastLength: Toast.LENGTH_SHORT);
         setState(() {
           showSpinner = false;
         });
       } else if (e.code == 'user-not-found') {
-        FlutterToastErorrStyle("No user found for that email.");
+        CustomFlutterToast_Error(
+            message: "No user found for that email.",
+            toastLength: Toast.LENGTH_SHORT);
         setState(() {
           showSpinner = false;
         });
@@ -69,9 +81,12 @@ class _LoginScreenState extends State<LoginScreen> {
         setState(() {
           showSpinner = false;
         });
-        FlutterToastErorrStyle("Wrong password provided for that user.");
+        CustomFlutterToast_Error(
+            message: "Wrong password provided for that user.",
+            toastLength: Toast.LENGTH_SHORT);
       } else
-        FlutterToastErorrStyle("Wrong input");
+        CustomFlutterToast_Error(
+            message: "Wrong input", toastLength: Toast.LENGTH_SHORT);
       setState(() {
         showSpinner = false;
       });
