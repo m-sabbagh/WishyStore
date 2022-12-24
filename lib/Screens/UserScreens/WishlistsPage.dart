@@ -34,7 +34,7 @@ class _WishlistPageState extends State<WishlistPage> {
   List<String> itemTitle = [];
   List<String> itemPrice = [];
   List<String> imageUrl = [];
-  List<String> isReserved = [];
+  List<bool> isReserved = [];
 
   Map<String, dynamic> wishlistItems = {};
 
@@ -216,21 +216,18 @@ class _WishlistPageState extends State<WishlistPage> {
                               itemCount: wishlistItems.length,
                               itemBuilder: ((context, index) {
                                 return ListTile(
-                                  // trailing: IconButton(
-                                  //   onPressed: () {
-                                  //     setState(() {
-                                  //       // updateReservedStatus();
-                                  //       print(itemTitle[index]);
-
-                                  //       print(isReserved[index]);
-                                  //     });
-                                  //   },
-                                  //   icon: Icon(
-                                  //     Icons.check_box_outline_blank,
-                                  //     color: Colors.red,
-                                  //   ),
-                                  // ),
-
+                                  trailing: MaterialButton(
+                                    onPressed: () {
+                                      setState(() {
+                                        isChecked = !isChecked;
+                                      });
+                                    },
+                                    child: Icon(
+                                      Icons.calendar_today_outlined,
+                                      color:
+                                          isChecked ? Colors.red : Colors.white,
+                                    ),
+                                  ),
                                   leading: Stack(children: [
                                     ClipRect(
                                       child: Container(
