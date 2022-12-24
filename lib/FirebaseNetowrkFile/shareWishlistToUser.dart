@@ -8,12 +8,17 @@ class ShareWishlistTOuser {
   String? wishlistName;
   String? currentUserId;
   String? currentUserEmail;
+  String? wishlisttype;
+  String? wishlistDescription;
 
-  ShareWishlistTOuser(
-      {required this.emailAddressForSharing,
-      required this.currentUserId,
-      required this.wishlistName,
-      required this.currentUserEmail});
+  ShareWishlistTOuser({
+    required this.emailAddressForSharing,
+    required this.currentUserId,
+    required this.wishlistName,
+    required this.currentUserEmail,
+    required this.wishlisttype,
+    required this.wishlistDescription,
+  });
   FirebaseFirestore db = FirebaseFirestore.instance;
 
   void checkONtheSharedEmail() {
@@ -66,8 +71,18 @@ class ShareWishlistTOuser {
     print(userItems);
     await db.collection('wishlists').doc(ShareUid).set({
       'sharedWishlistsFromUsers': {
-        "$wishlistName $currentUserEmail": {
-          "wishlistName": wishlistName,
+        // "$wishlistName $currentUserEmail": {
+        //   "wishlistName": wishlistName,
+        //   "wishlistOwnerEmail": currentUserEmail,
+        //   'userId': currentUserId,
+        //   'wishlistType': wishlisttype,
+        // }
+        "$currentUserEmail": {
+          wishlistName: {
+            'wishlistName': wishlistName,
+            'wishlistType': wishlisttype,
+            'wishlistDescription': wishlistDescription,
+          },
           "wishlistOwnerEmail": currentUserEmail,
           'userId': currentUserId,
         }

@@ -1,31 +1,43 @@
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:fluttertoast/fluttertoast.dart';
 import 'package:rflutter_alert/rflutter_alert.dart';
 import 'package:wishy_store/FirebaseNetowrkFile/shareWishlistToUser.dart';
-import 'package:wishy_store/Screens/UserScreens/wishlistPage.dart';
+import 'package:wishy_store/Screens/UserScreens/WishlistsPage.dart';
 import 'package:wishy_store/Screens/UserScreens/wishlistsImages.dart';
 
 class WishlistCard extends StatefulWidget {
   String? wishname;
   String? wishType;
   bool? shareButtonVisi;
+  String? wishlistDescription;
 
-  WishlistCard({this.wishname, this.wishType, this.shareButtonVisi});
+  WishlistCard(
+      {this.wishname,
+      this.wishType,
+      this.shareButtonVisi,
+      this.wishlistDescription});
 
   @override
   State<WishlistCard> createState() => _WishlistCardState(
       wishlistn: wishname,
       wishlistTps: wishType,
-      ShareButtonVisi: shareButtonVisi);
+      ShareButtonVisi: shareButtonVisi,
+      wishlistDescription: wishlistDescription);
 }
 
 class _WishlistCardState extends State<WishlistCard> {
   String? wishlistn;
   String? wishlistTps;
   bool? ShareButtonVisi;
+  String? wishlistDescription;
 
-  _WishlistCardState({this.wishlistn, this.wishlistTps, this.ShareButtonVisi});
+  _WishlistCardState(
+      {this.wishlistn,
+      this.wishlistTps,
+      this.ShareButtonVisi,
+      this.wishlistDescription});
 
   FirebaseAuth _auth = FirebaseAuth.instance;
 
@@ -39,8 +51,11 @@ class _WishlistCardState extends State<WishlistCard> {
             context,
             MaterialPageRoute(
                 builder: (context) => WishlistPage(
+                      penVisible: true,
                       wishlistName: wishlistn,
                       wishlistType: wishlistTps,
+                      uid: _auth.currentUser!.uid,
+                      wishlistDescription: wishlistDescription,
                     )));
       },
       child: Container(
@@ -137,13 +152,17 @@ class _WishlistCardState extends State<WishlistCard> {
                                           ShareWishlistTOuser
                                               shareWishlistTOuser =
                                               ShareWishlistTOuser(
-                                                  emailAddressForSharing:
-                                                      _ShareEmailAddress,
-                                                  currentUserEmail:
-                                                      _auth.currentUser!.email,
-                                                  wishlistName: wishlistn,
-                                                  currentUserId:
-                                                      _auth.currentUser!.uid);
+                                            emailAddressForSharing:
+                                                _ShareEmailAddress,
+                                            currentUserEmail:
+                                                _auth.currentUser!.email,
+                                            wishlistName: wishlistn,
+                                            currentUserId:
+                                                _auth.currentUser!.uid,
+                                            wishlisttype: wishlistTps,
+                                            wishlistDescription:
+                                                wishlistDescription,
+                                          );
                                           setState(() {
                                             shareWishlistTOuser
                                                 .checkONtheSharedEmail();
@@ -185,7 +204,19 @@ class _WishlistCardState extends State<WishlistCard> {
                                           color: Color(0xFF5E57A5),
                                           onPressed: () {
                                             Navigator.pop(context);
-                                            setState(() {});
+                                            setState(() {
+                                              FirebaseFirestore wishlist =
+                                                  FirebaseFirestore.instance;
+                                              final docref = wishlist
+                                                  .collection('wishlists')
+                                                  .doc(FirebaseAuth.instance
+                                                      .currentUser!.uid);
+                                              docref.update({
+                                                'userWishlists.$wishlistn':
+                                                    FieldValue.delete()
+                                              });
+                                              SetOptions(merge: true);
+                                            });
                                           },
                                           child: Text(
                                             "Yes",

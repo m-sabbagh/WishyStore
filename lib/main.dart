@@ -3,11 +3,13 @@ import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/services.dart';
 import 'package:wishy_store/Screens/User/StoreOwner%20shared%20screens/NavigationBAR.dart';
 import 'package:wishy_store/Screens/UserScreens/MyWishPage/MyWishPage.dart';
+import 'package:wishy_store/Screens/UserScreens/MyWishPage/sharedWishlists.dart';
 import 'package:wishy_store/Screens/UserScreens/UserProfilePage.dart';
+import 'package:wishy_store/Screens/UserScreens/WishlistsPage.dart';
 import 'package:wishy_store/Screens/UserScreens/stores/StoresPage.dart';
 import 'package:wishy_store/Screens/UserScreens/UserHomePage.dart';
 import 'package:wishy_store/Screens/UserScreens/stores/store1.dart';
-import 'package:wishy_store/Screens/UserScreens/wishlistPage.dart';
+import 'package:wishy_store/Screens/UserScreens/thatoneUser.dart';
 import 'package:wishy_store/StoreOwnerPage.dart';
 import 'package:wishy_store/stayLoggedIn.dart';
 import 'Screens/User/StoreOwner shared screens/SignUpPage.dart';
@@ -37,8 +39,12 @@ class WishyStore extends StatelessWidget {
         UserHomePage.id: (context) => UserHomePage(),
         MyWishPage.id: (context) => MyWishPage(),
         UserStorePage.id: (context) => UserStorePage(),
+        // WishlistPage.id: (context) => WishlistPage(),
         WishlistPage.id: (context) => WishlistPage(),
         StoreOne.id: (context) => StoreOne(),
+        ThatOneUser.id: (context) => ThatOneUser(),
+
+        // SharedWishlistsItems.id: (context) => SharedWishlistsItems(),
       },
     );
   }

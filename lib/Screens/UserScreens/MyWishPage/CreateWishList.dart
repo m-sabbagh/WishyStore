@@ -10,9 +10,9 @@ class CreateWishList {
 
   String? wishlistName;
   String? wishlistType;
-  int? wishlistCount;
+  String? wishlistDescription;
 
-  void addNewWishlist(String? wName, wType) async {
+  void addNewWishlist(String? wName, wType, String description) async {
     FirebaseFirestore wishlist = FirebaseFirestore.instance;
     User? user = await FirebaseAuth.instance.currentUser;
     // CollectionReference wish =
@@ -25,6 +25,7 @@ class CreateWishList {
         wName: {
           'wishlistType': wType,
           'UserItems': {},
+          'wishlistDescription': description,
         },
       },
     }, SetOptions(merge: true));

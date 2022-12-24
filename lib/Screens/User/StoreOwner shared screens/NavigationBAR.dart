@@ -4,6 +4,8 @@ import 'package:wishy_store/Screens/UserScreens/UserProfilePage.dart';
 import 'package:wishy_store/Screens/UserScreens/stores/StoresPage.dart';
 import 'package:wishy_store/Screens/UserScreens/UserHomePage.dart';
 
+import '../../UserScreens/MyWishPage/sharedWishlists.dart';
+
 class NavigationBarsssss extends StatefulWidget {
   static String id = 'navigation_bar';
   @override
@@ -18,6 +20,7 @@ class _NavigationBarsssssState extends State<NavigationBarsssss> {
     UserHomePage(),
     UserStorePage(),
     MyWishPage(),
+    SharedWishlists(),
     UserProfilePage(),
   ];
 
@@ -50,10 +53,10 @@ class _NavigationBarsssssState extends State<NavigationBarsssss> {
             ),
             label: 'MyWish',
           ),
-          // BottomNavigationBarItem(
-          //   icon: Icon(Icons.group),
-          //   label: 'Groups',
-          // ),
+          BottomNavigationBarItem(
+            icon: Icon(Icons.group),
+            label: 'WishHub',
+          ),
           BottomNavigationBarItem(
             icon: Icon(Icons.account_circle),
             label: 'Profile',

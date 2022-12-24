@@ -1,5 +1,4 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
-import 'package:eva_icons_flutter/eva_icons_flutter.dart';
 import 'package:flutter/material.dart';
 import 'package:fluttertoast/fluttertoast.dart';
 import 'package:wishy_store/FirebaseNetowrkFile/UsersCollection.dart';
@@ -49,7 +48,7 @@ class _MyHomePageState extends State<SignUpPage> {
       usersCollection.uId = user!.uid;
       await db.collection('Users').doc(user.uid).set(usersCollection.toMap());
 
-      await db.collection('wishlists').doc(user!.uid).set({
+      await db.collection('wishlists').doc(user.uid).set({
         'uid': user.uid,
         'email address': _emailcontroller.text,
         'userWishlists': {},

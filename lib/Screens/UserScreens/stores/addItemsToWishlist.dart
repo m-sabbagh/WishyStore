@@ -31,6 +31,7 @@ class AddItemsToWishlist {
               'imageUrl': imageUrl,
               'itemTitle': itemTitle,
               'itemPrice': itemPrice,
+              'isReserved': 'false',
             }
           },
         },
