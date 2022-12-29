@@ -51,7 +51,7 @@ class _WishlistCardState extends State<WishlistCard> {
             context,
             MaterialPageRoute(
                 builder: (context) => WishlistPage(
-                      penVisible: true,
+                      isSharedUser: false,
                       wishlistName: wishlistn,
                       wishlistType: wishlistTps,
                       uid: _auth.currentUser!.uid,

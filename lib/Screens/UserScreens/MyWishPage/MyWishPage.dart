@@ -5,7 +5,7 @@ import 'package:eva_icons_flutter/eva_icons_flutter.dart';
 import 'package:fluttertoast/fluttertoast.dart';
 import 'package:rflutter_alert/rflutter_alert.dart';
 import 'package:wishy_store/Screens/UserScreens/MyWishPage/CreateWishList.dart';
-import 'package:wishy_store/Screens/UserScreens/MyWishPage/sharedWishlists.dart';
+import 'package:wishy_store/Screens/UserScreens/MyWishPage/WishHubPage.dart';
 import 'package:wishy_store/Screens/UserScreens/MyWishPage/wishlistCard.dart';
 import '../../../Widgets/ErrorToast.dart';
 

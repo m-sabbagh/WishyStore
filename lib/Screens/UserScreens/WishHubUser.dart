@@ -4,24 +4,24 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:wishy_store/Screens/UserScreens/WishlistsPage.dart';
 
-class ThatOneUser extends StatefulWidget {
+class WishHubUser extends StatefulWidget {
   String? userEmail;
 
-  ThatOneUser({
+  WishHubUser({
     this.userEmail,
   });
 
   static String id = 'thatOneUser';
 
   @override
-  State<ThatOneUser> createState() => _ThatOneUserState(
+  State<WishHubUser> createState() => _WishHubUserState(
         userEmail: userEmail,
       );
 }
 
-class _ThatOneUserState extends State<ThatOneUser> {
+class _WishHubUserState extends State<WishHubUser> {
   String? userEmail;
-  _ThatOneUserState({this.userEmail});
+  _WishHubUserState({this.userEmail});
 
   String? userId;
 
@@ -31,7 +31,6 @@ class _ThatOneUserState extends State<ThatOneUser> {
 
   Map wishlistData = {};
   void getWishlistsByEmail() {
-//wishlistName for m@gmail.com
     FirebaseFirestore wishlist = FirebaseFirestore.instance;
     wishlist
         .collection('wishlists')
@@ -127,12 +126,16 @@ class _ThatOneUserState extends State<ThatOneUser> {
                                 EvaIcons.giftOutline,
                                 color: Colors.white,
                               ),
+                              trailing: Icon(
+                                EvaIcons.arrowIosForward,
+                                color: Colors.white,
+                              ),
                               onTap: () {
                                 Navigator.push(
                                   context,
                                   MaterialPageRoute(
                                     builder: (context) => WishlistPage(
-                                      penVisible: false,
+                                      isSharedUser: true,
                                       wishlistName: wishlistNames[index],
                                       wishlistType: wishlistTypes[index],
                                       uid: userId,

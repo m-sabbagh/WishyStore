@@ -20,18 +20,16 @@ class ItemCard extends StatelessWidget {
         children: <Widget>[
           Expanded(
             child: Container(
-              padding: EdgeInsets.all(20.0),
               // For  demo we use fixed height  and width
               // Now we dont need them
               // height: 180,
               // width: 160,
-              decoration: BoxDecoration(
-                color: storeItems.color,
+              child: ClipRRect(
                 borderRadius: BorderRadius.circular(16),
-              ),
-              child: Hero(
-                tag: "${storeItems.id}",
-                child: Image.asset(storeItems.image),
+                child: Image.asset(
+                  storeItems.image,
+                  fit: BoxFit.cover,
+                ),
               ),
             ),
           ),

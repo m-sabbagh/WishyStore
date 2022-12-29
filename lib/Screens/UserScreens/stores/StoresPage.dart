@@ -12,31 +12,33 @@ class UserStorePage extends StatefulWidget {
 
 class _UserStorePageState extends State<UserStorePage> {
   Widget RRRR() {
-    return SingleChildScrollView(
-      scrollDirection: Axis.horizontal,
-      child: Row(
+    return GestureDetector(
+      onTap: () {
+        setState(() {
+          Navigator.pushNamed(context, StoreOne.id);
+        });
+      },
+      child: Column(
         children: [
-          GestureDetector(
-            onTap: () {
-              setState(() {
-                Navigator.pushNamed(context, StoreOne.id);
-              });
-            },
-            child: Column(
-              children: [
-                ClipRRect(
-                  borderRadius: BorderRadius.circular(20), // Image border
-                  child: SizedBox.fromSize(
-                    size: Size.fromRadius(80), // Image radius
-                    child: Image.asset('images/Deal_of_the_Day-11_400x400.png',
-                        fit: BoxFit.cover),
-                  ),
-                ),
-                Text(
-                  'Smart Buy',
-                  style: TextStyle(color: Colors.red),
-                ),
-              ],
+          Container(
+            height: 180,
+            width: 130,
+            child: ClipRRect(
+              borderRadius: BorderRadius.circular(20),
+              child: SizedBox.fromSize(
+                size: Size.fromRadius(80), // Image radius
+                child: Image.asset('images/Deal_of_the_Day-11_400x400.png',
+                    fit: BoxFit.cover),
+              ),
+            ),
+          ),
+          SizedBox(
+            height: 10,
+          ),
+          Text(
+            'Smart Buy',
+            style: TextStyle(
+              color: Colors.white,
             ),
           ),
         ],
@@ -70,24 +72,135 @@ class _UserStorePageState extends State<UserStorePage> {
         ),
       ),
       backgroundColor: Color.fromARGB(255, 17, 14, 35),
-      body: SafeArea(
+      body: Padding(
+        padding: const EdgeInsets.all(15.0),
         child: SingleChildScrollView(
           child: Column(
-            mainAxisAlignment: MainAxisAlignment.start,
             children: [
-              Padding(
-                padding: const EdgeInsets.all(8.0),
-                child: Text(
-                  'Retail',
-                  style: TextStyle(color: Colors.white, fontSize: 20),
-                ),
-              ),
-              RRRR(),
-              SizedBox(
-                height: 10,
+              Row(
+                mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                children: [
+                  Text(
+                    'Retail',
+                    style: TextStyle(color: Colors.white, fontSize: 20),
+                  ),
+                  Text(
+                    'view all',
+                    style: TextStyle(color: Colors.white, fontSize: 20),
+                  ),
+                ],
               ),
               SizedBox(
                 height: 20,
+              ),
+              SingleChildScrollView(
+                scrollDirection: Axis.horizontal,
+                child: Row(
+                  // mainAxisAlignment: MainAxisAlignment.center,
+                  children: [
+                    RRRR(),
+                    SizedBox(
+                      width: 20,
+                    ),
+                    RRRR(),
+                    SizedBox(
+                      width: 20,
+                    ),
+                    RRRR(),
+                    SizedBox(
+                      width: 20,
+                    ),
+                    RRRR(),
+                    SizedBox(
+                      width: 20,
+                    ),
+                  ],
+                ),
+              ),
+              SizedBox(
+                height: 20,
+              ),
+              Row(
+                mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                children: [
+                  Text(
+                    'Retail',
+                    style: TextStyle(color: Colors.white, fontSize: 20),
+                  ),
+                  Text(
+                    'view all',
+                    style: TextStyle(color: Colors.white, fontSize: 20),
+                  ),
+                ],
+              ),
+              SizedBox(
+                height: 20,
+              ),
+              SingleChildScrollView(
+                scrollDirection: Axis.horizontal,
+                child: Row(
+                  children: [
+                    RRRR(),
+                    SizedBox(
+                      width: 20,
+                    ),
+                    RRRR(),
+                    SizedBox(
+                      width: 20,
+                    ),
+                    RRRR(),
+                    SizedBox(
+                      width: 20,
+                    ),
+                    RRRR(),
+                    SizedBox(
+                      width: 20,
+                    ),
+                  ],
+                ),
+              ),
+              SizedBox(
+                height: 20,
+              ),
+              Row(
+                mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                children: [
+                  Text(
+                    'Retail',
+                    style: TextStyle(color: Colors.white, fontSize: 20),
+                  ),
+                  Text(
+                    'view all',
+                    style: TextStyle(color: Colors.white, fontSize: 20),
+                  ),
+                ],
+              ),
+              SizedBox(
+                height: 20,
+              ),
+              SingleChildScrollView(
+                scrollDirection: Axis.horizontal,
+                child: Row(
+                  // mainAxisAlignment: MainAxisAlignment.center,
+                  children: [
+                    RRRR(),
+                    SizedBox(
+                      width: 20,
+                    ),
+                    RRRR(),
+                    SizedBox(
+                      width: 20,
+                    ),
+                    RRRR(),
+                    SizedBox(
+                      width: 20,
+                    ),
+                    RRRR(),
+                    SizedBox(
+                      width: 20,
+                    ),
+                  ],
+                ),
               ),
             ],
           ),
@@ -96,3 +209,81 @@ class _UserStorePageState extends State<UserStorePage> {
     );
   }
 }
+
+
+// Padding(
+//                 padding: const EdgeInsets.all(8.0),
+//                 child: Text(
+//                   'Retail',
+//                   style: TextStyle(color: Colors.white, fontSize: 20),
+//                 ),
+//               ),
+//               RRRR(),
+//               SizedBox(
+//                 height: 10,
+//               ),
+//               SizedBox(
+//                 height: 20,
+//               ),
+
+
+
+//  body: Padding(
+//         padding: const EdgeInsets.all(15.0),
+//         child: SingleChildScrollView(
+//           scrollDirection: Axis.horizontal,
+//           child: Row(
+//             // mainAxisAlignment: MainAxisAlignment.center,
+//             children: [
+//               SizedBox(
+//                 width: 1,
+//               ),
+//               ListView.builder(
+//                   scrollDirection: Axis.horizontal,
+//                   physics: NeverScrollableScrollPhysics(),
+//                   shrinkWrap: true,
+//                   itemBuilder: ((context, index) {
+//                     return SingleChildScrollView(
+//                       child: Column(
+//                         children: [
+//                           Row(
+//                             children: [
+//                               RRRR(),
+//                               SizedBox(
+//                                 width: 10,
+//                               ),
+//                             ],
+//                           ),
+//                           Row(
+//                             children: [
+//                               RRRR(),
+//                               SizedBox(
+//                                 width: 10,
+//                               ),
+//                             ],
+//                           ),
+//                           Row(
+//                             children: [
+//                               RRRR(),
+//                               SizedBox(
+//                                 width: 10,
+//                               ),
+//                             ],
+//                           ),
+//                           Row(
+//                             children: [
+//                               RRRR(),
+//                               SizedBox(
+//                                 width: 10,
+//                               ),
+//                             ],
+//                           ),
+//                         ],
+//                       ),
+//                     );
+//                   }),
+//                   itemCount: 4),
+//             ],
+//           ),
+//         ),
+//       ),

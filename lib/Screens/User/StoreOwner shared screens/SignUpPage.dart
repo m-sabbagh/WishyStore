@@ -5,11 +5,12 @@ import 'package:wishy_store/FirebaseNetowrkFile/UsersCollection.dart';
 import 'package:wishy_store/FirebaseNetowrkFile/StoreOwnersCollection.dart';
 
 import 'package:wishy_store/Screens/UserScreens/UserHomePage.dart';
+import 'package:wishy_store/StoreOwner/FillingInformationForStoreOwner.dart';
 import 'package:wishy_store/Widgets/buttonPadding.dart';
 import 'package:modal_progress_hud_nsn/modal_progress_hud_nsn.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:wishy_store/Widgets/ErrorToast.dart';
-import 'package:wishy_store/StoreOwnerPage.dart';
+import 'package:wishy_store/StoreOwner/StoreOwnerPage.dart';
 import 'package:wishy_store/Widgets/postiontedArrowBack.dart';
 
 class SignUpPage extends StatefulWidget {
@@ -33,21 +34,24 @@ class _MyHomePageState extends State<SignUpPage> {
       storeOwnersCollection.password = _passwordcontroller.text;
       storeOwnersCollection.userType = selectedUser;
       storeOwnersCollection.uId = user!.uid;
+      storeOwnersCollection.infoFilled = false;
+      storeOwnersCollection.storeOwnerGranted = false;
+
       await db
           .collection('StoreOwners')
           .doc(user.uid)
           .set(storeOwnersCollection.toMap());
     }
 
-    if (selectedUser == 'User') {
-      usersCollection.firstname = _firstNamecontroller.text;
-      usersCollection.lastname = _lastNamecontroller.text;
-      usersCollection.email = _emailcontroller.text;
-      usersCollection.password = _passwordcontroller.text;
-      usersCollection.userType = selectedUser;
-      usersCollection.uId = user!.uid;
-      await db.collection('Users').doc(user.uid).set(usersCollection.toMap());
+    usersCollection.firstname = _firstNamecontroller.text;
+    usersCollection.lastname = _lastNamecontroller.text;
+    usersCollection.email = _emailcontroller.text;
+    usersCollection.password = _passwordcontroller.text;
+    usersCollection.userType = selectedUser;
+    usersCollection.uId = user!.uid;
+    await db.collection('Users').doc(user.uid).set(usersCollection.toMap());
 
+    if (selectedUser == 'User') {
       await db.collection('wishlists').doc(user.uid).set({
         'uid': user.uid,
         'email address': _emailcontroller.text,
@@ -55,6 +59,7 @@ class _MyHomePageState extends State<SignUpPage> {
         "sharedWishlistsFromUsers": {}
       });
     }
+
     // if(selecteditem=='storeOwner'){
     //   //for admin area
     // }
@@ -168,9 +173,12 @@ class _MyHomePageState extends State<SignUpPage> {
         //   'uid': _auth.currentUser!.uid,
         // });
         if (selectedUser == 'User') {
-          Navigator.pushNamed(context, UserHomePage.id);
+          Navigator.pushNamedAndRemoveUntil(
+              context, UserHomePage.id, (route) => false);
         } else if (selectedUser == 'Store Owner') {
-          Navigator.pushNamed(context, StoreOwnerPage.id);
+          // Navigator.pushNamed(context, StoreOwnerPage.id);
+          Navigator.pushNamedAndRemoveUntil(
+              context, FillingInformation.id, (route) => false);
         }
         setState(() {
           showSpinner = false;
@@ -223,6 +231,21 @@ class _MyHomePageState extends State<SignUpPage> {
     return ModalProgressHUD(
       inAsyncCall: showSpinner,
       child: Scaffold(
+        appBar: AppBar(
+          toolbarHeight: 40,
+          leading: IconButton(
+            icon: Icon(
+              Icons.arrow_back,
+              size: 30,
+              color: Colors.grey,
+            ),
+            onPressed: () {
+              Navigator.pop(context);
+            },
+          ),
+          backgroundColor: Colors.transparent,
+          elevation: 0,
+        ),
         body: Padding(
           padding: EdgeInsets.symmetric(horizontal: 24.0),
           child: SingleChildScrollView(
@@ -230,10 +253,6 @@ class _MyHomePageState extends State<SignUpPage> {
               mainAxisAlignment: MainAxisAlignment.center,
               crossAxisAlignment: CrossAxisAlignment.stretch,
               children: [
-                positionedArrowBack(context, Colors.white),
-                SizedBox(
-                  height: sizedBoxHeightTextF,
-                ),
                 Image.asset(
                   'images/wishyStoreicon.jpeg',
                   height: 200.0,
@@ -430,78 +449,3 @@ class _MyHomePageState extends State<SignUpPage> {
     );
   }
 }
-
-// // if (_confirmPasswordcontroller != _passwordcontroller) {
-// //     //   FlutterToastErorrStyle("Password does not match");
-// //     // }
-// //     // else{
-// //     //   try {
-// //     //     final newUser = await _auth.createUserWithEmailAndPassword(
-// //     //         email: _emailcontroller.text.trim(),
-// //     //         password: _passwordcontroller.text.trim());
-// //     //     if (newUser != null) {
-// //     //       Navigator.pushNamed(context, HomePage.id);
-// //     //     }
-// //     //   } on FirebaseAuthException catch (e) {
-// //     //     if (_passwordcontroller.text.isEmpty == true ||
-// //     //         _emailcontroller.text.isEmpty == true) {
-// //     //       FlutterToastErorrStyle("Please fill all the fields");
-// //     //       setState(() {
-// //     //         showSpinner = false;
-// //     //       });
-// //     //     } else if (e.code == 'weak-password') {
-// //     //       FlutterToastErorrStyle("The password provided is too weak.");
-// //     //       setState(() {
-// //     //         showSpinner = false;
-// //     //       });
-// //     //     } else if (e.code == 'email-already-in-use') {
-// //     //       FlutterToastErorrStyle("The account already exists for that email.");
-// //     //       setState(() {
-// //     //         showSpinner = false;
-// //     //       });
-// //     //     } else
-// //     //       FlutterToastErorrStyle("Wrong input");
-// //     //     setState(() {
-// //     //       showSpinner = false;
-// //     //     });
-// //     //   }
-// //     // }
-
-// Container(
-//                 //       padding: EdgeInsets.only(left: 20, right: 16),
-//                 //       alignment: Alignment.center,
-//                 //       decoration: BoxDecoration(
-//                 //         border: Border.all(color: Colors.grey, width: 2.0),
-//                 //         borderRadius: BorderRadius.circular(10),
-//                 //       ),
-//                 //       child: DropdownSearch<String>(
-//                 //         selectedItem: _selectedItemcontroller.text,
-//                 //         onChanged: (v) {
-//                 //           _selectedItemcontroller.text = v!;
-//                 //         },
-//                 //
-//                 //         popupProps: PopupProps.menu(
-//                 //           // searchFieldProps: TextFieldProps(
-//                 //           //   controller: _selectedItemcontroller,
-//                 //           //   decoration: InputDecoration(
-//                 //           //     border: OutlineInputBorder(),
-//                 //           //     labelText: "Search",
-//                 //           //   ),
-//                 //           // ),
-//                 //           fit: FlexFit.values[1],
-//                 //           showSelectedItems: true,
-//                 //         ),
-//                 //         items: [
-//                 //           "User",
-//                 //           "Store Owner",
-//                 //         ],
-//                 //         dropdownDecoratorProps: DropDownDecoratorProps(
-//                 //           dropdownSearchDecoration: InputDecoration(
-//                 //             labelText: "I am a",
-//                 //             // hintText: "country in menu mode",
-//                 //           ),
-//                 //         ),
-//                 //         // onChanged: print,
-//                 //         // selectedItem: "Brazil",
-//                 //       ),
-//                 //     )),

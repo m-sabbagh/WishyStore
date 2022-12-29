@@ -3,10 +3,12 @@ import 'package:flutter/material.dart';
 import 'package:fluttertoast/fluttertoast.dart';
 import 'package:modal_progress_hud_nsn/modal_progress_hud_nsn.dart';
 import 'package:wishy_store/Screens/User/StoreOwner%20shared%20screens/NavigationBAR.dart';
+import 'package:wishy_store/StoreOwner/FillingInformationForStoreOwner.dart';
+import 'package:wishy_store/StoreOwner/NavigationBarForStoreOwner.dart';
 import 'package:wishy_store/Widgets/buttonPadding.dart';
 import 'package:flutter_signin_button/flutter_signin_button.dart';
 import 'package:firebase_auth/firebase_auth.dart';
-import '../../../StoreOwnerPage.dart';
+import '../../../StoreOwner/StoreOwnerPage.dart';
 import 'SignUpPage.dart';
 import 'package:wishy_store/Widgets/ErrorToast.dart';
 import 'package:wishy_store/constants.dart';
@@ -25,25 +27,40 @@ class _LoginScreenState extends State<LoginScreen> {
   final _emailcontroller = TextEditingController();
   final _passwordcontroller = TextEditingController();
 
+  bool? isFilled;
+  bool? isGranted;
+
   getusertype() {
     FirebaseFirestore.instance
         .collection('Users')
         .doc(_auth.currentUser!.uid)
         .get()
         .then((value) {
-      if (value.data()!['userType'] == 'User') {
-        Navigator.pushNamed(context, NavigationBarsssss.id);
+      isFilled = value['infoFilled'];
+      isGranted = value['storeOwnerGranted'];
+      if ('${value['userType']}' == 'Store Owner') {
+        Navigator.pushNamedAndRemoveUntil(
+            context, StoreOwnerNavBar.id, (route) => false);
+      } else if ('${value['userType']}' == 'User') {
+        Navigator.pushNamedAndRemoveUntil(
+            context, NavigationBarsssss.id, (route) => false);
       }
+
+      //   Navigator.pushNamedAndRemoveUntil(
+      //       context, NavigationBarsssss.id, (route) => false);
+      // }
+      //     //    Navigator.pushNamedAndRemoveUntil(
+      //     // context, StoreOwnerPage.id, (route) => false);
+
+      // }
     });
-    FirebaseFirestore.instance
-        .collection('StoreOwners')
-        .doc(_auth.currentUser!.uid)
-        .get()
-        .then((value) {
-      if (value.data()!['userType'] == 'StoreOwner') {
-        Navigator.pushNamed(context, StoreOwnerPage.id);
-      }
-    });
+
+    // FirebaseFirestore.instance
+    //     .collection('StoreOwners')
+    //     .doc(_auth.currentUser!.uid)
+    //     .get()
+    //     .then((value) {
+    // });
   }
 
   void dispose() {
@@ -52,6 +69,12 @@ class _LoginScreenState extends State<LoginScreen> {
     super.dispose();
   }
 
+  // if(getusertype()=='Store Owner'){
+  //   Navigator.pushNamed(context, StoreOwnerPage.id);
+  // }
+  // else if(getusertype()=='User'){
+  //   Navigator.pushNamed(context, NavigationBarsssss.id);
+  // }
   @override
   Future LogIn() async {
     try {
@@ -59,7 +82,7 @@ class _LoginScreenState extends State<LoginScreen> {
           email: _emailcontroller.text.trim(),
           password: _passwordcontroller.text.toString());
       if (user != null) {
-        Navigator.pushNamed(context, NavigationBarsssss.id);
+        getusertype();
       }
     } on FirebaseAuthException catch (e) {
       if (_passwordcontroller.text.isEmpty == true ||
@@ -236,7 +259,7 @@ class _LoginScreenState extends State<LoginScreen> {
                 ),
                 ButtonPadding(
                   buttonName: 'Create account',
-                  buttonColor: kButtonColor,
+                  buttonColor: Color.fromARGB(255, 119, 113, 188),
                   onPressed: () async {
                     Navigator.pushNamed(context, SignUpPage.id);
                   },

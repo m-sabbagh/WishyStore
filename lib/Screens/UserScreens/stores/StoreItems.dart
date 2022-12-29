@@ -23,7 +23,7 @@ List<StoreItems> storeitems = [
     size: 12,
     description: dummyText,
     image: "images/test.jpeg",
-    color: Colors.white,
+    color: Color.fromARGB(255, 17, 14, 35),
   ),
   StoreItems(
       id: 1,
@@ -32,7 +32,7 @@ List<StoreItems> storeitems = [
       size: 12,
       description: dummyText,
       image: "images/test2.jpeg",
-      color: Color(0xFF3D82AE)),
+      color: Color.fromARGB(255, 17, 14, 35)),
   StoreItems(
       id: 1,
       title: " iPad mini",
@@ -40,7 +40,7 @@ List<StoreItems> storeitems = [
       size: 12,
       description: dummyText,
       image: "images/test3.jpeg",
-      color: Color(0xFF3D82AE)),
+      color: Color.fromARGB(255, 17, 14, 35)),
 ];
 
 String dummyText =

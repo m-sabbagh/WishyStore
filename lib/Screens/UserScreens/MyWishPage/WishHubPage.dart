@@ -4,16 +4,16 @@ import 'package:flutter/material.dart';
 import 'package:fluttertoast/fluttertoast.dart';
 import 'package:rflutter_alert/rflutter_alert.dart';
 import 'package:wishy_store/Screens/UserScreens/WishlistsPage.dart';
-import 'package:wishy_store/Screens/UserScreens/thatoneUser.dart';
+import 'package:wishy_store/Screens/UserScreens/WishHubUser.dart';
 
-class SharedWishlists extends StatefulWidget {
-  const SharedWishlists({Key? key}) : super(key: key);
+class WishHubPage extends StatefulWidget {
+  const WishHubPage({Key? key}) : super(key: key);
 
   @override
-  State<SharedWishlists> createState() => _SharedWishlistsState();
+  State<WishHubPage> createState() => _WishHubPageState();
 }
 
-class _SharedWishlistsState extends State<SharedWishlists> {
+class _WishHubPageState extends State<WishHubPage> {
   FirebaseAuth _auth = FirebaseAuth.instance;
 
   List<String> wishlistTypeNew = [];
@@ -184,7 +184,7 @@ class _SharedWishlistsState extends State<SharedWishlists> {
         title: Row(
           children: [
             Text(
-              'Shared Wishlists',
+              'WishHub',
               style: TextStyle(color: Colors.white, fontSize: 30),
             ),
           ],
@@ -217,13 +217,13 @@ class _SharedWishlistsState extends State<SharedWishlists> {
                               title: Text(
                                 wishlistUsers.keys.elementAt(index),
                                 style: TextStyle(
-                                    color: Colors.red,
+                                    color: Colors.white,
                                     fontSize: 20,
                                     fontWeight: FontWeight.bold,
                                     fontFamily: 'Montserrat'),
                               ),
                               leading: Icon(
-                                Icons.card_giftcard_rounded,
+                                Icons.location_history,
                                 color: Colors.white,
                               ),
                               trailing: IconButton(
@@ -310,7 +310,7 @@ class _SharedWishlistsState extends State<SharedWishlists> {
                                   Navigator.push(
                                       context,
                                       MaterialPageRoute(
-                                          builder: (context) => ThatOneUser(
+                                          builder: (context) => WishHubUser(
                                               userEmail: wishlistUsers.keys
                                                   .elementAt(index))));
                                 });

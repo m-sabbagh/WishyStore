@@ -364,11 +364,39 @@ class _UserProfilePageState extends State<UserProfilePage> {
                                   TextButton(
                                     onPressed: () {
                                       FirebaseAuth.instance.signOut();
-                                      Navigator.pushReplacement(
+                                      // Navigator.pushNamedAndRemoveUntil(
+                                      //     context, NavigationBarsssss.id, (route) => false);
+                                      Navigator.pushAndRemoveUntil(
                                           context,
-                                          MaterialPageRoute(
-                                              builder: (context) =>
-                                                  LoginScreen()));
+                                          PageRouteBuilder(pageBuilder:
+                                              (BuildContext context,
+                                                  Animation animation,
+                                                  Animation
+                                                      secondaryAnimation) {
+                                            return LoginScreen();
+                                          }, transitionsBuilder:
+                                              (BuildContext context,
+                                                  Animation<double> animation,
+                                                  Animation<double>
+                                                      secondaryAnimation,
+                                                  Widget child) {
+                                            return new SlideTransition(
+                                              position: new Tween<Offset>(
+                                                begin: const Offset(1.0, 0.0),
+                                                end: Offset.zero,
+                                              ).animate(animation),
+                                              child: child,
+                                            );
+                                          }),
+                                          (Route route) => false);
+                                      // Navigator.pushNamedAndRemoveUntil(context,
+                                      //     LoginScreen.id, (route) => false);
+
+                                      // Navigator.pushReplacement(
+                                      //     context,
+                                      //     MaterialPageRoute(
+                                      //         builder: (context) =>
+                                      //             LoginScreen()));
                                     },
                                     child: Text('Confirm'),
                                   ),

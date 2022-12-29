@@ -14,6 +14,7 @@ class StayLoggedIn extends StatelessWidget {
         builder: (context, snapshot) {
           if (snapshot.hasData) {
             return NavigationBarsssss();
+
             //else if user else if store owner
           } else {
             return LoginScreen();
