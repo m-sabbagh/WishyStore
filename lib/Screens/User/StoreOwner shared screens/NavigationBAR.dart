@@ -6,16 +6,15 @@ import 'package:wishy_store/Screens/UserScreens/UserHomePage.dart';
 
 import '../../UserScreens/MyWishPage/WishHubPage.dart';
 
-class NavigationBarsssss extends StatefulWidget {
+class NavigationBarForUser extends StatefulWidget {
   static String id = 'navigation_bar';
   @override
-  State<NavigationBarsssss> createState() => _NavigationBarsssssState();
+  State<NavigationBarForUser> createState() => _NavigationBarForUserState();
 }
 
-class _NavigationBarsssssState extends State<NavigationBarsssss> {
+class _NavigationBarForUserState extends State<NavigationBarForUser> {
   int _selectedIndex = 0;
-  static const TextStyle optionStyle =
-      TextStyle(fontSize: 30, fontWeight: FontWeight.bold);
+
   static const List<Widget> _widgetOptions = <Widget>[
     UserHomePage(),
     UserStorePage(),

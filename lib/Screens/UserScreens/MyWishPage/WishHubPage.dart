@@ -1,9 +1,7 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
-import 'package:fluttertoast/fluttertoast.dart';
 import 'package:rflutter_alert/rflutter_alert.dart';
-import 'package:wishy_store/Screens/UserScreens/WishlistsPage.dart';
 import 'package:wishy_store/Screens/UserScreens/WishHubUser.dart';
 
 class WishHubPage extends StatefulWidget {
@@ -138,7 +136,6 @@ class _WishHubPageState extends State<WishHubPage> {
   //       });
   //     });
   //   });
-  void getWishlistForThatEmail(String email) {}
 
 //important for future
   // dynamic getThatWishlist(String wname, String userId) {
@@ -175,6 +172,8 @@ class _WishHubPageState extends State<WishHubPage> {
     CollectionReference wlists =
         FirebaseFirestore.instance.collection('wishlists');
 
+    //hello co
+
     return Scaffold(
       backgroundColor: Color.fromARGB(255, 17, 14, 35),
       appBar: AppBar(
@@ -201,9 +200,33 @@ class _WishHubPageState extends State<WishHubPage> {
                     snapshot.data!.data() as Map<String, dynamic>;
                 if (data['sharedWishlistsFromUsers'].length == 0) {
                   return Center(
-                    child: Text(
-                      'No Shared Wishlists',
-                      style: TextStyle(color: Colors.white, fontSize: 20),
+                    child: Padding(
+                      padding: const EdgeInsets.only(top: 200.0),
+                      child: Center(
+                        child: Column(
+                          mainAxisAlignment: MainAxisAlignment.center,
+                          children: [
+                            Text(
+                              "No shared wishlists yet",
+                              style: TextStyle(
+                                fontSize: 20,
+                                fontWeight: FontWeight.bold,
+                                color: Colors.white,
+                              ),
+                            ),
+                            SizedBox(
+                              height: 10,
+                            ),
+                            Text(
+                              "           Ask your friends to \nshare their wishlists with you",
+                              style: TextStyle(
+                                  fontSize: 15,
+                                  fontWeight: FontWeight.bold,
+                                  color: Colors.grey),
+                            ),
+                          ],
+                        ),
+                      ),
                     ),
                   );
                 } else {
@@ -244,7 +267,6 @@ class _WishHubPageState extends State<WishHubPage> {
                                                 DialogButton(
                                                   color: Color(0xFF5E57A5),
                                                   onPressed: () {
-                                                    Navigator.pop(context);
                                                     setState(() {
                                                       FirebaseFirestore
                                                           wishlist =
@@ -262,6 +284,8 @@ class _WishHubPageState extends State<WishHubPage> {
                                                             FieldValue.delete()
                                                       });
                                                       SetOptions(merge: true);
+                                                      // checkIftheresWishlists();
+                                                      // Navigator.pop(context);
                                                     });
                                                   },
                                                   child: Text(

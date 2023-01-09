@@ -6,7 +6,7 @@ import 'package:fluttertoast/fluttertoast.dart';
 import 'package:rflutter_alert/rflutter_alert.dart';
 import 'package:wishy_store/Screens/UserScreens/MyWishPage/CreateWishList.dart';
 import 'package:wishy_store/Screens/UserScreens/MyWishPage/WishHubPage.dart';
-import 'package:wishy_store/Screens/UserScreens/MyWishPage/wishlistCard.dart';
+import 'package:wishy_store/Screens/UserScreens/MyWishPage/WishlistCard.dart';
 import '../../../Widgets/ErrorToast.dart';
 
 class MyWishPage extends StatefulWidget {
@@ -18,8 +18,7 @@ class MyWishPage extends StatefulWidget {
 }
 
 class _MyWishPageState extends State<MyWishPage> {
-  String? selecteditem;
-  var wishlistTypes = [
+  List<String> wishlistTypes = <String>[
     'Birthday',
     'Wedding',
     'Graduation',
@@ -27,6 +26,8 @@ class _MyWishPageState extends State<MyWishPage> {
     'House Warming',
     'Other'
   ];
+
+  String dropDownValue = 'Birthday';
 
   FirebaseAuth _auth = FirebaseAuth.instance;
 
@@ -40,7 +41,25 @@ class _MyWishPageState extends State<MyWishPage> {
 
   List<String> wishlistdescription = [];
 
-  void checkIftheresWishlists() {
+  // referesh , based on the item name that rescieved ,
+  //call wishlistCard based on the wishlists in the firebase after deleting the wishlist
+
+  // void refereshAfterDelete() {
+  //   getWishlistsIfExists();
+  //   setState(() {
+  //           widget Column=return Column(),     ...wishlistNames.map((e) => WishlistCard(
+  //                             wishname: e,
+  //                             wishType:
+  //                                 wishlistTypeNew[wishlistNames.indexOf(e)],
+  //                             shareButtonVisi: ShareButtonVisible,
+  //                             wishlistDescription:
+  //                                 wishlistdescription[wishlistNames.indexOf(e)],
+  //                           )).toList();
+  //   });
+  // }
+
+//checkIFthereIsWishlists
+  void getWishlistsIfExists() {
     FirebaseFirestore wishlist = FirebaseFirestore.instance;
     wishlist
         .collection('wishlists')
@@ -77,7 +96,9 @@ class _MyWishPageState extends State<MyWishPage> {
   @override
   void initState() {
     super.initState();
-    checkIftheresWishlists(); // printwhatinside();
+    getWishlistsIfExists();
+
+    // printwhatinside();
   }
 
 // if(wishlistType==other) upload
@@ -114,8 +135,7 @@ class _MyWishPageState extends State<MyWishPage> {
         title: Row(
           mainAxisAlignment: MainAxisAlignment.spaceBetween,
           children: [
-            Text('My Wish',
-                style: TextStyle(color: Colors.white, fontSize: 30)),
+            Text('MyWish', style: TextStyle(color: Colors.white, fontSize: 30)),
           ],
         ),
       ),
@@ -130,12 +150,40 @@ class _MyWishPageState extends State<MyWishPage> {
                     snapshot.data!.data() as Map<String, dynamic>;
                 if (data['userWishlists'].isEmpty ||
                     data['userWishlists'] == null) {
-                  return Text(
-                    "You dont have any wishlist yet",
-                    style: TextStyle(
-                        fontSize: 20,
-                        fontWeight: FontWeight.bold,
-                        color: Colors.red),
+                  return Padding(
+                    padding: const EdgeInsets.only(top: 200.0),
+                    child: Center(
+                      child: Column(
+                        mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                        children: [
+                          Text(
+                            "No wishlists Found",
+                            style: TextStyle(
+                                fontSize: 20,
+                                fontWeight: FontWeight.bold,
+                                color: Colors.white),
+                          ),
+                          SizedBox(
+                            height: 10,
+                          ),
+                          Text(
+                            " Create a wishlist to start adding wishes",
+                            style: TextStyle(
+                                fontSize: 15,
+                                fontWeight: FontWeight.bold,
+                                color: Colors.grey),
+                          ),
+                          Text(
+                            "\t You can add wishlists "
+                            "by clicking the button \n ",
+                            style: TextStyle(
+                                fontSize: 15,
+                                fontWeight: FontWeight.bold,
+                                color: Colors.grey),
+                          )
+                        ],
+                      ),
+                    ),
                   );
                 } else {
                   return Center(
@@ -201,20 +249,12 @@ class _MyWishPageState extends State<MyWishPage> {
                           border: Border.all(color: Colors.grey, width: 2.0),
                           borderRadius: BorderRadius.circular(10),
                         ),
-                        child: DropdownButton(
-                          value: selecteditem,
-                          isExpanded: true,
-                          hint: Text('Wishlist type'),
-                          underline: Container(),
-                          items: wishlistTypes.map((item) {
-                            return DropdownMenuItem(
-                              child: Text(item),
-                              value: item,
-                            );
-                          }).toList(),
-                          onChanged: (value) {
+                        child: DropdownButton<String>(
+                          onChanged: (String? value) {
                             setState(() {
-                              selecteditem = value.toString();
+                              dropDownValue = value!;
+                              dropDownValue = value.toString();
+
                               // for (var i = 0; i < items.length; i++) {
                               //   if (items[i] == value) {
                               //     selecteditem = items[i];
@@ -223,6 +263,17 @@ class _MyWishPageState extends State<MyWishPage> {
                               // }
                             });
                           },
+                          value: dropDownValue,
+                          isExpanded: true,
+                          hint: Text('Wishlist type'),
+                          underline: Container(),
+                          items: wishlistTypes
+                              .map<DropdownMenuItem<String>>((String value) {
+                            return DropdownMenuItem<String>(
+                              value: value,
+                              child: Text(value),
+                            );
+                          }).toList(),
                         ),
                       ),
                     ),
@@ -265,7 +316,7 @@ class _MyWishPageState extends State<MyWishPage> {
                   DialogButton(
                     color: Color(0xFF5E57A5),
                     onPressed: () {
-                      if (_wishListName.text.isEmpty || selecteditem == null) {
+                      if (_wishListName.text.isEmpty || dropDownValue == null) {
                         Fluttertoast.showToast(
                             msg: "Please fill all the fields",
                             toastLength: Toast.LENGTH_SHORT,
@@ -286,18 +337,36 @@ class _MyWishPageState extends State<MyWishPage> {
                                   "Wishlist name can't be more than 10 characters",
                               toastLength: Toast.LENGTH_LONG,
                             );
+                          } else if (wishlistNames
+                              .contains(_wishListName.text.toString())) {
+                            CustomFlutterToast_Error(
+                              message: "Wishlist already exists",
+                              toastLength: Toast.LENGTH_LONG,
+                            );
                           } else {
                             (CreateWishList().addNewWishlist(
                                 _wishListName.text.toString(),
-                                selecteditem,
+                                dropDownValue,
                                 _wishlistDescription.text.toString()));
-                            CustomFlutterToast_Error(
-                              message: "Wishlist created + $wishlistCounters",
-                              toastLength: Toast.LENGTH_SHORT,
-                            );
+                            Fluttertoast.showToast(
+                                msg: "Wishlist created",
+                                toastLength: Toast.LENGTH_SHORT,
+                                gravity: ToastGravity.BOTTOM,
+                                timeInSecForIosWeb: 1,
+                                backgroundColor: Colors.purple,
+                                textColor: Colors.white,
+                                fontSize: 16.0);
                           }
                         });
-                        Navigator.pop(context);
+                        setState(() {
+                          _wishListName.clear();
+                          wishlistNames.clear();
+                          wishlistData.clear();
+                          _wishlistDescription.clear();
+                          getWishlistsIfExists();
+                          Navigator.pop(context);
+                        });
+                        // Navigator.pushNamed(context
                       }
                     },
                     child: Text(
@@ -332,204 +401,204 @@ class _MyWishPageState extends State<MyWishPage> {
 //   });
 // }
 
-  // Widget wishlistCard(String wishlistn, String wishlistTps) {
-  //   FirebaseAuth _auth = FirebaseAuth.instance;
+// Widget wishlistCard(String wishlistn, String wishlistTps) {
+//   FirebaseAuth _auth = FirebaseAuth.instance;
 
-  //   return GestureDetector(
-  //     onTap: () {
-  //       Navigator.push(
-  //           context,
-  //           MaterialPageRoute(
-  //               builder: (context) => WishlistPage(
-  //                     wishlistName: wishlistn,
-  //                     wishlistType: wishlistTps,
-  //                   )));
-  //     },
-  //     child: Container(
-  //         child: Column(
-  //       children: [
-  //         SizedBox(
-  //           height: 10,
-  //         ),
-  //         Container(
-  //           child: Row(
-  //               mainAxisAlignment: MainAxisAlignment.spaceBetween,
-  //               children: [
-  //                 Row(
-  //                   children: [
-  //                     SizedBox(
-  //                       width: 10,
-  //                     ),
-  //                     Padding(
-  //                       padding: const EdgeInsets.all(6.0),
-  //                       child: ClipRRect(
-  //                         borderRadius: BorderRadius.circular(20),
-  //                         child: SizedBox.fromSize(
-  //                           size: Size.fromRadius(48), // Image radius
-  //                           child: wishlistImages(wishlistTps),
-  //                         ),
-  //                       ),
-  //                     ),
-  //                     Text(" " + wishlistn,
-  //                         style: TextStyle(
-  //                             color: Colors.black,
-  //                             fontSize: 15,
-  //                             fontWeight: FontWeight.bold)),
-  //                   ],
-  //                 ),
-  //                 Row(
-  //                   children: [
-  //                     IconButton(
-  //                         onPressed: () {
-  //                           Alert(
-  //                               context: context,
-  //                               title:
-  //                                   "Please enter user email address for who u want to share to ",
-  //                               content: Column(
-  //                                 children: <Widget>[
-  //                                   SizedBox(
-  //                                     height: 15.0,
-  //                                   ),
-  //                                   SizedBox(
-  //                                     height: 45.0,
-  //                                     child: TextField(
-  //                                       controller: _ShareEmailAddress,
-  //                                       decoration: InputDecoration(
-  //                                         hintText: 'email address',
-  //                                         hintStyle: TextStyle(
-  //                                           color: Colors.grey,
-  //                                         ),
-  //                                         border: OutlineInputBorder(
-  //                                           borderRadius:
-  //                                               BorderRadius.circular(10.0),
-  //                                           borderSide: BorderSide(
-  //                                             color: Colors.grey,
-  //                                             width: 2.0,
-  //                                           ),
-  //                                         ),
-  //                                       ),
-  //                                     ),
-  //                                   ),
-  //                                 ],
-  //                               ),
-  //                               buttons: [
-  //                                 DialogButton(
-  //                                   color: Color(0xFF5E57A5),
-  //                                   onPressed: () => Navigator.pop(context),
-  //                                   child: Text(
-  //                                     "Cancel",
-  //                                     style: TextStyle(
-  //                                         color: Colors.white, fontSize: 20),
-  //                                   ),
-  //                                 ),
-  //                                 DialogButton(
-  //                                   color: Color(0xFF5E57A5),
-  //                                   onPressed: () {
-  //                                     if (_ShareEmailAddress.text.isEmpty) {
-  //                                       Fluttertoast.showToast(
-  //                                           msg: "Please fill all the fields",
-  //                                           toastLength: Toast.LENGTH_SHORT,
-  //                                           gravity: ToastGravity.BOTTOM,
-  //                                           timeInSecForIosWeb: 1,
-  //                                           backgroundColor: Colors.red,
-  //                                           textColor: Colors.white,
-  //                                           fontSize: 16.0);
-  //                                     } else {
-  //                                       ShareWishlistTOuser
-  //                                           shareWishlistTOuser =
-  //                                           ShareWishlistTOuser(
-  //                                               emailAddressForSharing:
-  //                                                   _ShareEmailAddress,
-  //                                               currentUserEmail:
-  //                                                   _auth.currentUser!.email,
-  //                                               wishlistName: wishlistn,
-  //                                               currentUserId:
-  //                                                   _auth.currentUser!.uid);
-  //                                       setState(() {
-  //                                         shareWishlistTOuser
-  //                                             .checkONtheSharedEmail();
-  //                                       });
+//   return GestureDetector(
+//     onTap: () {
+//       Navigator.push(
+//           context,
+//           MaterialPageRoute(
+//               builder: (context) => WishlistPage(
+//                     wishlistName: wishlistn,
+//                     wishlistType: wishlistTps,
+//                   )));
+//     },
+//     child: Container(
+//         child: Column(
+//       children: [
+//         SizedBox(
+//           height: 10,
+//         ),
+//         Container(
+//           child: Row(
+//               mainAxisAlignment: MainAxisAlignment.spaceBetween,
+//               children: [
+//                 Row(
+//                   children: [
+//                     SizedBox(
+//                       width: 10,
+//                     ),
+//                     Padding(
+//                       padding: const EdgeInsets.all(6.0),
+//                       child: ClipRRect(
+//                         borderRadius: BorderRadius.circular(20),
+//                         child: SizedBox.fromSize(
+//                           size: Size.fromRadius(48), // Image radius
+//                           child: wishlistImages(wishlistTps),
+//                         ),
+//                       ),
+//                     ),
+//                     Text(" " + wishlistn,
+//                         style: TextStyle(
+//                             color: Colors.black,
+//                             fontSize: 15,
+//                             fontWeight: FontWeight.bold)),
+//                   ],
+//                 ),
+//                 Row(
+//                   children: [
+//                     IconButton(
+//                         onPressed: () {
+//                           Alert(
+//                               context: context,
+//                               title:
+//                                   "Please enter user email address for who u want to share to ",
+//                               content: Column(
+//                                 children: <Widget>[
+//                                   SizedBox(
+//                                     height: 15.0,
+//                                   ),
+//                                   SizedBox(
+//                                     height: 45.0,
+//                                     child: TextField(
+//                                       controller: _ShareEmailAddress,
+//                                       decoration: InputDecoration(
+//                                         hintText: 'email address',
+//                                         hintStyle: TextStyle(
+//                                           color: Colors.grey,
+//                                         ),
+//                                         border: OutlineInputBorder(
+//                                           borderRadius:
+//                                               BorderRadius.circular(10.0),
+//                                           borderSide: BorderSide(
+//                                             color: Colors.grey,
+//                                             width: 2.0,
+//                                           ),
+//                                         ),
+//                                       ),
+//                                     ),
+//                                   ),
+//                                 ],
+//                               ),
+//                               buttons: [
+//                                 DialogButton(
+//                                   color: Color(0xFF5E57A5),
+//                                   onPressed: () => Navigator.pop(context),
+//                                   child: Text(
+//                                     "Cancel",
+//                                     style: TextStyle(
+//                                         color: Colors.white, fontSize: 20),
+//                                   ),
+//                                 ),
+//                                 DialogButton(
+//                                   color: Color(0xFF5E57A5),
+//                                   onPressed: () {
+//                                     if (_ShareEmailAddress.text.isEmpty) {
+//                                       Fluttertoast.showToast(
+//                                           msg: "Please fill all the fields",
+//                                           toastLength: Toast.LENGTH_SHORT,
+//                                           gravity: ToastGravity.BOTTOM,
+//                                           timeInSecForIosWeb: 1,
+//                                           backgroundColor: Colors.red,
+//                                           textColor: Colors.white,
+//                                           fontSize: 16.0);
+//                                     } else {
+//                                       ShareWishlistTOuser
+//                                           shareWishlistTOuser =
+//                                           ShareWishlistTOuser(
+//                                               emailAddressForSharing:
+//                                                   _ShareEmailAddress,
+//                                               currentUserEmail:
+//                                                   _auth.currentUser!.email,
+//                                               wishlistName: wishlistn,
+//                                               currentUserId:
+//                                                   _auth.currentUser!.uid);
+//                                       setState(() {
+//                                         shareWishlistTOuser
+//                                             .checkONtheSharedEmail();
+//                                       });
 
-  //                                       Navigator.pop(context);
-  //                                     }
-  //                                   },
-  //                                   child: Text(
-  //                                     "Share",
-  //                                     style: TextStyle(
-  //                                         color: Colors.white, fontSize: 20),
-  //                                   ),
-  //                                 )
-  //                               ]).show();
-  //                         },
-  //                         icon: Icon(Icons.share_rounded)),
-  //                     SizedBox(
-  //                       height: 40,
-  //                     ),
-  //                     IconButton(
-  //                       highlightColor: Colors.transparent,
-  //                       splashColor: Colors.transparent,
-  //                       onPressed: () {
-  //                         setState(() {
-  //                           // delete them from firebase
+//                                       Navigator.pop(context);
+//                                     }
+//                                   },
+//                                   child: Text(
+//                                     "Share",
+//                                     style: TextStyle(
+//                                         color: Colors.white, fontSize: 20),
+//                                   ),
+//                                 )
+//                               ]).show();
+//                         },
+//                         icon: Icon(Icons.share_rounded)),
+//                     SizedBox(
+//                       height: 40,
+//                     ),
+//                     IconButton(
+//                       highlightColor: Colors.transparent,
+//                       splashColor: Colors.transparent,
+//                       onPressed: () {
+//                         setState(() {
+//                           // delete them from firebase
 
-  //                           showDialog(
-  //                               context: context,
-  //                               builder: (context) {
-  //                                 return AlertDialog(
-  //                                   title: Text(
-  //                                       'Are you sure you want to delete your wishlist?'),
-  //                                   content: Row(
-  //                                     children: [
-  //                                       DialogButton(
-  //                                         color: Color(0xFF5E57A5),
-  //                                         onPressed: () {
-  //                                           Navigator.pop(context);
-  //                                           setState(() {
-  //                                             wishlistNames.remove(wishlistn);
-  //                                             wishlistTypeNew
-  //                                                 .remove(wishlistTps);
-  //                                           });
-  //                                         },
-  //                                         child: Text(
-  //                                           "Yes",
-  //                                           style: TextStyle(
-  //                                               color: Colors.white,
-  //                                               fontSize: 20),
-  //                                         ),
-  //                                       ),
-  //                                       DialogButton(
-  //                                         color: Color(0xFF5E57A5),
-  //                                         onPressed: () =>
-  //                                             Navigator.pop(context),
-  //                                         child: Text(
-  //                                           "Cancel",
-  //                                           style: TextStyle(
-  //                                               color: Colors.white,
-  //                                               fontSize: 20),
-  //                                         ),
-  //                                       ),
-  //                                     ],
-  //                                   ),
-  //                                 );
-  //                               });
-  //                         });
-  //                       },
-  //                       icon: Icon(Icons.delete),
-  //                     )
-  //                   ],
-  //                 ),
-  //               ]),
-  //           width: 350,
-  //           height: 100,
-  //           decoration: BoxDecoration(
-  //             color: Color(0xFF5E57A5),
-  //             borderRadius: BorderRadius.circular(10),
-  //           ),
-  //         ),
-  //         SizedBox(
-  //           height: 10,
-  //         ),
-  //       ],
-  //     )),
-  //   );
-  // }
+//                           showDialog(
+//                               context: context,
+//                               builder: (context) {
+//                                 return AlertDialog(
+//                                   title: Text(
+//                                       'Are you sure you want to delete your wishlist?'),
+//                                   content: Row(
+//                                     children: [
+//                                       DialogButton(
+//                                         color: Color(0xFF5E57A5),
+//                                         onPressed: () {
+//                                           Navigator.pop(context);
+//                                           setState(() {
+//                                             wishlistNames.remove(wishlistn);
+//                                             wishlistTypeNew
+//                                                 .remove(wishlistTps);
+//                                           });
+//                                         },
+//                                         child: Text(
+//                                           "Yes",
+//                                           style: TextStyle(
+//                                               color: Colors.white,
+//                                               fontSize: 20),
+//                                         ),
+//                                       ),
+//                                       DialogButton(
+//                                         color: Color(0xFF5E57A5),
+//                                         onPressed: () =>
+//                                             Navigator.pop(context),
+//                                         child: Text(
+//                                           "Cancel",
+//                                           style: TextStyle(
+//                                               color: Colors.white,
+//                                               fontSize: 20),
+//                                         ),
+//                                       ),
+//                                     ],
+//                                   ),
+//                                 );
+//                               });
+//                         });
+//                       },
+//                       icon: Icon(Icons.delete),
+//                     )
+//                   ],
+//                 ),
+//               ]),
+//           width: 350,
+//           height: 100,
+//           decoration: BoxDecoration(
+//             color: Color(0xFF5E57A5),
+//             borderRadius: BorderRadius.circular(10),
+//           ),
+//         ),
+//         SizedBox(
+//           height: 10,
+//         ),
+//       ],
+//     )),
+//   );
+// }

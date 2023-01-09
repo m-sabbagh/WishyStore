@@ -10,8 +10,12 @@ class UserStorePage extends StatefulWidget {
   State<UserStorePage> createState() => _UserStorePageState();
 }
 
+//store categories are hardcoded , that means that we dont need firebase to store them
+//we can just use a list of strings to store them
+//we can also use a list of widgets to store them
+
 class _UserStorePageState extends State<UserStorePage> {
-  Widget RRRR() {
+  Widget StoreCard() {
     return GestureDetector(
       onTap: () {
         setState(() {
@@ -46,6 +50,84 @@ class _UserStorePageState extends State<UserStorePage> {
     );
   }
 
+  Widget CategoryCard() {
+    return SingleChildScrollView(
+      scrollDirection: Axis.horizontal,
+      child: Row(
+        children: [
+          SizedBox(
+            width: 20,
+          ),
+          GestureDetector(
+            onTap: () => print('List of retail stores'),
+            child: Container(
+              height: 150,
+              width: 130,
+              color: Colors.purple[800],
+              child: Center(
+                  child: Text(
+                'Retail',
+                style: TextStyle(
+                  color: Colors.white,
+                  fontSize: 20,
+                ),
+              )),
+              // child: ClipRRect(
+              //   borderRadius: BorderRadius.circular(20),
+              //   child: SizedBox.fromSize(
+              //     size: Size.fromRadius(80), // Image radius
+              //     child: Image.asset('images/Deal_of_the_Day-11_400x400.png',
+              //         fit: BoxFit.cover),
+              //   ),
+              // ),
+            ),
+          ),
+          SizedBox(
+            width: 20,
+          ),
+          Container(
+            height: 150,
+            width: 130,
+            color: Colors.purple[800],
+            child: Center(
+              child: Text(
+                'Health and Beauty',
+                style: TextStyle(
+                  color: Colors.white,
+                  fontSize: 20,
+                ),
+              ),
+            ),
+
+            // child: ClipRRect(
+            //   borderRadius: BorderRadius.circular(20),
+            //   child: SizedBox.fromSize(
+            //     size: Size.fromRadius(80), // Image radius
+            //     child: Image.asset('images/Deal_of_the_Day-11_400x400.png',
+            //         fit: BoxFit.cover),
+            //   ),
+            // ),
+          ),
+          SizedBox(
+            width: 20,
+          ),
+          Container(
+            height: 150,
+            width: 130,
+            child: ClipRRect(
+              borderRadius: BorderRadius.circular(20),
+              child: SizedBox.fromSize(
+                size: Size.fromRadius(80), // Image radius
+                child: Image.asset('images/Deal_of_the_Day-11_400x400.png',
+                    fit: BoxFit.cover),
+              ),
+            ),
+          ),
+        ],
+      ),
+    );
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -72,144 +154,19 @@ class _UserStorePageState extends State<UserStorePage> {
         ),
       ),
       backgroundColor: Color.fromARGB(255, 17, 14, 35),
-      body: Padding(
-        padding: const EdgeInsets.all(15.0),
-        child: SingleChildScrollView(
-          child: Column(
-            children: [
-              Row(
-                mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                children: [
-                  Text(
-                    'Retail',
-                    style: TextStyle(color: Colors.white, fontSize: 20),
-                  ),
-                  Text(
-                    'view all',
-                    style: TextStyle(color: Colors.white, fontSize: 20),
-                  ),
-                ],
-              ),
-              SizedBox(
-                height: 20,
-              ),
-              SingleChildScrollView(
-                scrollDirection: Axis.horizontal,
-                child: Row(
-                  // mainAxisAlignment: MainAxisAlignment.center,
-                  children: [
-                    RRRR(),
-                    SizedBox(
-                      width: 20,
-                    ),
-                    RRRR(),
-                    SizedBox(
-                      width: 20,
-                    ),
-                    RRRR(),
-                    SizedBox(
-                      width: 20,
-                    ),
-                    RRRR(),
-                    SizedBox(
-                      width: 20,
-                    ),
-                  ],
-                ),
-              ),
-              SizedBox(
-                height: 20,
-              ),
-              Row(
-                mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                children: [
-                  Text(
-                    'Retail',
-                    style: TextStyle(color: Colors.white, fontSize: 20),
-                  ),
-                  Text(
-                    'view all',
-                    style: TextStyle(color: Colors.white, fontSize: 20),
-                  ),
-                ],
-              ),
-              SizedBox(
-                height: 20,
-              ),
-              SingleChildScrollView(
-                scrollDirection: Axis.horizontal,
-                child: Row(
-                  children: [
-                    RRRR(),
-                    SizedBox(
-                      width: 20,
-                    ),
-                    RRRR(),
-                    SizedBox(
-                      width: 20,
-                    ),
-                    RRRR(),
-                    SizedBox(
-                      width: 20,
-                    ),
-                    RRRR(),
-                    SizedBox(
-                      width: 20,
-                    ),
-                  ],
-                ),
-              ),
-              SizedBox(
-                height: 20,
-              ),
-              Row(
-                mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                children: [
-                  Text(
-                    'Retail',
-                    style: TextStyle(color: Colors.white, fontSize: 20),
-                  ),
-                  Text(
-                    'view all',
-                    style: TextStyle(color: Colors.white, fontSize: 20),
-                  ),
-                ],
-              ),
-              SizedBox(
-                height: 20,
-              ),
-              SingleChildScrollView(
-                scrollDirection: Axis.horizontal,
-                child: Row(
-                  // mainAxisAlignment: MainAxisAlignment.center,
-                  children: [
-                    RRRR(),
-                    SizedBox(
-                      width: 20,
-                    ),
-                    RRRR(),
-                    SizedBox(
-                      width: 20,
-                    ),
-                    RRRR(),
-                    SizedBox(
-                      width: 20,
-                    ),
-                    RRRR(),
-                    SizedBox(
-                      width: 20,
-                    ),
-                  ],
-                ),
-              ),
-            ],
-          ),
+      body: SingleChildScrollView(
+        child: Column(
+          children: [
+            SizedBox(
+              height: 20,
+            ),
+            CategoryCard(),
+          ],
         ),
       ),
     );
   }
 }
-
 
 // Padding(
 //                 padding: const EdgeInsets.all(8.0),
@@ -225,8 +182,6 @@ class _UserStorePageState extends State<UserStorePage> {
 //               SizedBox(
 //                 height: 20,
 //               ),
-
-
 
 //  body: Padding(
 //         padding: const EdgeInsets.all(15.0),

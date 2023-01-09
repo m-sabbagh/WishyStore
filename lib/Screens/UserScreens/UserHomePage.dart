@@ -4,6 +4,9 @@ import 'package:eva_icons_flutter/eva_icons_flutter.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:wishy_store/Screens/User/StoreOwner%20shared%20screens/NavigationBAR.dart';
+import 'package:wishy_store/Screens/UserScreens/stores/StoresPage.dart';
+import 'package:wishy_store/Screens/UserScreens/stores/store1.dart';
+import 'package:wishy_store/StoreOwner/StoreOwnerPage.dart';
 import 'MyWishPage/MyWishPage.dart';
 
 class UserHomePage extends StatefulWidget {
@@ -26,8 +29,7 @@ class _UserHomePageState extends State<UserHomePage> {
   Map wishlistData = {};
 
 //got it from my wish page
-
-  void trying() {
+  void getWishlistsIfExists() {
     FirebaseFirestore wishlist = FirebaseFirestore.instance;
     wishlist
         .collection('wishlists')
@@ -37,23 +39,9 @@ class _UserHomePageState extends State<UserHomePage> {
         .toList()
         .then((value) {
       value.forEach((element) {
-        print(element.data());
         wishlistData = element.data() as Map;
-        print(wishlistData['userWishlists']);
-        print(wishlistData['userWishlists'].length);
-        // if (wishlistData['userWishlists'].length == 0) {
-        //   print('no wishlist');
-        //   isthereIsWishlissts = false;
-        // }
 
-        print('there is wishlist');
-        // isthereIsWishlissts = true;
         wishlistData['userWishlists'].forEach((key, value) {
-          print("the name of the wishlist is " + key);
-
-          print(value);
-          print(value['wishlistType']);
-          // createWishlistInThePage(key, wishlist type);
           wishlistNames.add(key);
           wishlistTypeNew.add(value['wishlistType']);
         });
@@ -65,6 +53,7 @@ class _UserHomePageState extends State<UserHomePage> {
   void initState() {
     // TODO: implement initState
     super.initState();
+    getWishlistsIfExists();
   }
 
   @override
@@ -80,8 +69,7 @@ class _UserHomePageState extends State<UserHomePage> {
           children: [
             Text(
               'WishyStore',
-              style: TextStyle(
-                  color: Color.fromARGB(255, 104, 94, 220), fontSize: 30),
+              style: TextStyle(color: Colors.white, fontSize: 30),
             ),
             Row(
               children: [
@@ -108,15 +96,16 @@ class _UserHomePageState extends State<UserHomePage> {
                   enlargeCenterPage: true,
                 ),
                 items: [
-                  'images/asd2.jpeg',
-                  'images/asd.jpeg',
-                  'images/asd3.jpeg',
-                  'images/leaderz.jpeg',
+                  'images/Promotion/promotion2.png',
+                  'images/Promotion/promotion.jpeg',
+                  'images/Promotion/leaderz.jpeg',
+                  'images/Promotion/promotion3.jpeg',
                 ].map((item) {
                   return Builder(
                     builder: (BuildContext context) {
                       return Container(
                         width: MediaQuery.of(context).size.width,
+                        padding: EdgeInsets.symmetric(horizontal: 5.0),
                         margin: EdgeInsets.symmetric(horizontal: 5.0),
                         child: Image.asset(
                           item,
@@ -140,13 +129,22 @@ class _UserHomePageState extends State<UserHomePage> {
                     "Stores",
                     style: TextStyle(
                       color: Colors.white,
-                      fontWeight: FontWeight.bold,
                     ),
                   ),
                   SizedBox(
                     width: 250,
                   ),
-                  Text('view all', style: TextStyle(color: Colors.white)),
+                  GestureDetector(
+                    onTap: () {
+                      Navigator.pushNamed(context, UserStorePage.id);
+                    },
+                    child: Text(
+                      "View all",
+                      style: TextStyle(
+                        color: Colors.white,
+                      ),
+                    ),
+                  ),
                 ],
               ),
               SingleChildScrollView(
@@ -179,7 +177,6 @@ class _UserHomePageState extends State<UserHomePage> {
                         )
                       ],
                     ),
-
                     Column(
                       children: [
                         GestureDetector(
@@ -243,7 +240,7 @@ class _UserHomePageState extends State<UserHomePage> {
                 ),
               ),
               SizedBox(
-                height: 10,
+                height: 20,
               ),
               Row(
                 children: [
@@ -253,15 +250,23 @@ class _UserHomePageState extends State<UserHomePage> {
                   Text(
                     "My wishlists",
                     style: TextStyle(
-                        color: Colors.white, fontWeight: FontWeight.bold),
+                      color: Colors.white,
+                    ),
                   ),
                   SizedBox(
                     width: 210,
                   ),
                   GestureDetector(
-                      onTap: getMywishPage,
-                      child: Text('view all',
-                          style: TextStyle(color: Colors.white))),
+                    onTap: () {
+                      Navigator.pushNamed(context, MyWishPage.id);
+                    },
+                    child: Text(
+                      "View all",
+                      style: TextStyle(
+                        color: Colors.white,
+                      ),
+                    ),
+                  ),
                 ],
               ),
               Column(
@@ -285,7 +290,7 @@ class _UserHomePageState extends State<UserHomePage> {
                       ),
                       Text(
                         'Wishlist1',
-                        style: TextStyle(color: Colors.white),
+                        style: TextStyle(color: Colors.white, fontSize: 20),
                       ),
                       SizedBox(
                         width: 80,
@@ -297,37 +302,14 @@ class _UserHomePageState extends State<UserHomePage> {
                           color: Colors.red,
                         ),
                       ),
-                      Text('Wishlist2', style: TextStyle(color: Colors.white)),
+                      Text(
+                        'Wishlist2',
+                        style: TextStyle(color: Colors.white),
+                      ),
                     ],
                   ),
                   SizedBox(
                     height: 10,
-                  ),
-                  Row(
-                    children: [
-                      SizedBox(
-                        width: 20,
-                      ),
-                      Card(
-                        child: Container(
-                          width: 50,
-                          height: 50,
-                          color: Colors.red,
-                        ),
-                      ),
-                      Text('Wishlist3', style: TextStyle(color: Colors.white)),
-                      SizedBox(
-                        width: 80,
-                      ),
-                      Card(
-                        child: Container(
-                          width: 50,
-                          height: 50,
-                          color: Colors.red,
-                        ),
-                      ),
-                      Text('Wishlist4', style: TextStyle(color: Colors.white)),
-                    ],
                   ),
                 ],
               ),

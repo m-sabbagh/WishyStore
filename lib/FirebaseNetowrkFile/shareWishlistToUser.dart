@@ -19,13 +19,17 @@ class ShareWishlistTOuser {
     required this.wishlisttype,
     required this.wishlistDescription,
   });
+
   FirebaseFirestore db = FirebaseFirestore.instance;
+
+  String FirestLastName = '';
 
   void checkONtheSharedEmail() {
     if (emailAddressForSharing.text == currentUserEmail) {
       Fluttertoast.showToast(msg: "You can't share with yourself");
       //show a message that you can't share with yourself
     } else {
+      getFirstNameForCurrent();
       getSharedEmail_UserId();
     }
   }
@@ -45,6 +49,20 @@ class ShareWishlistTOuser {
     });
 
     // print(snapshot.docs[0].data()['uId']));
+  }
+
+  void getFirstNameForCurrent() {
+    db
+        .collection('Users')
+        .where('uId', isEqualTo: currentUserId)
+        .get()
+        .then((snapshot) {
+      // FirestLastName = snapshot.data()!['firstname'] + ' ' + snapshot.data()!['Lastname'];
+
+      FirestLastName = snapshot.docs[0].data()['firstname'] +
+          ' ' +
+          snapshot.docs[0].data()['Lastname'];
+    });
   }
 
   Future<Map<dynamic, dynamic>> getThatWishlistItems(
@@ -77,7 +95,7 @@ class ShareWishlistTOuser {
         //   'userId': currentUserId,
         //   'wishlistType': wishlisttype,
         // }
-        "$currentUserEmail": {
+        "$FirestLastName": {
           wishlistName: {
             'wishlistName': wishlistName,
             'wishlistType': wishlisttype,

@@ -36,16 +36,17 @@ class _LoginScreenState extends State<LoginScreen> {
         .doc(_auth.currentUser!.uid)
         .get()
         .then((value) {
-      isFilled = value['infoFilled'];
-      isGranted = value['storeOwnerGranted'];
       if ('${value['userType']}' == 'Store Owner') {
+        isFilled = value['infoFilled'];
+        isGranted = value['storeOwnerGranted'];
         Navigator.pushNamedAndRemoveUntil(
             context, StoreOwnerNavBar.id, (route) => false);
       } else if ('${value['userType']}' == 'User') {
         Navigator.pushNamedAndRemoveUntil(
-            context, NavigationBarsssss.id, (route) => false);
+            context, NavigationBarForUser.id, (route) => false);
       }
 
+//from up there
       //   Navigator.pushNamedAndRemoveUntil(
       //       context, NavigationBarsssss.id, (route) => false);
       // }
@@ -54,6 +55,17 @@ class _LoginScreenState extends State<LoginScreen> {
 
       // }
     });
+    // if (isFilled == false) {
+    //   Navigator.pushNamedAndRemoveUntil(
+    //       context, StoreOwnerNavBar.id, (route) => false);
+    // } else if (isGranted == false) {
+    //   CustomFlutterToast_Error(
+    //       message: "Your request is still pending",
+    //       toastLength: Toast.LENGTH_SHORT);
+    // } else {
+    //   //seniro ele rah yadwik 3ala el store owner page
+
+    // }
 
     // FirebaseFirestore.instance
     //     .collection('StoreOwners')
@@ -266,7 +278,7 @@ class _LoginScreenState extends State<LoginScreen> {
                 ),
                 Center(
                   child: Text(
-                    'or connect with',
+                    'connect with',
                     style: TextStyle(),
                   ),
                 ),

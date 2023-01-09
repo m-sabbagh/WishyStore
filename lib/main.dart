@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/services.dart';
+import 'package:wishy_store/Screens/User/StoreOwner%20shared%20screens/LogInPage.dart';
 import 'package:wishy_store/Screens/User/StoreOwner%20shared%20screens/NavigationBAR.dart';
 import 'package:wishy_store/Screens/UserScreens/MyWishPage/MyWishPage.dart';
 import 'package:wishy_store/Screens/UserScreens/UserProfilePage.dart';
@@ -11,6 +12,8 @@ import 'package:wishy_store/Screens/UserScreens/stores/store1.dart';
 import 'package:wishy_store/Screens/UserScreens/WishHubUser.dart';
 import 'package:wishy_store/StoreOwner/NavigationBarForStoreOwner.dart';
 import 'package:wishy_store/StoreOwner/StoreOwnerPage.dart';
+import 'package:wishy_store/StoreOwner/addNewCategory.dart';
+import 'package:wishy_store/StoreOwner/addNewItemToStore.dart';
 import 'package:wishy_store/stayLoggedIn.dart';
 import 'Screens/User/StoreOwner shared screens/SignUpPage.dart';
 
@@ -30,10 +33,11 @@ class WishyStore extends StatelessWidget {
           // scaffoldBackgroundColor: Color(0x8F8F8FFF),
           // scaffoldBackgroundColor: Colors.white,
           ),
-      home: StayLoggedIn(),
+      // home: StayLoggedIn(),
+      home: LoginScreen(),
       routes: {
         SignUpPage.id: (context) => SignUpPage(),
-        NavigationBarsssss.id: (context) => NavigationBarsssss(),
+        NavigationBarForUser.id: (context) => NavigationBarForUser(),
         UserProfilePage.id: (context) => UserProfilePage(),
         UserHomePage.id: (context) => UserHomePage(),
         MyWishPage.id: (context) => MyWishPage(),
@@ -43,6 +47,8 @@ class WishyStore extends StatelessWidget {
         StoreOne.id: (context) => StoreOne(),
         WishHubUser.id: (context) => WishHubUser(),
         StoreOwnerNavBar.id: (context) => StoreOwnerNavBar(),
+        AddNewItemToStore.id: (context) => AddNewItemToStore(),
+        AddNewCategory.id: (context) => AddNewCategory(),
 
         // SharedWishlistsItems.id: (context) => SharedWishlistsItems(),
       },

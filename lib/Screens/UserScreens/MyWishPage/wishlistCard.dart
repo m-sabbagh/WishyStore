@@ -4,6 +4,7 @@ import 'package:flutter/material.dart';
 import 'package:fluttertoast/fluttertoast.dart';
 import 'package:rflutter_alert/rflutter_alert.dart';
 import 'package:wishy_store/FirebaseNetowrkFile/shareWishlistToUser.dart';
+import 'package:wishy_store/Screens/UserScreens/MyWishPage/MyWishPage.dart';
 import 'package:wishy_store/Screens/UserScreens/WishlistsPage.dart';
 import 'package:wishy_store/Screens/UserScreens/wishlistsImages.dart';
 
@@ -45,6 +46,8 @@ class _WishlistCardState extends State<WishlistCard> {
 
   @override
   Widget build(BuildContext context) {
+    MyWishPage myWishPage = MyWishPage();
+
     return GestureDetector(
       onTap: () {
         Navigator.push(
@@ -203,7 +206,6 @@ class _WishlistCardState extends State<WishlistCard> {
                                         DialogButton(
                                           color: Color(0xFF5E57A5),
                                           onPressed: () {
-                                            Navigator.pop(context);
                                             setState(() {
                                               FirebaseFirestore wishlist =
                                                   FirebaseFirestore.instance;
@@ -216,6 +218,7 @@ class _WishlistCardState extends State<WishlistCard> {
                                                     FieldValue.delete()
                                               });
                                               SetOptions(merge: true);
+                                              Navigator.pop(context);
                                             });
                                           },
                                           child: Text(

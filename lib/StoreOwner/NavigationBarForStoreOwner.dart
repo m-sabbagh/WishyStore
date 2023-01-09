@@ -2,10 +2,9 @@ import 'package:flutter/material.dart';
 import 'package:wishy_store/Screens/UserScreens/UserProfilePage.dart';
 import 'package:wishy_store/StoreOwner/FillingInformationForStoreOwner.dart';
 import 'package:wishy_store/StoreOwner/StoreOwnerPage.dart';
-import 'Routing.dart';
 
 class StoreOwnerNavBar extends StatefulWidget {
-  static String id = 'navigation_bar';
+  static String id = 'store_owner_nav_bar';
   @override
   State<StoreOwnerNavBar> createState() => _StoreOwnerNavBarState();
 }
@@ -15,8 +14,10 @@ class _StoreOwnerNavBarState extends State<StoreOwnerNavBar> {
   // static const TextStyle optionStyle =
   //     TextStyle(fontSize: 30, fontWeight: FontWeight.bold);
   static List<Widget> _widgetOptions = <Widget>[
-    checkWhichPageToGoTo(),
+    FillingInformation(),
+    StoreOwnerPage(),
     UserProfilePage(),
+    //hello
   ];
 
   void _onItemTapped(int index) {
@@ -37,6 +38,10 @@ class _StoreOwnerNavBarState extends State<StoreOwnerNavBar> {
           BottomNavigationBarItem(
             icon: Icon(Icons.home),
             label: 'Home',
+          ),
+          BottomNavigationBarItem(
+            icon: Icon(Icons.shopping_cart),
+            label: 'Stores',
           ),
           BottomNavigationBarItem(
             icon: Icon(Icons.account_circle),
