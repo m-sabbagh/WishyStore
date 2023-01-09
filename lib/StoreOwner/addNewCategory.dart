@@ -1,12 +1,92 @@
+import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 
-class AddNewCategory extends StatelessWidget {
+class AddNewCategory extends StatefulWidget {
+  const AddNewCategory({Key? key}) : super(key: key);
   static String id = 'addNewCategory';
 
-  const AddNewCategory({
-    Key? key,
-  }) : super(key: key);
   @override
+  State<AddNewCategory> createState() => _AddNewCategoryState();
+}
+
+class _AddNewCategoryState extends State<AddNewCategory> {
+  TextEditingController _categoryName = TextEditingController();
+
+  String? storetype;
+
+  @override
+  void initState() {
+    // TODO: implement initState
+    super.initState();
+    getStoreType();
+  }
+
+  void getStoreType() {
+    FirebaseFirestore.instance
+        .collection('StoreOwners')
+        .doc(FirebaseAuth.instance.currentUser!.uid)
+        .get()
+        .then((value) {
+      storetype = value['storeType'];
+    });
+  }
+
+  void addCategoryToStore() async {
+    if (_categoryName.text.isEmpty) {
+      ScaffoldMessenger.of(context).showSnackBar(
+        const SnackBar(
+          content: Text('Please enter a category name'),
+        ),
+      );
+    } else if (_categoryName.text.length > 10) {
+      ScaffoldMessenger.of(context).showSnackBar(
+        const SnackBar(
+          content: Text('Category name must be less than 10 characters'),
+        ),
+      );
+    } else {
+      if (storetype != null) {
+        await FirebaseFirestore.instance
+            .collection('$storetype Store')
+            .doc(FirebaseAuth.instance.currentUser!.uid)
+            .set(
+          {
+            'categories': {
+              _categoryName.text: {},
+            }
+          },
+          SetOptions(merge: true),
+        );
+        _categoryName.clear();
+        Navigator.pop(context);
+      }
+    }
+    // else {
+    //   // FirebaseFirestore.instance
+    //   //     .collection('stores')
+    //   //     .doc(FirebaseAuth.instance.currentUser!.uid)
+    //   //     .collection('categories')
+    //   //     .doc(_categoryName.text)
+    //   //     .set({
+    //   //   'categoryName': _categoryName.text,
+    //   // });
+    //   // _categoryName.clear();
+    //   // Navigator.pop(context);
+
+    //   FirebaseFirestore.instance
+    //       .collection('stores')
+    //       .doc(FirebaseAuth.instance.currentUser!.uid)
+    //       .collection('categories')
+    //       .doc(_categoryName.text)
+    //       .set({
+    //     'categoryName': _categoryName.text,
+    //   });
+    //   _categoryName.clear();
+    //   Navigator.pop(context);
+    // }
+  }
+
   Widget build(BuildContext context) {
     // It provide us total height and width
     Size size = MediaQuery.of(context).size;
@@ -19,21 +99,11 @@ class AddNewCategory extends StatelessWidget {
                 onPressed: () {},
               ),
               SizedBox(height: 20.0),
-              //To add new item
-
-// Store owner must add
-
-// Item id /barcode
-// Item category
-// Item picture
-// Item title
-// Item price
-// Item description
               SizedBox(
                 height: 50.0,
                 width: MediaQuery.of(context).size.width * 0.8,
                 child: TextField(
-                  // controller: _emailcontroller,
+                  controller: _categoryName,
                   decoration: InputDecoration(
                     hintText: 'Enter category name',
                     hintStyle: TextStyle(
@@ -55,7 +125,9 @@ class AddNewCategory extends StatelessWidget {
                   shape: RoundedRectangleBorder(
                     borderRadius: BorderRadius.circular(10.0),
                   ),
-                  onPressed: () {},
+                  onPressed: () {
+                    addCategoryToStore();
+                  },
                   color: Colors.grey,
                   textColor: Colors.white,
                   child: Row(

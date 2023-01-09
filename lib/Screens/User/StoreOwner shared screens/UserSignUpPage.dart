@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:fluttertoast/fluttertoast.dart';
 import 'package:wishy_store/FirebaseNetowrkFile/UsersCollection.dart';
 import 'package:wishy_store/FirebaseNetowrkFile/StoreOwnersCollection.dart';
+import 'package:wishy_store/Screens/User/StoreOwner%20shared%20screens/NavigationBAR.dart';
 
 import 'package:wishy_store/Screens/UserScreens/UserHomePage.dart';
 import 'package:wishy_store/StoreOwner/FillingInformationForStoreOwner.dart';
@@ -13,52 +14,51 @@ import 'package:wishy_store/Widgets/ErrorToast.dart';
 import 'package:wishy_store/StoreOwner/StoreOwnerPage.dart';
 import 'package:wishy_store/Widgets/postiontedArrowBack.dart';
 
-class SignUpPage extends StatefulWidget {
+class UserSignUpPage extends StatefulWidget {
   static String id = 'signUpPage_screen';
 
   @override
-  State<SignUpPage> createState() => _MyHomePageState();
+  State<UserSignUpPage> createState() => _MyHomePageState();
 }
 
-class _MyHomePageState extends State<SignUpPage> {
+class _MyHomePageState extends State<UserSignUpPage> {
   void addNewUser() async {
     FirebaseFirestore db = FirebaseFirestore.instance;
     User? user = await _auth.currentUser;
     UsersCollection usersCollection = UsersCollection();
-    StoreOwnersCollection storeOwnersCollection = StoreOwnersCollection();
 
-    if (selectedUser == 'Store Owner') {
-      storeOwnersCollection.firstname = _firstNamecontroller.text;
-      storeOwnersCollection.lastname = _lastNamecontroller.text;
-      storeOwnersCollection.email = _emailcontroller.text;
-      storeOwnersCollection.password = _passwordcontroller.text;
-      storeOwnersCollection.userType = selectedUser;
-      storeOwnersCollection.uId = user!.uid;
-      storeOwnersCollection.infoFilled = false;
-      storeOwnersCollection.storeOwnerGranted = false;
+    // if (selectedUser == 'Store Owner') {
+    //   storeOwnersCollection.firstname = _firstNamecontroller.text;
+    //   storeOwnersCollection.lastname = _lastNamecontroller.text;
+    //   storeOwnersCollection.email = _emailcontroller.text;
+    //   storeOwnersCollection.password = _passwordcontroller.text;
+    //   storeOwnersCollection.userType = selectedUser;
+    //   storeOwnersCollection.uId = user!.uid;
+    //   storeOwnersCollection.infoFilled = false;
+    //   storeOwnersCollection.storeOwnerGranted = false;
 
-      await db
-          .collection('StoreOwners')
-          .doc(user.uid)
-          .set(storeOwnersCollection.toMap());
-    }
+    //   await db
+    //       .collection('StoreOwners')
+    //       .doc(user.uid)
+    //       .set(storeOwnersCollection.toMap());
+    // }
 
     usersCollection.firstname = _firstNamecontroller.text;
     usersCollection.lastname = _lastNamecontroller.text;
     usersCollection.email = _emailcontroller.text;
     usersCollection.password = _passwordcontroller.text;
-    usersCollection.userType = selectedUser;
+    usersCollection.userType = 'User';
     usersCollection.uId = user!.uid;
     await db.collection('Users').doc(user.uid).set(usersCollection.toMap());
 
-    if (selectedUser == 'User') {
-      await db.collection('wishlists').doc(user.uid).set({
-        'uid': user.uid,
-        'email address': _emailcontroller.text,
-        'userWishlists': {},
-        "sharedWishlistsFromUsers": {}
-      });
-    }
+    // if (selectedUser == 'User') {
+    await db.collection('wishlists').doc(user.uid).set({
+      'uid': user.uid,
+      'email address': _emailcontroller.text,
+      'userWishlists': {},
+      "sharedWishlistsFromUsers": {}
+    });
+    // }
 
     // if(selecteditem=='storeOwner'){
     //   //for admin area
@@ -100,7 +100,7 @@ class _MyHomePageState extends State<SignUpPage> {
   final _confirmPasswordcontroller = TextEditingController();
   //text filed sizedBox height named as sizedBoxHeightTextF
   double sizedBoxHeightTextF = 45.0;
-  String? selectedUser;
+  // String? selectedUser;
 
   var userType = [
     'User',
@@ -113,7 +113,6 @@ class _MyHomePageState extends State<SignUpPage> {
           _emailcontroller.text.isEmpty == true ||
           _firstNamecontroller.text.isEmpty == true ||
           _lastNamecontroller.text.isEmpty == true ||
-          selectedUser.toString().isEmpty == true ||
           _confirmPasswordcontroller.text.isEmpty == true) {
         CustomFlutterToast_Error(
             message: "Please fill all the fields",
@@ -172,14 +171,9 @@ class _MyHomePageState extends State<SignUpPage> {
         //   'userType': selecteditem,
         //   'uid': _auth.currentUser!.uid,
         // });
-        if (selectedUser == 'User') {
-          Navigator.pushNamedAndRemoveUntil(
-              context, UserHomePage.id, (route) => false);
-        } else if (selectedUser == 'Store Owner') {
-          // Navigator.pushNamed(context, StoreOwnerPage.id);
-          Navigator.pushNamedAndRemoveUntil(
-              context, FillingInformation.id, (route) => false);
-        }
+        Navigator.pushNamedAndRemoveUntil(
+            context, NavigationBarForUser.id, (route) => false);
+
         setState(() {
           showSpinner = false;
         });
@@ -222,7 +216,6 @@ class _MyHomePageState extends State<SignUpPage> {
     _passwordcontroller.clear();
     _firstNamecontroller.clear();
     _lastNamecontroller.clear();
-    selectedUser = null;
     _confirmPasswordcontroller.clear();
     _formKey.currentState!.reset();
   }
@@ -243,7 +236,7 @@ class _MyHomePageState extends State<SignUpPage> {
               Navigator.pop(context);
             },
           ),
-          backgroundColor: Colors.transparent,
+          backgroundColor: Colors.white,
           elevation: 0,
         ),
         body: Padding(
@@ -259,40 +252,6 @@ class _MyHomePageState extends State<SignUpPage> {
                 ),
                 SizedBox(
                   height: 30.0,
-                ),
-                SizedBox(
-                  height: sizedBoxHeightTextF,
-                  child: Container(
-                    padding: EdgeInsets.only(left: 20, right: 16),
-                    alignment: Alignment.center,
-                    decoration: BoxDecoration(
-                      border: Border.all(color: Colors.grey, width: 2.0),
-                      borderRadius: BorderRadius.circular(10),
-                    ),
-                    child: DropdownButton(
-                      value: selectedUser,
-                      isExpanded: true,
-                      hint: Text('I am a'),
-                      underline: Container(),
-                      items: userType.map((item) {
-                        return DropdownMenuItem(
-                          child: Text(item),
-                          value: item,
-                        );
-                      }).toList(),
-                      onChanged: (value) {
-                        setState(() {
-                          if (value == 'User') {
-                            value = userType[0];
-                            selectedUser = value.toString() ?? 'User';
-                          } else if (value == 'Store Owner') {
-                            value = userType[1];
-                            selectedUser = value.toString() ?? 'Store Owner';
-                          }
-                        });
-                      },
-                    ),
-                  ),
                 ),
                 SizedBox(height: 8.0),
                 Row(

@@ -5,6 +5,7 @@ import 'package:wishy_store/Screens/User/StoreOwner%20shared%20screens/LogInPage
 import 'package:wishy_store/Widgets/buttonPadding.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:wishy_store/Widgets/ErrorToast.dart';
+import 'package:wishy_store/Widgets/postiontedArrowBack.dart';
 import 'package:wishy_store/constants.dart';
 
 class ForgotPassword extends StatefulWidget {
@@ -63,10 +64,25 @@ class _ForgotPasswordState extends State<ForgotPassword> {
   }
 
   final _auth = FirebaseAuth.instance;
-
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      backgroundColor: Colors.white,
+      appBar: AppBar(
+        toolbarHeight: 40,
+        leading: IconButton(
+          icon: Icon(
+            Icons.arrow_back,
+            size: 30,
+            color: Colors.grey,
+          ),
+          onPressed: () {
+            Navigator.pop(context);
+          },
+        ),
+        backgroundColor: Colors.white,
+        elevation: 0,
+      ),
       body: Padding(
         padding: EdgeInsets.symmetric(horizontal: 24.0),
         child: Column(

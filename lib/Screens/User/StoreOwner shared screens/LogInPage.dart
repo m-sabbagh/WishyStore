@@ -3,13 +3,14 @@ import 'package:flutter/material.dart';
 import 'package:fluttertoast/fluttertoast.dart';
 import 'package:modal_progress_hud_nsn/modal_progress_hud_nsn.dart';
 import 'package:wishy_store/Screens/User/StoreOwner%20shared%20screens/NavigationBAR.dart';
+import 'package:wishy_store/Screens/User/StoreOwner%20shared%20screens/NewSettings/StoreOwnerSignUp.dart';
 import 'package:wishy_store/StoreOwner/FillingInformationForStoreOwner.dart';
 import 'package:wishy_store/StoreOwner/NavigationBarForStoreOwner.dart';
 import 'package:wishy_store/Widgets/buttonPadding.dart';
 import 'package:flutter_signin_button/flutter_signin_button.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import '../../../StoreOwner/StoreOwnerPage.dart';
-import 'SignUpPage.dart';
+import 'UserSignUpPage.dart';
 import 'package:wishy_store/Widgets/ErrorToast.dart';
 import 'package:wishy_store/constants.dart';
 import 'package:wishy_store/FirebaseNetowrkFile/ForgotPassword.dart';
@@ -36,11 +37,52 @@ class _LoginScreenState extends State<LoginScreen> {
         .doc(_auth.currentUser!.uid)
         .get()
         .then((value) {
-      if ('${value['userType']}' == 'Store Owner') {
-        isFilled = value['infoFilled'];
-        isGranted = value['storeOwnerGranted'];
-        Navigator.pushNamedAndRemoveUntil(
-            context, StoreOwnerNavBar.id, (route) => false);
+      if ('${value['userType']}' == 'StoreOwner') {
+        //you got 2 chocices , if granted or not
+        if (value['storeOwnerGranted'] == false) {
+          //change it to alert
+          setState(() {
+            showSpinner = false;
+            showDialog(
+                context: context,
+                builder: (context) => Dialog(
+                      child: Container(
+                        height: 300,
+                        child: Column(
+                          children: [
+                            SizedBox(
+                              height: 20,
+                            ),
+                            Text(
+                              'Your request has been sent successfully , we will contact you through your email soon for more details contact us wishystore@support.jo',
+                              style: TextStyle(fontSize: 20),
+                            ),
+                            SizedBox(
+                              height: 20,
+                            ),
+                            ElevatedButton(
+                                onPressed: () {
+                                  setState(() {
+                                    FirebaseAuth.instance.signOut();
+                                  });
+                                  Navigator.pushAndRemoveUntil(
+                                      context,
+                                      MaterialPageRoute(
+                                          builder: (context) => LoginScreen()),
+                                      (route) => false);
+                                },
+                                child: Text('OK'))
+                          ],
+                        ),
+                      ),
+                    ));
+          });
+        } else if (value['storeOwnerGranted'] == true) {
+          Navigator.pushNamedAndRemoveUntil(
+              context, StoreOwnerNavBar.id, (route) => false);
+        } else
+          CustomFlutterToast_Error(
+              message: "Something went wrong", toastLength: Toast.LENGTH_SHORT);
       } else if ('${value['userType']}' == 'User') {
         Navigator.pushNamedAndRemoveUntil(
             context, NavigationBarForUser.id, (route) => false);
@@ -176,6 +218,10 @@ class _LoginScreenState extends State<LoginScreen> {
     return ModalProgressHUD(
       inAsyncCall: showSpinner,
       child: Scaffold(
+        appBar: AppBar(
+          backgroundColor: Colors.white,
+          elevation: 0,
+        ),
         backgroundColor: Colors.white,
         body: Padding(
           padding: EdgeInsets.symmetric(horizontal: 24.0),
@@ -184,9 +230,6 @@ class _LoginScreenState extends State<LoginScreen> {
               mainAxisAlignment: MainAxisAlignment.center,
               crossAxisAlignment: CrossAxisAlignment.stretch,
               children: <Widget>[
-                SizedBox(
-                  height: 48.0,
-                ),
                 Image.asset(
                   'images/wishyStoreicon.jpeg',
                   height: 200.0,
@@ -273,7 +316,18 @@ class _LoginScreenState extends State<LoginScreen> {
                   buttonName: 'Create account',
                   buttonColor: Color.fromARGB(255, 119, 113, 188),
                   onPressed: () async {
-                    Navigator.pushNamed(context, SignUpPage.id);
+                    Navigator.pushNamed(context, UserSignUpPage.id);
+                  },
+                ),
+                MaterialButton(
+                  onPressed: () {},
+                  color: Colors.black,
+                ),
+                ButtonPadding(
+                  buttonName: 'Join as a store owner',
+                  buttonColor: Color.fromARGB(255, 119, 113, 188),
+                  onPressed: () async {
+                    Navigator.pushNamed(context, StoreOwnerSignUp.id);
                   },
                 ),
                 Center(

@@ -3,6 +3,7 @@ import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/services.dart';
 import 'package:wishy_store/Screens/User/StoreOwner%20shared%20screens/LogInPage.dart';
 import 'package:wishy_store/Screens/User/StoreOwner%20shared%20screens/NavigationBAR.dart';
+import 'package:wishy_store/Screens/User/StoreOwner%20shared%20screens/NewSettings/StoreOwnerSignUp.dart';
 import 'package:wishy_store/Screens/UserScreens/MyWishPage/MyWishPage.dart';
 import 'package:wishy_store/Screens/UserScreens/UserProfilePage.dart';
 import 'package:wishy_store/Screens/UserScreens/WishlistsPage.dart';
@@ -15,7 +16,7 @@ import 'package:wishy_store/StoreOwner/StoreOwnerPage.dart';
 import 'package:wishy_store/StoreOwner/addNewCategory.dart';
 import 'package:wishy_store/StoreOwner/addNewItemToStore.dart';
 import 'package:wishy_store/stayLoggedIn.dart';
-import 'Screens/User/StoreOwner shared screens/SignUpPage.dart';
+import 'Screens/User/StoreOwner shared screens/UserSignUpPage.dart';
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
@@ -36,7 +37,7 @@ class WishyStore extends StatelessWidget {
       // home: StayLoggedIn(),
       home: LoginScreen(),
       routes: {
-        SignUpPage.id: (context) => SignUpPage(),
+        UserSignUpPage.id: (context) => UserSignUpPage(),
         NavigationBarForUser.id: (context) => NavigationBarForUser(),
         UserProfilePage.id: (context) => UserProfilePage(),
         UserHomePage.id: (context) => UserHomePage(),
@@ -49,6 +50,7 @@ class WishyStore extends StatelessWidget {
         StoreOwnerNavBar.id: (context) => StoreOwnerNavBar(),
         AddNewItemToStore.id: (context) => AddNewItemToStore(),
         AddNewCategory.id: (context) => AddNewCategory(),
+        StoreOwnerSignUp.id: (context) => StoreOwnerSignUp(),
 
         // SharedWishlistsItems.id: (context) => SharedWishlistsItems(),
       },

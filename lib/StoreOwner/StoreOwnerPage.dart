@@ -300,6 +300,14 @@ class _StoreOwnerPage extends State<StoreOwnerPage> {
         elevation: 0,
         title: Row(
           children: [
+            //  Menu
+            IconButton(
+              icon: Icon(Icons.menu),
+              onPressed: () {},
+            ),
+            SizedBox(
+              width: 10,
+            ),
             Text(
               'Store Categories',
               style: TextStyle(color: Colors.white, fontSize: 30),

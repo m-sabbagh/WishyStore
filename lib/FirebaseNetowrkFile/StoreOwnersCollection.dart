@@ -7,8 +7,8 @@ class StoreOwnersCollection {
   String? password;
   String? userType;
   String? uId;
-  bool? infoFilled = false;
   bool? storeOwnerGranted = false;
+  String? storeType;
 
   StoreOwnersCollection({
     this.firstname,
@@ -17,8 +17,8 @@ class StoreOwnersCollection {
     this.password,
     this.userType,
     this.uId,
-    this.infoFilled,
     this.storeOwnerGranted,
+    this.storeType,
   });
 
   factory StoreOwnersCollection.fromMap(Map<String, dynamic> Map) {
@@ -29,8 +29,8 @@ class StoreOwnersCollection {
       password: Map['password'],
       userType: Map['userType'],
       uId: Map['uId'],
-      infoFilled: Map['infoFilled'],
       storeOwnerGranted: Map['storeOwnerGranted'],
+      storeType: Map['storeType'],
 
       //store owner granted = false by default
       //aftr storeowner gets granted = true from admin , the store owner will be allowed to enter the store information
@@ -48,9 +48,8 @@ class StoreOwnersCollection {
       'password': password,
       'userType': userType,
       'uId': uId,
-      'infoFilled': infoFilled,
-
       'storeOwnerGranted': storeOwnerGranted,
+      'storeType': storeType,
 
       // 'selectedItem': selectedItem,
     };

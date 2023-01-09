@@ -36,8 +36,7 @@ class UsersCollection {
       'password': password,
       'userType': userType,
       'uId': uId,
-      if (userType == 'Store Owner') 'infoFilled': false,
-      if (userType == 'Store Owner') 'storeOwnerGranted': false,
+      if (userType == 'StoreOwner') 'storeOwnerGranted': false,
 
       // 'selectedItem': selectedItem,
     };

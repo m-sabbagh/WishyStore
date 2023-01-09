@@ -14,7 +14,7 @@ class _StoreOwnerNavBarState extends State<StoreOwnerNavBar> {
   // static const TextStyle optionStyle =
   //     TextStyle(fontSize: 30, fontWeight: FontWeight.bold);
   static List<Widget> _widgetOptions = <Widget>[
-    FillingInformation(),
+    // FillingInformation(),
     StoreOwnerPage(),
     UserProfilePage(),
     //hello
@@ -40,11 +40,7 @@ class _StoreOwnerNavBarState extends State<StoreOwnerNavBar> {
             label: 'Home',
           ),
           BottomNavigationBarItem(
-            icon: Icon(Icons.shopping_cart),
-            label: 'Stores',
-          ),
-          BottomNavigationBarItem(
-            icon: Icon(Icons.account_circle),
+            icon: Icon(Icons.account_circle_outlined),
             label: 'Profile',
           ),
         ],
