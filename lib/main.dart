@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/services.dart';
 import 'package:wishy_store/Screens/User/StoreOwner%20shared%20screens/LogInPage.dart';
-import 'package:wishy_store/Screens/User/StoreOwner%20shared%20screens/NavigationBAR.dart';
+import 'package:wishy_store/Screens/User/StoreOwner%20shared%20screens/UserNavBar.dart';
 import 'package:wishy_store/Screens/User/StoreOwner%20shared%20screens/NewSettings/StoreOwnerSignUp.dart';
 import 'package:wishy_store/Screens/UserScreens/MyWishPage/MyWishPage.dart';
 import 'package:wishy_store/Screens/UserScreens/UserProfilePage.dart';
@@ -11,7 +11,7 @@ import 'package:wishy_store/Screens/UserScreens/stores/StoresPage.dart';
 import 'package:wishy_store/Screens/UserScreens/UserHomePage.dart';
 import 'package:wishy_store/Screens/UserScreens/stores/store1.dart';
 import 'package:wishy_store/Screens/UserScreens/WishHubUser.dart';
-import 'package:wishy_store/StoreOwner/NavigationBarForStoreOwner.dart';
+import 'package:wishy_store/StoreOwner/StoreOwnerNavBar.dart';
 import 'package:wishy_store/StoreOwner/StoreOwnerPage.dart';
 import 'package:wishy_store/StoreOwner/addNewCategory.dart';
 import 'package:wishy_store/StoreOwner/addNewItemToStore.dart';
@@ -35,7 +35,8 @@ class WishyStore extends StatelessWidget {
           // scaffoldBackgroundColor: Colors.white,
           ),
       // home: StayLoggedIn(),
-      home: LoginScreen(),
+      // home: LoginScreen(),
+      home: StoreOwnerNavBar(),
       routes: {
         UserSignUpPage.id: (context) => UserSignUpPage(),
         NavigationBarForUser.id: (context) => NavigationBarForUser(),

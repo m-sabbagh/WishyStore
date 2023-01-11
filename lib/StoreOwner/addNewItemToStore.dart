@@ -1,29 +1,225 @@
+import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 
-class AddNewItemToStore extends StatelessWidget {
+class AddNewItemToStore extends StatefulWidget {
+  const AddNewItemToStore({Key? key}) : super(key: key);
   static String id = 'addNewItemToStore';
 
-  const AddNewItemToStore({
-    Key? key,
-  }) : super(key: key);
+  @override
+  State<AddNewItemToStore> createState() => _AddNewItemToStoreState();
+}
+
+class _AddNewItemToStoreState extends State<AddNewItemToStore> {
+  // Future getImage(String? itemBarcode) async {
+  //   final image = await ImagePicker().pickImage(
+  //     source: ImageSource.gallery,
+  //     imageQuality: 100,
+  //     maxHeight: 512,
+  //     maxWidth: 512,
+  //   );
+
+  // }
+
+  // void uploadImage(String? itemBarcode) async {
+  //   Reference ref = FirebaseStorage.instance.ref().child(itemBarcode!);
+  //   await ref.putFile(File(image!.path));
+  //   ref.getDownloadURL().then((value) async {
+  //     await FirebaseAuth.instance.currentUser!.updatePhotoURL(value);
+  //   });
+  // }
+
+  @override
+  void initState() {
+    // TODO: implement initState
+    super.initState();
+  }
+
+  String? selectedItemCategory;
+  String userId = FirebaseAuth.instance.currentUser!.uid;
+
   @override
   Widget build(BuildContext context) {
-    // It provide us total height and width
-    Size size = MediaQuery.of(context).size;
     return Scaffold(
       body: SingleChildScrollView(
         child: Center(
-          child: Column(
-            children: <Widget>[
-              MaterialButton(
-                onPressed: () {},
-                child: Text(
-                  "Show item example",
-                  style: TextStyle(color: Colors.blue),
+          child: Padding(
+            padding: const EdgeInsets.all(8.0),
+            child: Column(
+              children: <Widget>[
+                SizedBox(height: 20.0),
+
+                IconButton(
+                    onPressed: () {},
+                    icon: Icon(
+                      Icons.add_a_photo,
+                      size: 50,
+                    )),
+
+                Text(
+                  'Add item image , image must be 512x512',
+                  style: TextStyle(
+                    color: Colors.amber,
+                    fontSize: 20,
+                    fontWeight: FontWeight.bold,
+                  ),
                 ),
-              ),
-              SizedBox(height: 20.0),
-              //To add new item
+                SizedBox(height: 20.0),
+                SizedBox(
+                  height: 50,
+                  child: TextField(
+                    // controller: _emailcontroller,
+                    decoration: InputDecoration(
+                      hintText: 'Enter item title',
+                      hintStyle: TextStyle(
+                        color: Colors.black,
+                      ),
+                      border: OutlineInputBorder(
+                        borderRadius: BorderRadius.circular(10.0),
+                        borderSide: BorderSide(
+                          color: Colors.grey,
+                          width: 2.0,
+                        ),
+                      ),
+                    ),
+                  ),
+                ),
+                SizedBox(height: 20.0),
+                Row(
+                  children: [
+                    Expanded(
+                      child: SizedBox(
+                        height: 50,
+                        child: TextField(
+                          // controller: _emailcontroller,
+                          decoration: InputDecoration(
+                            hintText: 'Enter item price',
+                            hintStyle: TextStyle(
+                              color: Colors.black,
+                            ),
+                            border: OutlineInputBorder(
+                              borderRadius: BorderRadius.circular(10.0),
+                              borderSide: BorderSide(
+                                color: Colors.grey,
+                                width: 2.0,
+                              ),
+                            ),
+                          ),
+                          keyboardType: TextInputType.number,
+                        ),
+                      ),
+                    ),
+                    SizedBox(width: 20.0),
+                    Expanded(
+                      child: SizedBox(
+                        height: 50,
+                        child: TextField(
+                          // controller: _emailcontroller,
+                          decoration: InputDecoration(
+                            hintText: 'Enter item barcode',
+                            hintStyle: TextStyle(
+                              color: Colors.black,
+                            ),
+                            border: OutlineInputBorder(
+                              borderRadius: BorderRadius.circular(10.0),
+                              borderSide: BorderSide(
+                                color: Colors.grey,
+                                width: 2.0,
+                              ),
+                            ),
+                          ),
+                          keyboardType: TextInputType.number,
+                        ),
+                      ),
+                    ),
+                  ],
+                ),
+                SizedBox(height: 20.0),
+
+                SizedBox(
+                  height: 45,
+                  child: Container(
+                    padding: EdgeInsets.only(left: 20, right: 16),
+                    alignment: Alignment.center,
+                    decoration: BoxDecoration(
+                      border:
+                          Border.all(color: Colors.grey.shade400, width: 2.0),
+                      borderRadius: BorderRadius.circular(10),
+                    ),
+                    child: FutureBuilder(
+                      future: FirebaseFirestore.instance
+                          .collection('StoreOwners')
+                          .doc(userId)
+                          .get(),
+                      builder:
+                          (context, AsyncSnapshot<DocumentSnapshot> snapshot) {
+                        if (snapshot.hasData) {
+                          List<String> storeCategories = [];
+                          Map<String, dynamic> data =
+                              snapshot.data!.data() as Map<String, dynamic>;
+                          data['categories'].forEach((key, value) {
+                            storeCategories.add(key);
+                          });
+                          if (data['categories'].length == 0) {
+                            return Text('No categories added yet');
+                          }
+                          // storeCategories = snapshot.data!['categories'];
+                          return DropdownButtonHideUnderline(
+                            child: DropdownButton(
+                              hint: Text('Select Category'),
+                              isExpanded: true,
+                              value: selectedItemCategory,
+                              onChanged: (newValue) {
+                                setState(() {
+                                  selectedItemCategory = newValue.toString();
+                                });
+                              },
+                              items:
+                                  storeCategories.map((selectedItemCategory) {
+                                return DropdownMenuItem(
+                                  child: new Text(selectedItemCategory),
+                                  value: selectedItemCategory,
+                                );
+                              }).toList(),
+                            ),
+                          );
+                        } else {
+                          return Text(
+                            'Loading...',
+                            style: TextStyle(
+                              color: Colors.black,
+                            ),
+                          );
+                        }
+                      },
+                    ),
+                  ),
+                ),
+
+                SizedBox(height: 20.0),
+                SizedBox(
+                  height: 100,
+                  child: TextField(
+                    maxLines: 5,
+                    // controller: _emailcontroller,
+                    decoration: InputDecoration(
+                      hintText: 'Description',
+                      hintStyle: TextStyle(
+                        color: Colors.black,
+                      ),
+                      border: OutlineInputBorder(
+                        borderRadius: BorderRadius.circular(10.0),
+                        borderSide: BorderSide(
+                          color: Colors.grey,
+                          width: 2.0,
+                        ),
+                      ),
+                    ),
+                  ),
+                ),
+                SizedBox(height: 20.0),
+
+                //To add new item
 
 // Store owner must add
 
@@ -33,114 +229,39 @@ class AddNewItemToStore extends StatelessWidget {
 // Item title
 // Item price
 // Item description
-              SizedBox(
-                height: 100,
-                child: TextField(
-                  // controller: _emailcontroller,
-                  decoration: InputDecoration(
-                    hintText: 'Enter your email',
-                    hintStyle: TextStyle(
+
+                SizedBox(height: 20.0),
+                Row(
+                  mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                  children: [
+                    MaterialButton(
+                      shape: RoundedRectangleBorder(
+                        borderRadius: BorderRadius.circular(10.0),
+                      ),
+                      onPressed: () {},
                       color: Colors.black,
-                    ),
-                    border: OutlineInputBorder(
-                      borderRadius: BorderRadius.circular(10.0),
-                      borderSide: BorderSide(
-                        color: Colors.grey,
-                        width: 2.0,
+                      child: Text(
+                        "Show item example",
+                        style: TextStyle(color: Colors.grey),
                       ),
                     ),
-                  ),
+                    MaterialButton(
+                      onPressed: () {
+                        // addItemToStore();
+                      },
+                      shape: RoundedRectangleBorder(
+                        borderRadius: BorderRadius.circular(10.0),
+                      ),
+                      color: Colors.black,
+                      child: Text(
+                        "Add item",
+                        style: TextStyle(color: Colors.grey),
+                      ),
+                    ),
+                  ],
                 ),
-              ),
-
-              TextField(
-                decoration: InputDecoration(
-                  hintText: "Item id /barcode",
-                  hintStyle: TextStyle(color: Colors.black),
-                  enabledBorder: UnderlineInputBorder(
-                    borderSide: BorderSide(color: Colors.black),
-                  ),
-                  focusedBorder: UnderlineInputBorder(
-                    borderSide: BorderSide(color: Colors.black),
-                  ),
-                ),
-              ),
-              SizedBox(height: 20.0),
-              TextField(
-                decoration: InputDecoration(
-                  fillColor: Colors.black,
-                  iconColor: Colors.black,
-                  hintText: "Item category",
-                  hintStyle: TextStyle(color: Colors.black),
-                  enabledBorder: UnderlineInputBorder(
-                    borderSide: BorderSide(color: Colors.black),
-                  ),
-                  focusedBorder: UnderlineInputBorder(
-                    borderSide: BorderSide(color: Colors.black),
-                  ),
-                ),
-              ),
-              SizedBox(height: 20.0),
-              TextField(
-                decoration: InputDecoration(
-                  hintText: "Item picture",
-                  hintStyle: TextStyle(color: Colors.black),
-                  enabledBorder: UnderlineInputBorder(
-                    borderSide: BorderSide(color: Colors.black),
-                  ),
-                  focusedBorder: UnderlineInputBorder(
-                    borderSide: BorderSide(color: Colors.black),
-                  ),
-                ),
-              ),
-              SizedBox(height: 20.0),
-              TextField(
-                decoration: InputDecoration(
-                  hintText: "Item title",
-                  hintStyle: TextStyle(color: Colors.black),
-                  enabledBorder: UnderlineInputBorder(
-                    borderSide: BorderSide(color: Colors.black),
-                  ),
-                  focusedBorder: UnderlineInputBorder(
-                    borderSide: BorderSide(color: Colors.black),
-                  ),
-                ),
-              ),
-              SizedBox(height: 20.0),
-              TextField(
-                decoration: InputDecoration(
-                  hintText: "Item price",
-                  hintStyle: TextStyle(color: Colors.black),
-                  enabledBorder: UnderlineInputBorder(
-                    borderSide: BorderSide(color: Colors.black),
-                  ),
-                  focusedBorder: UnderlineInputBorder(
-                    borderSide: BorderSide(color: Colors.black),
-                  ),
-                ),
-              ),
-              SizedBox(height: 20.0),
-              TextField(
-                decoration: InputDecoration(
-                  hintText: "Item description",
-                  hintStyle: TextStyle(color: Colors.black),
-                  enabledBorder: UnderlineInputBorder(
-                    borderSide: BorderSide(color: Colors.black),
-                  ),
-                  focusedBorder: UnderlineInputBorder(
-                    borderSide: BorderSide(color: Colors.black),
-                  ),
-                ),
-              ),
-              SizedBox(height: 20.0),
-              MaterialButton(
-                onPressed: () {},
-                child: Text(
-                  "Add item",
-                  style: TextStyle(color: Colors.blue),
-                ),
-              ),
-            ],
+              ],
+            ),
           ),
         ),
       ),
@@ -162,201 +283,3 @@ AppBar buildAppBar(BuildContext context) {
     actions: <Widget>[SizedBox(width: 20.0 / 2)],
   );
 }
-
-// SizedBox(
-//               height: size.height,
-//               child: Stack(
-//                 children: <Widget>[
-//                   Container(
-//                     margin: EdgeInsets.only(top: size.height * 0.3),
-//                     padding: EdgeInsets.only(
-//                       top: size.height * 0.12,
-//                       left: 20.0,
-//                       right: 20.0,
-//                     ),
-//                     // height: 500,
-//                     decoration: BoxDecoration(
-//                       color: Colors.black,
-//                       borderRadius: BorderRadius.only(
-//                         topLeft: Radius.circular(24),
-//                         topRight: Radius.circular(24),
-//                       ),
-//                     ),
-//                     child: Column(
-//                       children: <Widget>[
-//                         // ColorAndSize(items: items),
-//                         Row(
-//                           children: <Widget>[
-//                             Expanded(
-//                               child: Column(
-//                                 crossAxisAlignment: CrossAxisAlignment.start,
-//                                 children: <Widget>[
-//                                   Text(
-//                                     "Category ",
-//                                     style: TextStyle(color: Colors.black),
-//                                   ),
-//                                   Row(
-//                                     children: const <Widget>[
-//                                       // ColorDot(
-//                                       //   color: Color(0xFF356C95),
-//                                       //   isSelected: true,
-//                                       // ),
-//                                       // ColorDot(color: Color(0xFFF8C078)),
-//                                       // ColorDot(color: Color(0xFFA29B9B)),
-//                                     ],
-//                                   ),
-//                                 ],
-//                               ),
-//                             ),
-//                             Expanded(
-//                               child: RichText(
-//                                 text: TextSpan(
-//                                   style: TextStyle(color: Colors.black),
-//                                   children: [
-//                                     TextSpan(text: 'Smartbuy \n'),
-//                                     TextSpan(text: "Barcode\n"),
-//                                     TextSpan(
-//                                       text: "12319283784",
-//                                       style: TextStyle(
-//                                           fontWeight: FontWeight.bold),
-//                                     )
-//                                   ],
-//                                 ),
-//                               ),
-//                             ),
-//                           ],
-//                         ),
-//                         SizedBox(height: 20.0 / 2),
-
-//                         Padding(
-//                           padding: const EdgeInsets.symmetric(vertical: 20.0),
-//                           child: TextField(
-//                             style: TextStyle(
-//                               color: Colors.black,
-//                             ),
-//                             //multi line
-//                             maxLines: 5,
-//                             decoration: InputDecoration(
-//                               hintText: "Item description",
-//                               hintStyle: TextStyle(
-//                                 color: Colors.black.withOpacity(0.5),
-//                               ),
-//                               enabledBorder: OutlineInputBorder(
-//                                 borderSide: BorderSide(
-//                                   color: Colors.black.withOpacity(0.5),
-//                                 ),
-//                               ),
-//                               focusedBorder: OutlineInputBorder(
-//                                 borderSide: BorderSide(
-//                                   color: Colors.black.withOpacity(0.5),
-//                                 ),
-//                               ),
-//                             ),
-//                           ),
-//                         ),
-
-//                         SizedBox(height: 20.0 / 2),
-//                         // CounterWithFavBtn(),
-//                         SizedBox(height: 20.0 / 2),
-//                         // AddtoWishlistButton2(),
-//                       ],
-//                     ),
-//                   ),
-//                   Padding(
-//                     padding: const EdgeInsets.symmetric(horizontal: 20.0),
-//                     child: Column(
-//                       crossAxisAlignment: CrossAxisAlignment.start,
-//                       children: <Widget>[
-//                         Text(
-//                           "Mobile",
-//                           style: TextStyle(color: Colors.black),
-//                         ),
-//                         TextField(
-//                           style: TextStyle(
-//                             color: Colors.black,
-//                           ),
-//                           decoration: InputDecoration(
-//                             hintText:
-//                                 "Please enter Item title example iPhone 12",
-//                             hintStyle: TextStyle(
-//                               color: Colors.black.withOpacity(0.5),
-//                             ),
-//                             enabledBorder: OutlineInputBorder(
-//                               borderSide: BorderSide(
-//                                 color: Colors.black.withOpacity(0.5),
-//                               ),
-//                             ),
-//                             focusedBorder: OutlineInputBorder(
-//                               borderSide: BorderSide(
-//                                 color: Colors.black.withOpacity(0.5),
-//                               ),
-//                             ),
-//                           ),
-//                         ),
-//                         SizedBox(height: 10.0),
-//                         Row(
-//                           children: <Widget>[
-//                             RichText(
-//                               text: const TextSpan(
-//                                 children: [
-//                                   TextSpan(
-//                                       text: "Price\n",
-//                                       style: TextStyle(
-//                                           color: Colors.black,
-//                                           fontWeight: FontWeight.bold)),
-//                                   TextSpan(
-//                                     text: '\$\$\$',
-//                                     style: TextStyle(
-//                                         color: Colors.black,
-//                                         fontWeight: FontWeight.bold),
-//                                   ),
-//                                 ],
-//                               ),
-//                             ),
-//                             Expanded(
-//                               child: TextField(
-//                                 style: TextStyle(
-//                                   color: Colors.black,
-//                                 ),
-//                                 decoration: InputDecoration(
-//                                   hintText: "Please enter Item price",
-//                                   hintStyle: TextStyle(
-//                                     color: Colors.black.withOpacity(0.5),
-//                                   ),
-//                                   enabledBorder: OutlineInputBorder(
-//                                     borderSide: BorderSide(
-//                                       color: Colors.black.withOpacity(0.5),
-//                                     ),
-//                                   ),
-//                                   focusedBorder: OutlineInputBorder(
-//                                     borderSide: BorderSide(
-//                                       color: Colors.black.withOpacity(0.5),
-//                                     ),
-//                                   ),
-//                                 ),
-//                               ),
-//                             ),
-//                             SizedBox(width: 20.0),
-//                             Expanded(
-//                               child: Container(
-//                                 child: Column(
-//                                   children: [
-//                                     ClipRRect(
-//                                       borderRadius: BorderRadius.circular(18),
-//                                       child: Image.asset(
-//                                         'images/new/upload_image.png',
-//                                         fit: BoxFit.cover,
-//                                       ),
-//                                     ),
-//                                   ],
-//                                 ),
-//                               ),
-//                             ),
-//                           ],
-//                         ),
-//                       ],
-//                     ),
-//                   ),
-//                 ],
-//               ),
-//             )

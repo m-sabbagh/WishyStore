@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:wishy_store/Screens/UserScreens/UserProfilePage.dart';
-import 'package:wishy_store/StoreOwner/FillingInformationForStoreOwner.dart';
 import 'package:wishy_store/StoreOwner/StoreOwnerPage.dart';
 
 class StoreOwnerNavBar extends StatefulWidget {
@@ -45,7 +44,7 @@ class _StoreOwnerNavBarState extends State<StoreOwnerNavBar> {
           ),
         ],
         currentIndex: _selectedIndex,
-        selectedItemColor: Color(0xFF5E57A5),
+        selectedItemColor: Colors.black,
         onTap: _onItemTapped,
       ),
     );

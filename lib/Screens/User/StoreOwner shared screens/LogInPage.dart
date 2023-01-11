@@ -2,10 +2,10 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:fluttertoast/fluttertoast.dart';
 import 'package:modal_progress_hud_nsn/modal_progress_hud_nsn.dart';
-import 'package:wishy_store/Screens/User/StoreOwner%20shared%20screens/NavigationBAR.dart';
+import 'package:wishy_store/Screens/User/StoreOwner%20shared%20screens/UserNavBar.dart';
 import 'package:wishy_store/Screens/User/StoreOwner%20shared%20screens/NewSettings/StoreOwnerSignUp.dart';
 import 'package:wishy_store/StoreOwner/FillingInformationForStoreOwner.dart';
-import 'package:wishy_store/StoreOwner/NavigationBarForStoreOwner.dart';
+import 'package:wishy_store/StoreOwner/StoreOwnerNavBar.dart';
 import 'package:wishy_store/Widgets/buttonPadding.dart';
 import 'package:flutter_signin_button/flutter_signin_button.dart';
 import 'package:firebase_auth/firebase_auth.dart';
@@ -31,6 +31,11 @@ class _LoginScreenState extends State<LoginScreen> {
   bool? isFilled;
   bool? isGranted;
 
+  void clearallfields() {
+    _emailcontroller.clear();
+    _passwordcontroller.clear();
+  }
+
   getusertype() {
     FirebaseFirestore.instance
         .collection('Users')
@@ -54,7 +59,7 @@ class _LoginScreenState extends State<LoginScreen> {
                               height: 20,
                             ),
                             Text(
-                              'Your request has been sent successfully , we will contact you through your email soon for more details contact us wishystore@support.jo',
+                              'Your request is still pending , please wait for the admin to grant you access',
                               style: TextStyle(fontSize: 20),
                             ),
                             SizedBox(
@@ -65,11 +70,9 @@ class _LoginScreenState extends State<LoginScreen> {
                                   setState(() {
                                     FirebaseAuth.instance.signOut();
                                   });
-                                  Navigator.pushAndRemoveUntil(
-                                      context,
-                                      MaterialPageRoute(
-                                          builder: (context) => LoginScreen()),
-                                      (route) => false);
+                                  clearallfields();
+
+                                  Navigator.pop(context);
                                 },
                                 child: Text('OK'))
                           ],
@@ -312,17 +315,73 @@ class _LoginScreenState extends State<LoginScreen> {
                     LogIn();
                   },
                 ),
-                ButtonPadding(
-                  buttonName: 'Create account',
-                  buttonColor: Color.fromARGB(255, 119, 113, 188),
+                Padding(
+                  padding: EdgeInsets.symmetric(vertical: 16.0),
+                  child: TextButton(
+                    onPressed: () {},
+                    style: TextButton.styleFrom(
+                      side: BorderSide(
+                          color: Colors.black,
+                          width: 1,
+                          style: BorderStyle.solid),
+                      shape: RoundedRectangleBorder(
+                        borderRadius: BorderRadius.circular(32.0),
+                      ),
+                    ),
+                    child: Text(
+                      'Create account',
+                      style: TextStyle(color: Colors.black),
+                    ),
+                  ),
+                ),
+
+                MaterialButton(
+                  shape: Border.all(
+                      color: Colors.black, width: 1, style: BorderStyle.solid),
+                  padding: EdgeInsets.symmetric(vertical: 16.0),
                   onPressed: () async {
                     Navigator.pushNamed(context, UserSignUpPage.id);
                   },
+                  minWidth: 200.0,
+                  height: 42.0,
+                  child: Text(
+                    'Create account',
+                    style: TextStyle(color: Colors.black),
+                  ),
                 ),
-                MaterialButton(
-                  onPressed: () {},
-                  color: Colors.black,
-                ),
+                // Padding(
+                //   padding: EdgeInsets.symmetric(vertical: 16.0),
+                //   child: Material(
+                //     shadowColor: Colors.transparent,
+                //     elevation: 5.0,
+                //     color: Colors.white,
+                //     borderRadius: BorderRadius.circular(30.0),
+                //     child: MaterialButton(
+                //       shape: Border.all(
+                //           color: Colors.black,
+                //           width: 1,
+                //           style: BorderStyle.solid),
+                //       padding: EdgeInsets.symmetric(vertical: 16.0),
+                //       onPressed: () async {
+                //         Navigator.pushNamed(context, UserSignUpPage.id);
+                //       },
+                //       minWidth: 200.0,
+                //       height: 42.0,
+                //       child: Text(
+                //         'Create account',
+                //         style: TextStyle(color: Colors.black),
+                //       ),
+                //     ),
+                //   ),
+                // ),
+                // ButtonPadding(
+                //   buttonName: 'Create account',
+                //   buttonColor: Color.fromARGB(255, 119, 113, 188),
+                //   onPressed: () async {
+                //     Navigator.pushNamed(context, UserSignUpPage.id);
+                //   },
+                // ),
+
                 ButtonPadding(
                   buttonName: 'Join as a store owner',
                   buttonColor: Color.fromARGB(255, 119, 113, 188),

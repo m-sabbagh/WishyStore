@@ -27,7 +27,7 @@ class _MyWishPageState extends State<MyWishPage> {
     'Other'
   ];
 
-  String dropDownValue = 'Birthday';
+  String? dropDownValue;
 
   FirebaseAuth _auth = FirebaseAuth.instance;
 

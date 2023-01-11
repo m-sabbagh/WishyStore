@@ -3,7 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:fluttertoast/fluttertoast.dart';
 import 'package:wishy_store/FirebaseNetowrkFile/UsersCollection.dart';
 import 'package:wishy_store/FirebaseNetowrkFile/StoreOwnersCollection.dart';
-import 'package:wishy_store/Screens/User/StoreOwner%20shared%20screens/NavigationBAR.dart';
+import 'package:wishy_store/Screens/User/StoreOwner%20shared%20screens/UserNavBar.dart';
 
 import 'package:wishy_store/Screens/UserScreens/UserHomePage.dart';
 import 'package:wishy_store/StoreOwner/FillingInformationForStoreOwner.dart';

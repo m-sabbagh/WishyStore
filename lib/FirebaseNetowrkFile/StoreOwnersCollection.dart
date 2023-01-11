@@ -9,6 +9,10 @@ class StoreOwnersCollection {
   String? uId;
   bool? storeOwnerGranted = false;
   String? storeType;
+  String? storeName;
+  String? phoneNumber;
+  String? supportEmail;
+  Map? categories;
 
   StoreOwnersCollection({
     this.firstname,
@@ -19,6 +23,10 @@ class StoreOwnersCollection {
     this.uId,
     this.storeOwnerGranted,
     this.storeType,
+    this.storeName,
+    this.phoneNumber,
+    this.supportEmail,
+    this.categories,
   });
 
   factory StoreOwnersCollection.fromMap(Map<String, dynamic> Map) {
@@ -31,6 +39,10 @@ class StoreOwnersCollection {
       uId: Map['uId'],
       storeOwnerGranted: Map['storeOwnerGranted'],
       storeType: Map['storeType'],
+      storeName: Map['storeName'],
+      phoneNumber: Map['phoneNumber'],
+      supportEmail: Map['supportEmail'],
+      categories: Map['categories'],
 
       //store owner granted = false by default
       //aftr storeowner gets granted = true from admin , the store owner will be allowed to enter the store information
@@ -50,6 +62,10 @@ class StoreOwnersCollection {
       'uId': uId,
       'storeOwnerGranted': storeOwnerGranted,
       'storeType': storeType,
+      'storeName': storeName,
+      'phoneNumber': phoneNumber,
+      'supportEmail': supportEmail,
+      'categories': categories,
 
       // 'selectedItem': selectedItem,
     };

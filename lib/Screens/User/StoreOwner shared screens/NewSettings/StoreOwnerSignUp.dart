@@ -37,6 +37,10 @@ class _MyHomePageState extends State<StoreOwnerSignUp> {
     storeOwnersCollection.uId = user!.uid;
     storeOwnersCollection.storeOwnerGranted = false;
     storeOwnersCollection.storeType = selectedStoreType.toString();
+    storeOwnersCollection.storeName = _storeName.text;
+    storeOwnersCollection.phoneNumber = _phonecontroller.text;
+    storeOwnersCollection.supportEmail = _supportEmailAddress.text;
+    storeOwnersCollection.categories = {};
 
     await db
         .collection('StoreOwners')
@@ -51,33 +55,30 @@ class _MyHomePageState extends State<StoreOwnerSignUp> {
     usersCollection.uId = user!.uid;
     await db.collection('Users').doc(user.uid).set(usersCollection.toMap());
 
-    await db
-        .collection(selectedStoreType.toString() + " Store")
-        .doc(user!.uid)
-        .set({
-      'uid': user.uid,
-      'email address': _emailcontroller.text,
-      'store name': _storeName.text,
-      'store type': selectedStoreType,
-      'phone number': _phonecontroller.text,
-      'support email address': _supportEmailAddress.text,
-      'categories': {},
-      "storeOwnerGranted": false,
+    // await db.collection(selectedStoreType.toString()).doc(user!.uid).set({
+    // 'uid': user.uid,
+    // 'email address': _emailcontroller.text,
+    // 'store name': _storeName.text,
+    // 'store type': selectedStoreType,
+    // 'phone number': _phonecontroller.text,
+    // 'support email address': _supportEmailAddress.text,
+    // 'categories': {},
+    // "storeOwnerGranted": false,
 
-      // 'store owner name':
-      //     _firstNamecontroller.text + " " + _lastNamecontroller.text,
-      // 'store owner email address': _emailcontroller.text,
-      // 'store owner phone number': _phonecontroller.text,
-      // 'store owner password': _passwordcontroller.text,
-      // 'store owner uid': user.uid,
-      // 'store owner profile picture': user.photoURL,
-      // 'store owner store name': _storeName.text,
-      // 'store owner support email address': _supportEmailAddress.text,
-      // 'store owner store type': selectedStoreType,
-      // 'store owner store owner name':
-      //     _firstNamecontroller.text + " " + _lastNamecontroller.text,
-      // 'store owner store owner email address': _emailcontroller.text,
-    });
+    // 'store owner name':
+    //     _firstNamecontroller.text + " " + _lastNamecontroller.text,
+    // 'store owner email address': _emailcontroller.text,
+    // 'store owner phone number': _phonecontroller.text,
+    // 'store owner password': _passwordcontroller.text,
+    // 'store owner uid': user.uid,
+    // 'store owner profile picture': user.photoURL,
+    // 'store owner store name': _storeName.text,
+    // 'store owner support email address': _supportEmailAddress.text,
+    // 'store owner store type': selectedStoreType,
+    // 'store owner store owner name':
+    //     _firstNamecontroller.text + " " + _lastNamecontroller.text,
+    // 'store owner store owner email address': _emailcontroller.text,
+    // });
   }
 
   bool showSpinner = false;
@@ -100,13 +101,13 @@ class _MyHomePageState extends State<StoreOwnerSignUp> {
   //text filed sizedBox height named as sizedBoxHeightTextF
   double sizedBoxHeightTextF = 45.0;
 
-  List<String> wishlistTypes = <String>[
-    'Retail',
-    'Health and Beauty ',
-    'Gift centers',
-    'Fitness',
-    'Clothing',
-    'Jewelry',
+  List<String> storeTypes = <String>[
+    'Retail store',
+    'Health and Beauty store',
+    'Gift centers store',
+    'Fitness store',
+    'Clothing store',
+    'Jewelry store',
   ];
 
   String? selectedStoreType;
@@ -451,7 +452,7 @@ class _MyHomePageState extends State<StoreOwnerSignUp> {
                       value: selectedStoreType,
                       isExpanded: true,
                       underline: Container(),
-                      items: wishlistTypes
+                      items: storeTypes
                           .map<DropdownMenuItem<String>>((String value) {
                         return DropdownMenuItem<String>(
                           value: value,

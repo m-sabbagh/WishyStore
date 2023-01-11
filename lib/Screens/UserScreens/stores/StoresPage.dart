@@ -58,6 +58,7 @@ class _UserStorePageState extends State<UserStorePage> {
           SizedBox(
             width: 20,
           ),
+          StoreCard(),
           GestureDetector(
             onTap: () => print('List of retail stores'),
             child: Container(
@@ -161,6 +162,80 @@ class _UserStorePageState extends State<UserStorePage> {
               height: 20,
             ),
             CategoryCard(),
+            // Padding(
+//                 padding: const EdgeInsets.all(8.0),
+//                 child: Text(
+//                   'Retail',
+//                   style: TextStyle(color: Colors.white, fontSize: 20),
+//                 ),
+//               ),
+//               RRRR(),
+//               SizedBox(
+//                 height: 10,
+//               ),
+//               SizedBox(
+//                 height: 20,
+//               ),
+
+//  body: Padding(
+//         padding: const EdgeInsets.all(15.0),
+//         child: SingleChildScrollView(
+//           scrollDirection: Axis.horizontal,
+//           child: Row(
+//             // mainAxisAlignment: MainAxisAlignment.center,
+//             children: [
+//               SizedBox(
+//                 width: 1,
+//               ),
+//               ListView.builder(
+//                   scrollDirection: Axis.horizontal,
+//                   physics: NeverScrollableScrollPhysics(),
+//                   shrinkWrap: true,
+//                   itemBuilder: ((context, index) {
+//                     return SingleChildScrollView(
+//                       child: Column(
+//                         children: [
+//                           Row(
+//                             children: [
+//                               RRRR(),
+//                               SizedBox(
+//                                 width: 10,
+//                               ),
+//                             ],
+//                           ),
+//                           Row(
+//                             children: [
+//                               RRRR(),
+//                               SizedBox(
+//                                 width: 10,
+//                               ),
+//                             ],
+//                           ),
+//                           Row(
+//                             children: [
+//                               RRRR(),
+//                               SizedBox(
+//                                 width: 10,
+//                               ),
+//                             ],
+//                           ),
+//                           Row(
+//                             children: [
+//                               RRRR(),
+//                               SizedBox(
+//                                 width: 10,
+//                               ),
+//                             ],
+//                           ),
+//                         ],
+//                       ),
+//                     );
+//                   }),
+//                   itemCount: 4),
+//             ],
+//           ),
+//         ),
+//       ),
           ],
         ),
       ),
