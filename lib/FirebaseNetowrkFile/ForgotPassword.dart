@@ -1,11 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:fluttertoast/fluttertoast.dart';
 import 'package:rflutter_alert/rflutter_alert.dart';
-import 'package:wishy_store/Screens/User/StoreOwner%20shared%20screens/LogInPage.dart';
+import 'package:wishy_store/Screens/User_StoreOwner%20sharedScreens/StoreOwner/LogInPage.dart';
 import 'package:wishy_store/Widgets/buttonPadding.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:wishy_store/Widgets/ErrorToast.dart';
-import 'package:wishy_store/Widgets/postiontedArrowBack.dart';
 import 'package:wishy_store/constants.dart';
 
 class ForgotPassword extends StatefulWidget {
@@ -63,7 +62,7 @@ class _ForgotPasswordState extends State<ForgotPassword> {
     }
   }
 
-  final _auth = FirebaseAuth.instance;
+  // final _auth = FirebaseAuth.instance;
   @override
   Widget build(BuildContext context) {
     return Scaffold(

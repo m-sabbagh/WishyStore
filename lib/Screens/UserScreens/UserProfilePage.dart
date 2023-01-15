@@ -6,8 +6,9 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_storage/firebase_storage.dart';
 import 'package:flutter/material.dart';
 import 'package:image_picker/image_picker.dart';
+import 'package:wishy_store/Widgets/ErrorToast.dart';
 import '../../FirebaseNetowrkFile/ReadData/userData/GetUserName.dart';
-import '../User/StoreOwner shared screens/LogInPage.dart';
+import '../User_StoreOwner sharedScreens/StoreOwner/LogInPage.dart';
 
 // import 'package:firebase_storage/firebase_storage.dart';
 // import 'package:image_picker/image_picker.dart';
@@ -27,7 +28,8 @@ Future getImage() async {
     maxHeight: 512,
     maxWidth: 512,
   );
-  Reference ref = FirebaseStorage.instance.ref().child('user_profile_image');
+  String uniqueImageUrl = DateTime.now().millisecondsSinceEpoch.toString();
+  Reference ref = FirebaseStorage.instance.ref().child(uniqueImageUrl);
   await ref.putFile(File(image!.path));
   ref.getDownloadURL().then((value) async {
     await FirebaseAuth.instance.currentUser!.updatePhotoURL(value);
@@ -273,18 +275,24 @@ class _UserProfilePageState extends State<UserProfilePage> {
                                         } else if (_newPasswordController
                                                 .text !=
                                             _confirmPasswordController.text) {
-                                          print('password not match');
+                                          CustomFlutterToast_Error(
+                                              message: 'Password not match');
                                         }
                                       } else if (_oldPasswordController.text !=
                                           oldPassword) {
-                                        print('old password not match');
+                                        CustomFlutterToast_Error(
+                                            message:
+                                                'Password same as old password');
                                       } else if (!pass_valid.hasMatch(
                                           _newPasswordController.text)) {
-                                        print('password not valid');
+                                        CustomFlutterToast_Error(
+                                            message: 'Password not valid');
                                       } else if (_newPasswordController
                                               .text.length <
                                           8) {
-                                        print('password length must be 8');
+                                        CustomFlutterToast_Error(
+                                            message:
+                                                'Password length must be more than 8  characters');
                                       }
                                     },
                                     child: Text('Confirm'),

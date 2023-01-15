@@ -5,7 +5,6 @@ import 'package:eva_icons_flutter/eva_icons_flutter.dart';
 import 'package:fluttertoast/fluttertoast.dart';
 import 'package:rflutter_alert/rflutter_alert.dart';
 import 'package:wishy_store/Screens/UserScreens/MyWishPage/CreateWishList.dart';
-import 'package:wishy_store/Screens/UserScreens/MyWishPage/WishHubPage.dart';
 import 'package:wishy_store/Screens/UserScreens/MyWishPage/WishlistCard.dart';
 import '../../../Widgets/ErrorToast.dart';
 
@@ -29,7 +28,7 @@ class _MyWishPageState extends State<MyWishPage> {
 
   String? dropDownValue;
 
-  FirebaseAuth _auth = FirebaseAuth.instance;
+  // FirebaseAuth _auth = FirebaseAuth.instance;
 
   bool isthereIsWishlissts = false;
 

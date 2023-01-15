@@ -3,9 +3,9 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:eva_icons_flutter/eva_icons_flutter.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
-import 'package:wishy_store/Screens/User/StoreOwner%20shared%20screens/UserNavBar.dart';
-import 'package:wishy_store/Screens/UserScreens/stores/StoresPage.dart';
-import 'package:wishy_store/Screens/UserScreens/stores/store1.dart';
+import 'package:wishy_store/Screens/User_StoreOwner%20sharedScreens/StoreOwner/UserNavBar.dart';
+import 'package:wishy_store/Screens/UserScreens/ShowStoreForUser/StoresPage.dart';
+import 'package:wishy_store/Screens/UserScreens/ShowStoreForUser/StorePage.dart';
 import 'package:wishy_store/StoreOwner/StoreOwnerPage.dart';
 import 'MyWishPage/MyWishPage.dart';
 

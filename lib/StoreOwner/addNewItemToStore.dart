@@ -1,6 +1,8 @@
+import 'dart:io';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
+import 'package:wishy_store/StoreOwner/UploadToStorage.dart';
 
 class AddNewItemToStore extends StatefulWidget {
   const AddNewItemToStore({Key? key}) : super(key: key);
@@ -11,32 +13,101 @@ class AddNewItemToStore extends StatefulWidget {
 }
 
 class _AddNewItemToStoreState extends State<AddNewItemToStore> {
-  // Future getImage(String? itemBarcode) async {
-  //   final image = await ImagePicker().pickImage(
+  // XFile? image;
+  String? storename;
+
+  Future getstorename() async {
+    await FirebaseFirestore.instance
+        .collection('StoreOwners')
+        .doc(userId)
+        .get()
+        .then((value) {
+      storename = value.data()!['storeName'];
+    });
+  }
+
+  // var imageurl;
+  // Future getImage() async {
+  //   image = await ImagePicker().pickImage(
   //     source: ImageSource.gallery,
   //     imageQuality: 100,
   //     maxHeight: 512,
   //     maxWidth: 512,
   //   );
-
   // }
 
-  // void uploadImage(String? itemBarcode) async {
+  // Future uploadImage(String? itemBarcode) async {
   //   Reference ref = FirebaseStorage.instance.ref().child(itemBarcode!);
   //   await ref.putFile(File(image!.path));
   //   ref.getDownloadURL().then((value) async {
   //     await FirebaseAuth.instance.currentUser!.updatePhotoURL(value);
+  //     imageurl = await value;
+  //     print(imageurl);
   //   });
+  // }
+
+  //image size must be wirtten right ... 512x512 7ato habal
+  //when the storeowner uploads an image it shows it
+  final _itemtitle = TextEditingController();
+  final _itemprice = TextEditingController();
+  final _itembarcode = TextEditingController();
+  final _itemdescription = TextEditingController();
+  Future addItemToStore() async {
+    if (_itemtitle.text.isEmpty ||
+        _itemprice.text.isEmpty ||
+        _itembarcode.text.isEmpty ||
+        imageURL == '' ||
+        selectedItemCategory == null) {
+      ScaffoldMessenger.of(context)
+          .showSnackBar(SnackBar(content: Text('Please fill all fields')));
+    } else {
+      FirebaseFirestore.instance.collection('StoreOwners').doc(userId).set({
+        'categories': {
+          '$selectedItemCategory': {
+            '${_itemtitle.text}': {
+              'itemTitle': _itemtitle.text,
+              'itemPrice': _itemprice.text,
+              'itemBarcode': _itembarcode.text,
+              'itemImage': imageURL,
+              'itemDescription': _itemdescription.text,
+            }
+          }
+        }
+      }, SetOptions(merge: true));
+      ScaffoldMessenger.of(context)
+          .showSnackBar(SnackBar(content: Text('Item added successfully')));
+      setState(() {
+        clearFileds();
+      });
+    }
+  }
+
+  clearFileds() {
+    _itemtitle.clear();
+    _itemprice.clear();
+    _itembarcode.clear();
+    _itemdescription.clear();
+  }
+
+  // Image backgroundimage() {
+  //   if (FirebaseAuth.instance.currentUser!.photoURL != null) {
+  //     return Image.network(imageUrl);
+  //   } else {
+  //     return Image.asset('images/user_defulat.png');
+  //   }
   // }
 
   @override
   void initState() {
-    // TODO: implement initState
+    getstorename();
     super.initState();
   }
 
+  File? filevar;
+  String? imageURL = '';
   String? selectedItemCategory;
   String userId = FirebaseAuth.instance.currentUser!.uid;
+  // String imageUrl = '';
 
   @override
   Widget build(BuildContext context) {
@@ -49,26 +120,75 @@ class _AddNewItemToStoreState extends State<AddNewItemToStore> {
               children: <Widget>[
                 SizedBox(height: 20.0),
 
-                IconButton(
-                    onPressed: () {},
-                    icon: Icon(
-                      Icons.add_a_photo,
-                      size: 50,
-                    )),
+                Column(
+                  crossAxisAlignment: CrossAxisAlignment.center,
+                  children: [
+                    // CircleAvatar(
+                    //   backgroundColor: Colors.grey,
+                    //   radius: 55,
+                    //   backgroundImage: backgroundimage().image,
+                    // ),
+                    Container(
+                      height: 200,
+                      width: 400,
+                      child: ClipRRect(
+                        child: Image.asset(
+                          'images/upload_storeproduct.jpg',
+                          height: 200,
+                          width: 200,
+                        ),
+                      ),
+                    ),
+                    GestureDetector(
+                      onTap: () async {
+                        // ImagePicker imagePicker = ImagePicker();
+                        // XFile? filename = await imagePicker.pickImage(
+                        //     source: ImageSource.gallery);
 
-                Text(
-                  'Add item image , image must be 512x512',
-                  style: TextStyle(
-                    color: Colors.amber,
-                    fontSize: 20,
-                    fontWeight: FontWeight.bold,
-                  ),
+                        // String uniqueImageUrl =
+                        //     DateTime.now().millisecondsSinceEpoch.toString();
+
+                        // Reference refRoot = FirebaseStorage.instance.ref();
+                        // Reference refDirImage = refRoot.child(storename!);
+                        // //name the image whatever you want
+                        // Reference referenceImageToUpload =
+                        //     refDirImage.child(uniqueImageUrl);
+
+                        // //store the file
+                        // await referenceImageToUpload
+                        //     .putFile(File(filename!.path));
+                        // //get the url of the image
+                        // imageUrl = await refDirImage.getDownloadURL();
+                        filevar = await Storage.getGalleryImage(image: filevar);
+                        imageURL =
+                            await Storage.uploadUserImage(image: filevar);
+                      },
+                      child: Text(
+                        'Upload item image',
+                        style: TextStyle(
+                          color: Colors.blue[400],
+                          fontSize: 20,
+                          fontWeight: FontWeight.bold,
+                        ),
+                      ),
+                    ),
+                    SizedBox(height: 5.0),
+                    Text(
+                      'image must be 512x512',
+                      style: TextStyle(
+                        color: Colors.red,
+                        fontSize: 15,
+                        fontWeight: FontWeight.bold,
+                      ),
+                    ),
+                  ],
                 ),
+
                 SizedBox(height: 20.0),
                 SizedBox(
                   height: 50,
                   child: TextField(
-                    // controller: _emailcontroller,
+                    controller: _itemtitle,
                     decoration: InputDecoration(
                       hintText: 'Enter item title',
                       hintStyle: TextStyle(
@@ -91,7 +211,7 @@ class _AddNewItemToStoreState extends State<AddNewItemToStore> {
                       child: SizedBox(
                         height: 50,
                         child: TextField(
-                          // controller: _emailcontroller,
+                          controller: _itemprice,
                           decoration: InputDecoration(
                             hintText: 'Enter item price',
                             hintStyle: TextStyle(
@@ -114,7 +234,7 @@ class _AddNewItemToStoreState extends State<AddNewItemToStore> {
                       child: SizedBox(
                         height: 50,
                         child: TextField(
-                          // controller: _emailcontroller,
+                          controller: _itembarcode,
                           decoration: InputDecoration(
                             hintText: 'Enter item barcode',
                             hintStyle: TextStyle(
@@ -201,7 +321,7 @@ class _AddNewItemToStoreState extends State<AddNewItemToStore> {
                   height: 100,
                   child: TextField(
                     maxLines: 5,
-                    // controller: _emailcontroller,
+                    controller: _itemdescription,
                     decoration: InputDecoration(
                       hintText: 'Description',
                       hintStyle: TextStyle(
@@ -246,8 +366,8 @@ class _AddNewItemToStoreState extends State<AddNewItemToStore> {
                       ),
                     ),
                     MaterialButton(
-                      onPressed: () {
-                        // addItemToStore();
+                      onPressed: () async {
+                        addItemToStore();
                       },
                       shape: RoundedRectangleBorder(
                         borderRadius: BorderRadius.circular(10.0),

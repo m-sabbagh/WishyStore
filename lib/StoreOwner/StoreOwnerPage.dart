@@ -1,9 +1,11 @@
+import 'dart:io';
+
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:wishy_store/StoreOwner/addNewCategory.dart';
 import 'package:wishy_store/StoreOwner/addNewItemToStore.dart';
-import 'package:wishy_store/StoreOwner/getCategories.dart';
+import 'package:wishy_store/StoreOwner/UploadToStorage.dart';
 
 class StoreOwnerPage extends StatefulWidget {
   static String id = 'StoreOwnerPage';
@@ -13,13 +15,29 @@ class StoreOwnerPage extends StatefulWidget {
 }
 
 class _StoreOwnerPage extends State<StoreOwnerPage> {
+  String? storename;
+  String userId = FirebaseAuth.instance.currentUser!.uid;
+  String imageUrl = '';
+
+  Future getstorename() async {
+    await FirebaseFirestore.instance
+        .collection('StoreOwners')
+        .doc(userId)
+        .get()
+        .then((value) {
+      storename = value.data()!['storeName'];
+    });
+  }
+
   @override
   void initState() {
+    getstorename();
     // TODO: implement initState
     super.initState();
   }
 
-  late String tester;
+  File? filevar;
+  String? imageURL = '';
 
   @override
   Widget build(BuildContext context) {
@@ -151,14 +169,28 @@ class _StoreOwnerPage extends State<StoreOwnerPage> {
                       height: 10,
                     ),
                     MaterialButton(
-                      onPressed: () {},
+                      onPressed: () async {
+                        filevar = await Storage.getGalleryImage(image: filevar);
+                        imageURL =
+                            await Storage.uploadUserImage(image: filevar);
+
+                        await FirebaseFirestore.instance
+                            .collection('StoreOwners')
+                            .doc(userId)
+                            .update({'storeLogo': imageURL});
+                        SetOptions(merge: true);
+                        // Navigator.push(
+                        //     context,
+                        //     MaterialPageRoute(
+                        //         builder: (context) => AddLogoForStore()));
+                      },
                       child: Container(
                         height: 100,
                         width: 200,
                         color: Colors.grey,
                         child: Center(
                             child: Text(
-                          "edit item",
+                          "upload store logo",
                           style: TextStyle(color: Colors.white),
                         )),
                       ),
@@ -167,14 +199,24 @@ class _StoreOwnerPage extends State<StoreOwnerPage> {
                       height: 10,
                     ),
                     MaterialButton(
-                      onPressed: () {},
+                      onPressed: () async {
+                        filevar = await Storage.getGalleryImage(image: filevar);
+                        imageURL =
+                            await Storage.uploadUserImage(image: filevar);
+
+                        await FirebaseFirestore.instance
+                            .collection('StoreOwners')
+                            .doc(userId)
+                            .update({'storeCover': imageURL});
+                        SetOptions(merge: true);
+                      },
                       child: Container(
                         height: 100,
                         width: 200,
                         color: Colors.grey,
                         child: Center(
                             child: Text(
-                          "edit category",
+                          "upload store cover",
                           style: TextStyle(color: Colors.white),
                         )),
                       ),

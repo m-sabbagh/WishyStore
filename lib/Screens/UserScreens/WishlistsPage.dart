@@ -28,7 +28,7 @@ class WishlistPage extends StatefulWidget {
 
 class _WishlistPageState extends State<WishlistPage> {
   @override
-  bool isChecked = false;
+  // bool isChecked = false;
 
   Map wishlistData = {};
 
@@ -276,7 +276,8 @@ class _WishlistPageState extends State<WishlistPage> {
                                   decoration: BoxDecoration(
                                     borderRadius: BorderRadius.circular(10),
                                     image: DecorationImage(
-                                      image: Image.asset(imageUrl[index]).image,
+                                      image:
+                                          Image.network(imageUrl[index]).image,
                                       fit: BoxFit.cover,
                                     ),
                                   ),
