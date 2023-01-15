@@ -10,9 +10,13 @@ class AddItemsToWishlist {
 
   void addNewItems({
     String? wName,
-    String? imageUrl,
-    String? itemTitle,
-    String? itemPrice,
+    required String imageUrl,
+    required String itemTitle,
+    required String itemPrice,
+    required String itemBarcode,
+    required String itemCategory,
+    required String itemDescription,
+    required String itemStoreName,
   }) async {
     // print(wName);
     // print(imageUrl);
@@ -32,6 +36,10 @@ class AddItemsToWishlist {
               'itemTitle': itemTitle,
               'itemPrice': itemPrice,
               'isReserved': false,
+              'itemBarcode': itemBarcode,
+              'itemCategory': itemCategory,
+              'itemDescription': itemDescription,
+              'itemStoreName': itemStoreName,
             }
           },
         },
