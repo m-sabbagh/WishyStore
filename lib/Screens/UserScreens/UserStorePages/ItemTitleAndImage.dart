@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:wishy_store/Screens/UserScreens/ShowStoreForUser/StoreItems.dart';
 
 import '../../../constants.dart';
 
@@ -8,12 +7,14 @@ class ItemTitleAndImage extends StatelessWidget {
   String itemTitle;
   String itemPrice;
   String itemCategory;
+  String storeName;
 
   ItemTitleAndImage({
     required this.itemImage,
     required this.itemTitle,
     required this.itemPrice,
     required this.itemCategory,
+    required this.storeName,
   });
 
   // final StoreItems items;
@@ -31,10 +32,13 @@ class ItemTitleAndImage extends StatelessWidget {
           // ),
           Text(
             '${itemTitle}',
-            style: TextStyle(color: Colors.white, fontWeight: FontWeight.bold),
+            style: TextStyle(
+                color: Colors.black87,
+                fontSize: 20,
+                fontWeight: FontWeight.bold),
           ),
           Text(
-            '${itemCategory}',
+            '${itemCategory} - ${storeName}',
             style: TextStyle(
               color: Colors.grey,
             ),
@@ -45,11 +49,16 @@ class ItemTitleAndImage extends StatelessWidget {
               RichText(
                 text: TextSpan(
                   children: [
-                    TextSpan(text: "Price\n"),
                     TextSpan(
-                      text: "\$${itemPrice}",
+                      text: "Price\n",
                       style: TextStyle(
-                          color: Colors.white, fontWeight: FontWeight.bold),
+                        color: Colors.black87,
+                      ),
+                    ),
+                    TextSpan(
+                      text: "${itemPrice}JD",
+                      style: TextStyle(
+                          color: Colors.black87, fontWeight: FontWeight.bold),
                     ),
                   ],
                 ),

@@ -56,110 +56,10 @@ class _WishHubPageState extends State<WishHubPage> {
 
         wishlistData['sharedWishlistsFromUsers'].forEach((key, value) {
           wishlistUsers[key] = value;
-          // print(key);
-
-          //resub
-          // wishlistData['sharedWishlistsFromUsers'][key].forEach((key, value) {
-          //   // print(key);
-
-          //   if (key == 'wishlistOwnerEmail') {
-          //     // print(value);
-          //   }
-          //    else if (key == 'userId') {
-          //     userIds.add(value);
-          //   } else {
-          //     print(value['wishlistType']);
-          //   }
-
-          //   // else if (key == 'wishlistName') {
-          //   //   print(value);
-          //   //   wishlistNames.add(value);
-          //   // } else if (key == 'wishlistType') {
-          //   //   wishlistTypes.add(value);
-          //   // } else if (key == 'wishlistDescription') {
-          //   //   wishlistDescriptions.add(value);
-          //   // }
-          //   // if (key == 'wishlistOwnerEmail') {
-          //   //           print(value['wishlistOwnerEmail']);
-          //   //         }
-          //   //          else if (key == 'userId') {
-          //   //           print('nothing but userId');
-          //   //         } else {
-          //   //           wishlistNames.add(value['wishlistName']);
-          //   //           wishlistTypes.add(value['wishlistType']);
-          //   //           wishlistDescriptions.add(value['wishlistDescription']);
-          //   //           userIds.add(value['userId']);
-          //   //         }
-
-          //   // if (key == 'wishlistType') {
-          //   //   wishlistTypes.add(value);
-          //   // }
-          //   // if (key == 'wishlistDescription') {
-          //   //   wishlistDescriptions.add(value);
-          //   // }
-          //   // if (key == 'userId') {
-          //   //   userIds.add(value);
-          //   // }
-          // });
-
-          //  wishlistType.add(value['wishlistType']);
-          // wishlistNames.add(value['wishlistName']);
         });
       });
     });
   }
-
-  // void getWishlistForThatEmail(String email) {
-  //   FirebaseFirestore wishlist = FirebaseFirestore.instance;
-  //   wishlist
-  //       .collection('wishlists')
-  //       .doc(FirebaseAuth.instance.currentUser!.uid)
-  //       .get()
-  //       .asStream()
-  //       .toList()
-  //       .then((value) {
-  //     value.forEach((element) {
-  //       wishlistData = element.data() as Map;
-
-  //       wishlistData['sharedWishlistsFromUsers'][email].forEach((key, value) {
-  //         // print(key);
-  //         if (key == 'wishlistOwnerEmail') {
-  //           print('nothing but email');
-  //         } else if (key == 'userId') {
-  //           print('nothing but userId');
-  //         } else {
-  //           wishlistNames.add(value['wishlistName']);
-  //           wishlistTypes.add(value['wishlistType']);
-  //           wishlistDescriptions.add(value['wishlistDescription']);
-  //           userIds.add(value['userId']);
-  //         }
-  //       });
-  //     });
-  //   });
-
-//important for future
-  // dynamic getThatWishlist(String wname, String userId) {
-  //   FirebaseFirestore wishlist = FirebaseFirestore.instance;
-
-  //   wishlist
-  //       .collection('wishlists')
-  //       .doc(userId)
-  //       .get()
-  //       .asStream()
-  //       .toList()
-  //       .then((value) => value.forEach((element) {
-  //             wishlistData2 = element.data() as Map;
-
-  //             wishlistData2['userWishlists'].forEach((key, value) {
-  //               if (key == wname) {
-  //                 return value['UserItems'];
-  //                 // print(key);
-  //                 // print(value['wishlistType']);
-  //                 // wishlistTypeNew.add(value['wishlistType']);
-  //               }
-  //             });
-  //           }));
-  // }
 
   @override
   void initState() {
@@ -175,7 +75,6 @@ class _WishHubPageState extends State<WishHubPage> {
     //hello co
 
     return Scaffold(
-      backgroundColor: Color.fromARGB(255, 17, 14, 35),
       appBar: AppBar(
         automaticallyImplyLeading: true,
         backgroundColor: Colors.transparent,
@@ -184,7 +83,10 @@ class _WishHubPageState extends State<WishHubPage> {
           children: [
             Text(
               'WishHub',
-              style: TextStyle(color: Colors.white, fontSize: 30),
+              style: TextStyle(
+                  color: Colors.black87,
+                  fontSize: 30,
+                  fontWeight: FontWeight.bold),
             ),
           ],
         ),
@@ -211,7 +113,7 @@ class _WishHubPageState extends State<WishHubPage> {
                               style: TextStyle(
                                 fontSize: 20,
                                 fontWeight: FontWeight.bold,
-                                color: Colors.white,
+                                color: Colors.black87,
                               ),
                             ),
                             SizedBox(
@@ -240,19 +142,19 @@ class _WishHubPageState extends State<WishHubPage> {
                               title: Text(
                                 wishlistUsers.keys.elementAt(index),
                                 style: TextStyle(
-                                    color: Colors.white,
+                                    color: Colors.black87,
                                     fontSize: 20,
                                     fontWeight: FontWeight.bold,
                                     fontFamily: 'Montserrat'),
                               ),
                               leading: Icon(
                                 Icons.location_history,
-                                color: Colors.white,
+                                color: Colors.black87,
                               ),
                               trailing: IconButton(
                                 icon: Icon(
                                   Icons.delete,
-                                  color: Colors.white,
+                                  color: Colors.black87,
                                 ),
                                 onPressed: () {
                                   setState(() {
@@ -313,24 +215,8 @@ class _WishHubPageState extends State<WishHubPage> {
                                   });
                                 },
                               ),
-                              // subtitle: Text(
-                              //   userIds[index],
-                              //   style: TextStyle(color: Colors.white),
-                              // ),
-                              // subtitle: Text(
-                              //   wishlistData3.values.elementAt(index),
-                              //   style: TextStyle(color: Colors.white),
-                              // ),  // subtitle: Text(
-                              //   wishlistData3.values.elementAt(index),
-                              //   style: TextStyle(color: Colors.white),
-                              // ),
                               onTap: () {
                                 setState(() {
-                                  // ThatOneUser(
-                                  //     userEmail:
-                                  //         wishlistUsers.keys.elementAt(index));
-                                  // Navigator.pushNamed(context, ThaftOneUser.id);
-                                  // print(wishlistUsers.values.elementAt(index));
                                   Navigator.push(
                                       context,
                                       MaterialPageRoute(
@@ -338,105 +224,11 @@ class _WishHubPageState extends State<WishHubPage> {
                                               userEmail: wishlistUsers.keys
                                                   .elementAt(index))));
                                 });
-
-                                // Navigator.push(context, MaterialPageRoute(
-                                //   builder: (context) {
-                                //     return ThatOneUser(
-
-                                //     );
-                                //   },
-                                // ));
                               },
                             );
                           }),
-
-                      // ...wishlistData3
-                      //     .map((Key, value) {
-                      //       Key = ['wishlistname'];
-
-                      //       return MapEntry(
-                      //         Key,
-                      //         ListTile(
-                      //           title: Text(
-                      //             Key,
-                      //             style: TextStyle(color: Colors.white),
-                      //           ),
-                      //           subtitle: Text(
-                      //             value,
-                      //             style: TextStyle(color: Colors.white),
-                      //           ),
-                      //           leading: Icon(
-                      //             EvaIcons.giftOutline,
-                      //             color: Colors.white,
-                      //           ),
-                      //           onTap: () {
-                      //             Navigator.push(
-                      //               context,
-                      //               MaterialPageRoute(
-                      //                 builder: (context) => WishlistPage(
-                      //                   wishlistName: Key,
-                      //                   wishlistType: 'Wedding',
-                      //                   uid: value,
-                      //                 ),
-                      //               ),
-                      //             );
-                      //           },
-                      //         ),
-                      //       );
-                      //     })
-                      //     .values
-                      //     .toList(),
-
-                      // ...wishlistData3 .map((key, value) => MapEntry(
-                      //     key,
-                      //     ListTile(
-                      //       leading: Icon(
-                      //         EvaIcons.giftOutline,
-                      //         color: Colors.white,
-                      //       ),
-                      //       onTap: () => {
-                      //         print(wishlistData3['userId']),
-                      //       },
-                      //       title: Text(
-                      //         key,
-                      //         style: TextStyle(color: Colors.white),
-                      //       ),
-                      //     ));
-
-                      //   ...wishlistNames.map((e) => ListTile(
-                      //   leading: Icon(
-                      //     EvaIcons.giftOutline,
-                      //     color: Colors.white,
-                      //   ),
-                      //   onTap: () => {
-                      //     print(wishlistData3['userId']),
-                      //   },
-                      //   title: Text(
-                      //     e,
-                      //     style: TextStyle(color: Colors.white),
-                      //   ),
-                      // )),
                     ],
                   );
-
-                  // return Column(
-                  //   children: [
-                  //     ListView.builder(
-                  //       shrinkWrap: true,
-                  //       physics: NeverScrollableScrollPhysics(),
-                  //       itemCount: data['sharedWishlistsFromUsers'].length,
-                  //       itemBuilder: (context, index) {
-                  //         return WishlistCard(
-                  //           wishlistName: data['sharedWishlistsFromUsers']
-                  //               [index]['wishlistName'],
-                  //           wishlistType: wishlistTypeNew[index],
-                  //           userId: data['sharedWishlistsFromUsers'][index]
-                  //               ['userId'],
-                  //         );
-                  //       },
-                  //     ),
-                  //   ],
-                  // );
                 }
               }
 

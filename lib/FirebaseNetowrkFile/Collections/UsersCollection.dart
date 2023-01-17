@@ -28,6 +28,7 @@ class UsersCollection {
       // selectedItem: Map['selectedItem'],
     );
   }
+
   Map<String, dynamic> toMap() {
     return {
       'firstname': firstname,

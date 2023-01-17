@@ -2,16 +2,17 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:fluttertoast/fluttertoast.dart';
+import 'package:wishy_store/StoreOwner/CategoryItems.dart';
 import 'package:wishy_store/Widgets/ErrorToast.dart';
 
-class AddNewCategory extends StatefulWidget {
+class MyCategories extends StatefulWidget {
   static String id = 'addNewCategory';
 
   @override
-  State<AddNewCategory> createState() => _AddNewCategoryState();
+  State<MyCategories> createState() => _MyCategoriesState();
 }
 
-class _AddNewCategoryState extends State<AddNewCategory> {
+class _MyCategoriesState extends State<MyCategories> {
   TextEditingController _categoryName = TextEditingController();
   TextEditingController _editCategoryName = TextEditingController();
 
@@ -216,6 +217,16 @@ class _AddNewCategoryState extends State<AddNewCategory> {
                           itemCount: categories.length,
                           itemBuilder: (context, index) {
                             return ListTile(
+                              onTap: () {
+                                Navigator.push(
+                                  context,
+                                  MaterialPageRoute(
+                                    builder: (context) => CategoryItems(
+                                      categoryName: categories[index],
+                                    ),
+                                  ),
+                                );
+                              },
                               // leading: Icon(Icons .),
                               // subtitle: Text(
                               //   categories[index],

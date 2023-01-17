@@ -1,5 +1,3 @@
-// import  'dart:ffi';
-
 class StoreOwnersCollection {
   String? firstname;
   String? email;
@@ -43,13 +41,10 @@ class StoreOwnersCollection {
       phoneNumber: Map['phoneNumber'],
       supportEmail: Map['supportEmail'],
       categories: Map['categories'],
-
       //store owner granted = false by default
       //aftr storeowner gets granted = true from admin , the store owner will be allowed to enter the store information
       // he will be able to manage the store
       // if the user entered his info he will be able to enter the store page
-
-      // selectedItem: Map['selectedItem'],
     );
   }
   Map<String, dynamic> toMap() {
@@ -66,8 +61,6 @@ class StoreOwnersCollection {
       'phoneNumber': phoneNumber,
       'supportEmail': supportEmail,
       'categories': categories,
-
-      // 'selectedItem': selectedItem,
     };
   }
 }

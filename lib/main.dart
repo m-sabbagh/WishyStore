@@ -6,12 +6,13 @@ import 'package:wishy_store/Screens/User_StoreOwner%20sharedScreens/StoreOwner/S
 import 'package:wishy_store/Screens/UserScreens/MyWishPage/MyWishPage.dart';
 import 'package:wishy_store/Screens/UserScreens/UserProfilePage.dart';
 import 'package:wishy_store/Screens/UserScreens/WishlistsPage.dart';
-import 'package:wishy_store/Screens/UserScreens/ShowStoreForUser/StoresPage.dart';
+import 'package:wishy_store/Screens/UserScreens/UserStorePages/StoresPage.dart';
 import 'package:wishy_store/Screens/UserScreens/UserHomePage.dart';
 import 'package:wishy_store/Screens/UserScreens/WishHubUser.dart';
 import 'package:wishy_store/StoreOwner/StoreOwnerNavBar.dart';
-import 'package:wishy_store/StoreOwner/addNewCategory.dart';
+import 'package:wishy_store/StoreOwner/MyCategories.dart';
 import 'package:wishy_store/StoreOwner/addNewItemToStore.dart';
+import 'package:wishy_store/stayLoggedIn.dart';
 import 'Screens/User_StoreOwner sharedScreens/StoreOwner/UserSignUpPage.dart';
 
 void main() async {
@@ -29,13 +30,14 @@ class WishyStore extends StatelessWidget {
       debugShowCheckedModeBanner: false,
 
       theme: ThemeData(
-          // scaffoldBackgroundColor: Color(0x8F8F8FFF),
-          // scaffoldBackgroundColor: Colors.white,
-          ),
-      // home: StayLoggedIn(),
+        scaffoldBackgroundColor: Color.fromARGB(250, 250, 250, 250),
+        // scaffoldBackgroundColor: Colors.white,
+      ),
+
+      home: StayLoggedIn(),
       // home: LoginScreen(),
       // home: StoreOwnerNavBar(),
-      home: NavigationBarForUser(),
+      // home: NavigationBarForUser(),
       // home: MyWidget(),
       routes: {
         UserSignUpPage.id: (context) => UserSignUpPage(),
@@ -50,7 +52,7 @@ class WishyStore extends StatelessWidget {
         WishHubUser.id: (context) => WishHubUser(),
         StoreOwnerNavBar.id: (context) => StoreOwnerNavBar(),
         AddNewItemToStore.id: (context) => AddNewItemToStore(),
-        AddNewCategory.id: (context) => AddNewCategory(),
+        MyCategories.id: (context) => MyCategories(),
         StoreOwnerSignUp.id: (context) => StoreOwnerSignUp(),
 
         // SharedWishlistsItems.id: (context) => SharedWishlistsItems(),

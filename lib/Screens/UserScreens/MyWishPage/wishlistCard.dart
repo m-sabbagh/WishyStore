@@ -4,7 +4,6 @@ import 'package:flutter/material.dart';
 import 'package:fluttertoast/fluttertoast.dart';
 import 'package:rflutter_alert/rflutter_alert.dart';
 import 'package:wishy_store/FirebaseNetowrkFile/shareWishlistToUser.dart';
-import 'package:wishy_store/Screens/UserScreens/MyWishPage/MyWishPage.dart';
 import 'package:wishy_store/Screens/UserScreens/WishlistsPage.dart';
 import 'package:wishy_store/Screens/UserScreens/wishlistsImages.dart';
 
@@ -13,13 +12,11 @@ class WishlistCard extends StatefulWidget {
   String? wishType;
   bool? shareButtonVisi;
   String? wishlistDescription;
-
   WishlistCard(
       {this.wishname,
       this.wishType,
       this.shareButtonVisi,
       this.wishlistDescription});
-
   @override
   State<WishlistCard> createState() => _WishlistCardState(
       wishlistn: wishname,
@@ -39,15 +36,10 @@ class _WishlistCardState extends State<WishlistCard> {
       this.wishlistTps,
       this.ShareButtonVisi,
       this.wishlistDescription});
-
   FirebaseAuth _auth = FirebaseAuth.instance;
-
   final _ShareEmailAddress = TextEditingController();
-
   @override
   Widget build(BuildContext context) {
-    MyWishPage myWishPage = MyWishPage();
-
     return GestureDetector(
       onTap: () {
         Navigator.push(
@@ -101,7 +93,7 @@ class _WishlistCardState extends State<WishlistCard> {
                               Alert(
                                   context: context,
                                   title:
-                                      "Please enter user email address for who u want to share to ",
+                                      "Share Wishlist to another user by email",
                                   content: Column(
                                     children: <Widget>[
                                       SizedBox(
@@ -144,7 +136,7 @@ class _WishlistCardState extends State<WishlistCard> {
                                       onPressed: () {
                                         if (_ShareEmailAddress.text.isEmpty) {
                                           Fluttertoast.showToast(
-                                              msg: "Please fill all the fields",
+                                              msg: "Please enter email address",
                                               toastLength: Toast.LENGTH_SHORT,
                                               gravity: ToastGravity.BOTTOM,
                                               timeInSecForIosWeb: 1,
@@ -152,9 +144,9 @@ class _WishlistCardState extends State<WishlistCard> {
                                               textColor: Colors.white,
                                               fontSize: 16.0);
                                         } else {
-                                          ShareWishlistTOuser
+                                          ShareWishlistToUser
                                               shareWishlistTOuser =
-                                              ShareWishlistTOuser(
+                                              ShareWishlistToUser(
                                             emailAddressForSharing:
                                                 _ShareEmailAddress,
                                             currentUserEmail:
@@ -207,6 +199,20 @@ class _WishlistCardState extends State<WishlistCard> {
                                           color: Color(0xFF5E57A5),
                                           onPressed: () {
                                             setState(() {
+                                              Navigator.pop(context);
+                                            });
+                                          },
+                                          child: Text(
+                                            "Cancel",
+                                            style: TextStyle(
+                                                color: Colors.white,
+                                                fontSize: 20),
+                                          ),
+                                        ),
+                                        DialogButton(
+                                          color: Color(0xFF5E57A5),
+                                          onPressed: () {
+                                            setState(() {
                                               FirebaseFirestore wishlist =
                                                   FirebaseFirestore.instance;
                                               final docref = wishlist
@@ -218,22 +224,12 @@ class _WishlistCardState extends State<WishlistCard> {
                                                     FieldValue.delete()
                                               });
                                               SetOptions(merge: true);
+
                                               Navigator.pop(context);
                                             });
                                           },
                                           child: Text(
                                             "Yes",
-                                            style: TextStyle(
-                                                color: Colors.white,
-                                                fontSize: 20),
-                                          ),
-                                        ),
-                                        DialogButton(
-                                          color: Color(0xFF5E57A5),
-                                          onPressed: () =>
-                                              Navigator.pop(context),
-                                          child: Text(
-                                            "Cancel",
                                             style: TextStyle(
                                                 color: Colors.white,
                                                 fontSize: 20),
@@ -253,12 +249,12 @@ class _WishlistCardState extends State<WishlistCard> {
             width: 350,
             height: 100,
             decoration: BoxDecoration(
-              color: Color(0xFF5E57A5),
-              borderRadius: BorderRadius.circular(10),
+              color: Color.fromARGB(255, 120, 114, 186),
+              borderRadius: BorderRadius.circular(30),
             ),
           ),
           SizedBox(
-            height: 10,
+            height: 8,
           ),
         ],
       )),

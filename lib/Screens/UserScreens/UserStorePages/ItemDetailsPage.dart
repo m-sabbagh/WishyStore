@@ -1,6 +1,7 @@
+import 'package:eva_icons_flutter/eva_icons_flutter.dart';
 import 'package:flutter/material.dart';
-import 'package:wishy_store/Screens/UserScreens/ShowStoreForUser/AddtoWishlistButton.dart';
-import 'package:wishy_store/Screens/UserScreens/ShowStoreForUser/ItemTitleAndImage.dart';
+import 'package:wishy_store/Screens/UserScreens/UserStorePages/AddtoWishlistButton.dart';
+import 'package:wishy_store/Screens/UserScreens/UserStorePages/ItemTitleAndImage.dart';
 
 // Scaffold(
 
@@ -12,7 +13,6 @@ class ItemDetailsPage extends StatefulWidget {
   String itemDescription;
   String itemCategory;
   String storeName;
-
   ItemDetailsPage({
     required this.itemBarcode,
     required this.itemTitle,
@@ -32,16 +32,19 @@ class _ItemDetailsPageState extends State<ItemDetailsPage> {
   Widget build(BuildContext context) {
     Size size = MediaQuery.of(context).size;
     return Scaffold(
-      backgroundColor: Color.fromARGB(255, 17, 14, 35),
-
       // each product have a color
       // backgroundColor: item.color,
       appBar: AppBar(
         backgroundColor: Colors.transparent,
         elevation: 0,
         leading: IconButton(
-          icon: Icon(Icons.arrow_back_ios),
-          onPressed: () => Navigator.pop(context),
+          onPressed: () {
+            Navigator.pop(context);
+          },
+          icon: Icon(
+            EvaIcons.arrowBack,
+            color: Colors.black87,
+          ),
         ),
         actions: <Widget>[SizedBox(width: 20.0 / 2)],
       ),
@@ -61,7 +64,7 @@ class _ItemDetailsPageState extends State<ItemDetailsPage> {
                     ),
                     // height: 500,
                     decoration: BoxDecoration(
-                      color: Colors.white,
+                      color: Color.fromARGB(255, 27, 26, 37),
                       borderRadius: BorderRadius.only(
                         topLeft: Radius.circular(24),
                         topRight: Radius.circular(24),
@@ -70,37 +73,37 @@ class _ItemDetailsPageState extends State<ItemDetailsPage> {
                     child: Column(
                       children: <Widget>[
                         // ColorAndSize(items: items),
+                        SizedBox(height: 20.0),
                         Row(
                           children: <Widget>[
                             Expanded(
-                              child: Column(
-                                crossAxisAlignment: CrossAxisAlignment.start,
-                                children: <Widget>[
-                                  Text("Color"),
-                                  Row(
-                                    children: <Widget>[
-                                      // ColorDot(
-                                      //   color: Color(0xFF356C95),
-                                      //   isSelected: true,
-                                      // ),
-                                      // ColorDot(color: Color(0xFFF8C078)),
-                                      // ColorDot(color: Color(0xFFA29B9B)),
-                                    ],
+                              child: RichText(
+                                text: TextSpan(
+                                  style: TextStyle(
+                                    color: Colors.white,
                                   ),
-                                ],
+                                  children: [
+                                    TextSpan(text: "Category: "),
+                                    TextSpan(
+                                        text: widget.itemCategory,
+                                        style: TextStyle(
+                                            fontWeight: FontWeight.bold))
+                                  ],
+                                ),
                               ),
                             ),
                             Expanded(
                               child: RichText(
                                 text: TextSpan(
-                                  style: TextStyle(color: Colors.amber),
+                                  style: TextStyle(
+                                    color: Colors.white,
+                                  ),
                                   children: [
-                                    TextSpan(text: "Size\n"),
+                                    TextSpan(text: "Barcode: "),
                                     TextSpan(
-                                      text: "cm",
-                                      style: TextStyle(
-                                          fontWeight: FontWeight.bold),
-                                    )
+                                        text: widget.itemBarcode,
+                                        style: TextStyle(
+                                            fontWeight: FontWeight.bold))
                                   ],
                                 ),
                               ),
@@ -112,7 +115,10 @@ class _ItemDetailsPageState extends State<ItemDetailsPage> {
                           padding: const EdgeInsets.symmetric(vertical: 20.0),
                           child: Text(
                             widget.itemDescription,
-                            style: TextStyle(height: 1.5),
+                            style: TextStyle(
+                              height: 1.5,
+                              color: Colors.white,
+                            ),
                           ),
                         ),
                         SizedBox(height: 20.0 / 2),
@@ -136,6 +142,7 @@ class _ItemDetailsPageState extends State<ItemDetailsPage> {
                     itemPrice: widget.itemPrice,
                     itemImage: widget.itemImage,
                     itemCategory: widget.itemCategory,
+                    storeName: widget.storeName,
                     // itemDescription: widget.itemDescription,
                     // itemCategory: widget.itemCategory,
                   ),

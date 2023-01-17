@@ -3,7 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:fluttertoast/fluttertoast.dart';
 
 //Firebase
-class ShareWishlistTOuser {
+class ShareWishlistToUser {
   TextEditingController emailAddressForSharing;
   String? wishlistName;
   String? currentUserId;
@@ -11,7 +11,7 @@ class ShareWishlistTOuser {
   String? wishlisttype;
   String? wishlistDescription;
 
-  ShareWishlistTOuser({
+  ShareWishlistToUser({
     required this.emailAddressForSharing,
     required this.currentUserId,
     required this.wishlistName,
@@ -44,6 +44,14 @@ class ShareWishlistTOuser {
       // print(snapshot.docs[0].data()['uId']);
       sharedTo_UserId = snapshot.docs[0].data()['uId'];
       createWishlistForSharedUser(sharedTo_UserId);
+      Fluttertoast.showToast(
+          msg: "Shared Successfully",
+          toastLength: Toast.LENGTH_SHORT,
+          gravity: ToastGravity.BOTTOM,
+          timeInSecForIosWeb: 1,
+          backgroundColor: Colors.green,
+          textColor: Colors.white,
+          fontSize: 16.0);
     }).catchError((error) {
       Fluttertoast.showToast(msg: "There's no user with that email");
     });

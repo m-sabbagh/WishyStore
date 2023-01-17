@@ -76,16 +76,27 @@ class _WishHubUserState extends State<WishHubUser> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: Color.fromARGB(255, 17, 14, 35),
       appBar: AppBar(
-        automaticallyImplyLeading: true,
+        automaticallyImplyLeading: false,
         backgroundColor: Colors.transparent,
         elevation: 0,
         title: Row(
           children: [
+            IconButton(
+              icon: Icon(
+                EvaIcons.arrowBack,
+                color: Colors.black87,
+              ),
+              onPressed: () {
+                Navigator.pop(context);
+              },
+            ),
             Text(
               'Shared Wishlists',
-              style: TextStyle(color: Colors.white, fontSize: 30),
+              style: TextStyle(
+                  color: Colors.black87,
+                  fontSize: 30,
+                  fontWeight: FontWeight.bold),
             ),
           ],
         ),
@@ -103,7 +114,7 @@ class _WishHubUserState extends State<WishHubUser> {
                   return Center(
                     child: Text(
                       'No Shared Wishlists',
-                      style: TextStyle(color: Colors.white, fontSize: 20),
+                      style: TextStyle(color: Colors.black87, fontSize: 20),
                     ),
                   );
                 } else {
@@ -116,19 +127,23 @@ class _WishHubUserState extends State<WishHubUser> {
                             return ListTile(
                               title: Text(
                                 wishlistNames[index],
-                                style: TextStyle(color: Colors.white),
+                                style: TextStyle(
+                                  color: Colors.black87,
+                                ),
                               ),
                               subtitle: Text(
                                 wishlistTypes[index],
-                                style: TextStyle(color: Colors.white),
+                                style: TextStyle(
+                                  color: Colors.black87,
+                                ),
                               ),
                               leading: Icon(
                                 EvaIcons.giftOutline,
-                                color: Colors.white,
+                                color: Colors.black87,
                               ),
                               trailing: Icon(
                                 EvaIcons.arrowIosForward,
-                                color: Colors.white,
+                                color: Colors.black87,
                               ),
                               onTap: () {
                                 Navigator.push(

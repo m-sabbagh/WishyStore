@@ -9,7 +9,8 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
-import 'package:wishy_store/Screens/UserScreens/ShowStoreForUser/addItemsToWishlist.dart';
+import 'package:wishy_store/Screens/UserScreens/UserStorePages/addItemsToWishlist.dart';
+import 'package:wishy_store/constants.dart';
 
 class AddToWishlistButton extends StatefulWidget {
   String itemBarcode;
@@ -96,7 +97,7 @@ class _AddToWishlistButtonState extends State<AddToWishlistButton> {
             child: SizedBox(
               height: 50,
               child: MaterialButton(
-                color: Colors.amber,
+                color: kButtonColor,
                 shape: RoundedRectangleBorder(
                     borderRadius: BorderRadius.circular(18)),
                 onPressed: () {
@@ -115,7 +116,6 @@ class _AddToWishlistButtonState extends State<AddToWishlistButton> {
                                       value: "radio value",
                                       groupValue: "group value",
                                       onChanged: (value) {
-                                        print(wishlistNames[i].toString());
                                         wishlistName = wishlistNames[i];
                                         setState(() {
                                           AddItemsToWishlist().addNewItems(
@@ -182,10 +182,9 @@ class _AddToWishlistButtonState extends State<AddToWishlistButton> {
                 child: Text(
                   "Add to my wishlist".toUpperCase(),
                   style: TextStyle(
-                    fontSize: 17,
-                    fontWeight: FontWeight.bold,
-                    color: Colors.red,
-                  ),
+                      fontSize: 17,
+                      fontWeight: FontWeight.bold,
+                      color: Colors.white),
                 ),
               ),
             ),

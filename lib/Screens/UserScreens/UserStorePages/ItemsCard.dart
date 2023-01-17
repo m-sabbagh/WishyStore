@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:wishy_store/Screens/UserScreens/ShowStoreForUser/StoreItems.dart';
 
 class ItemCard extends StatelessWidget {
   String itemImage;
@@ -42,12 +41,15 @@ class ItemCard extends StatelessWidget {
             padding: const EdgeInsets.symmetric(vertical: 20.0 / 4),
             child: Text(
               itemTitle,
-              style: TextStyle(color: Color(0xFFACACAC)),
+              style: TextStyle(color: Color.fromARGB(255, 57, 54, 54)),
             ),
           ),
           Text(
-            "\$${itemPrice}",
-            style: TextStyle(fontWeight: FontWeight.bold, color: Colors.amber),
+            "${itemPrice}JD",
+            style: TextStyle(
+              fontWeight: FontWeight.bold,
+              color: Colors.black87,
+            ),
           )
         ],
       ),

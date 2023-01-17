@@ -2,10 +2,11 @@ import 'package:carousel_slider/carousel_slider.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:eva_icons_flutter/eva_icons_flutter.dart';
 import 'package:firebase_auth/firebase_auth.dart';
+import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
 import 'package:wishy_store/Screens/User_StoreOwner%20sharedScreens/StoreOwner/UserNavBar.dart';
-import 'package:wishy_store/Screens/UserScreens/ShowStoreForUser/StoresPage.dart';
-import 'package:wishy_store/Screens/UserScreens/ShowStoreForUser/StorePage.dart';
+import 'package:wishy_store/Screens/UserScreens/UserStorePages/StoresPage.dart';
+import 'package:wishy_store/Screens/UserScreens/UserStorePages/StorePage.dart';
 import 'package:wishy_store/StoreOwner/StoreOwnerPage.dart';
 import 'MyWishPage/MyWishPage.dart';
 
@@ -59,7 +60,6 @@ class _UserHomePageState extends State<UserHomePage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: Color.fromARGB(255, 17, 14, 35),
       appBar: AppBar(
         elevation: 0,
         automaticallyImplyLeading: false,
@@ -69,13 +69,19 @@ class _UserHomePageState extends State<UserHomePage> {
           children: [
             Text(
               'WishyStore',
-              style: TextStyle(color: Colors.white, fontSize: 30),
+              style: TextStyle(
+                  color: Colors.black87,
+                  fontSize: 30,
+                  fontWeight: FontWeight.bold),
             ),
             Row(
               children: [
                 IconButton(
                   onPressed: () {},
-                  icon: Icon(EvaIcons.search, color: Colors.white),
+                  icon: Icon(
+                    EvaIcons.search,
+                    color: Colors.black87,
+                  ),
                 ),
               ],
             ),
@@ -128,7 +134,8 @@ class _UserHomePageState extends State<UserHomePage> {
                   Text(
                     "Stores",
                     style: TextStyle(
-                      color: Colors.white,
+                      color: Colors.black87,
+                      fontSize: 20,
                     ),
                   ),
                   SizedBox(
@@ -141,7 +148,7 @@ class _UserHomePageState extends State<UserHomePage> {
                     child: Text(
                       "View all",
                       style: TextStyle(
-                        color: Colors.white,
+                        color: Colors.black87,
                       ),
                     ),
                   ),
@@ -165,16 +172,12 @@ class _UserHomePageState extends State<UserHomePage> {
                                 borderRadius:
                                     BorderRadius.circular(20), // Image border
                                 child: SizedBox.fromSize(
-                                  size: Size.fromRadius(55), // Image radius
+                                  size: Size.fromRadius(70), // Image radius
                                   child: Image.asset('images/ledrz.jpeg',
                                       fit: BoxFit.cover),
                                 ),
                               )),
                         ),
-                        Text(
-                          'Leaders', //should capitlize the first letter
-                          style: TextStyle(color: Colors.white),
-                        )
                       ],
                     ),
                     Column(
@@ -186,16 +189,12 @@ class _UserHomePageState extends State<UserHomePage> {
                                 borderRadius:
                                     BorderRadius.circular(20), // Image border
                                 child: SizedBox.fromSize(
-                                  size: Size.fromRadius(55), // Image radius
+                                  size: Size.fromRadius(70), // Image radius
                                   child: Image.asset(
                                       'images/Deal_of_the_Day-11_400x400.png',
                                       fit: BoxFit.cover),
                                 ),
                               )),
-                        ),
-                        Text(
-                          'Smartbuy',
-                          style: TextStyle(color: Colors.white),
                         ),
                       ],
                     ),
@@ -206,7 +205,7 @@ class _UserHomePageState extends State<UserHomePage> {
                             borderRadius:
                                 BorderRadius.circular(20), // Image border
                             child: SizedBox.fromSize(
-                              size: Size.fromRadius(55), // Image radius
+                              size: Size.fromRadius(70), // Image radius
                               child: Image.asset('images/frame0.jpg',
                                   fit: BoxFit.cover),
                             ),
@@ -218,7 +217,7 @@ class _UserHomePageState extends State<UserHomePage> {
                           child: ClipRRect(
                             borderRadius: BorderRadius.circular(20),
                             child: SizedBox.fromSize(
-                              size: Size.fromRadius(55), // Image radius
+                              size: Size.fromRadius(70), // Image radius
                               child: Image.asset('images/zara.jpg',
                                   fit: BoxFit.cover),
                             ),
@@ -230,7 +229,7 @@ class _UserHomePageState extends State<UserHomePage> {
                           child: ClipRRect(
                             borderRadius: BorderRadius.circular(20),
                             child: SizedBox.fromSize(
-                              size: Size.fromRadius(55), // Image radius
+                              size: Size.fromRadius(70), // Image radius
                               child: Image.asset('images/gift_center.jpeg',
                                   fit: BoxFit.cover),
                             ),
@@ -243,18 +242,17 @@ class _UserHomePageState extends State<UserHomePage> {
                 height: 20,
               ),
               Row(
+                mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                 children: [
-                  SizedBox(
-                    width: 20,
-                  ),
                   Text(
                     "My wishlists",
                     style: TextStyle(
-                      color: Colors.white,
+                      color: Colors.black87,
+                      fontSize: 20,
                     ),
                   ),
                   SizedBox(
-                    width: 210,
+                    width: 200,
                   ),
                   GestureDetector(
                     onTap: () {
@@ -263,55 +261,51 @@ class _UserHomePageState extends State<UserHomePage> {
                     child: Text(
                       "View all",
                       style: TextStyle(
-                        color: Colors.white,
+                        color: Colors.black87,
                       ),
                     ),
                   ),
                 ],
               ),
-              Column(
-                children: [
-                  SizedBox(
-                    height: 10,
-                  ),
-                  Row(
-                    children: [
-                      SizedBox(
-                        width: 20,
-                      ),
-                      GestureDetector(
-                        child: Card(
-                          child: Container(
-                            width: 50,
-                            height: 50,
-                            color: Colors.red,
-                          ),
-                        ),
-                      ),
-                      Text(
-                        'Wishlist1',
-                        style: TextStyle(color: Colors.white, fontSize: 20),
-                      ),
-                      SizedBox(
-                        width: 80,
-                      ),
-                      Card(
-                        child: Container(
-                          width: 50,
-                          height: 50,
+              FutureBuilder(
+                future: FirebaseFirestore.instance
+                    .collection('wishlists')
+                    .doc(FirebaseAuth.instance.currentUser!.uid)
+                    .get(),
+                builder: (context, AsyncSnapshot snapshot) {
+                  if (snapshot.hasData) {
+                    return ListView.builder(
+                      shrinkWrap: true,
+                      itemCount: 2,
+                      itemBuilder: (BuildContext context, int index) {
+                        return Container(
+                          // ListTile(
+                          //   title: Text(
+                          //     snapshot.data['userWishlists'].keys
+                          //         .toList()[index],
+                          //     style: TextStyle(color: Colors.white),
+                          //   ),
+                          //   trailing: Icon(
+                          //     Icons.favorite,
+                          //     color: Colors.red,
+                          //   ),
+                          // ),
+                          width: 200,
                           color: Colors.red,
-                        ),
-                      ),
-                      Text(
-                        'Wishlist2',
-                        style: TextStyle(color: Colors.white),
-                      ),
-                    ],
-                  ),
-                  SizedBox(
-                    height: 10,
-                  ),
-                ],
+                          margin: EdgeInsets.all(10),
+                          child: Text(
+                            snapshot.data['userWishlists'].keys.toList()[index],
+                            style: TextStyle(color: Colors.white),
+                          ),
+                        );
+                      },
+                    );
+                  } else {
+                    return Center(
+                      child: CircularProgressIndicator(),
+                    );
+                  }
+                },
               ),
               SizedBox(
                 height: 10,

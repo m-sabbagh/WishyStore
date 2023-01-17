@@ -331,9 +331,11 @@ class _LoginScreenState extends State<LoginScreen> {
                   },
                 ),
                 Padding(
-                  padding: EdgeInsets.symmetric(vertical: 16.0),
+                  padding: EdgeInsets.symmetric(vertical: 10.0),
                   child: TextButton(
-                    onPressed: () {},
+                    onPressed: () async {
+                      Navigator.pushNamed(context, UserSignUpPage.id);
+                    },
                     style: TextButton.styleFrom(
                       side: BorderSide(
                           color: Colors.black,
@@ -343,66 +345,46 @@ class _LoginScreenState extends State<LoginScreen> {
                         borderRadius: BorderRadius.circular(32.0),
                       ),
                     ),
-                    child: Text(
-                      'Create account',
-                      style: TextStyle(color: Colors.black),
+                    child: Container(
+                      height: 30.0,
+                      child: Center(
+                        child: Text(
+                          'Create account',
+                          style: TextStyle(
+                            color: Colors.black,
+                          ),
+                        ),
+                      ),
                     ),
                   ),
                 ),
-
-                MaterialButton(
-                  shape: Border.all(
-                      color: Colors.black, width: 1, style: BorderStyle.solid),
-                  padding: EdgeInsets.symmetric(vertical: 16.0),
-                  onPressed: () async {
-                    Navigator.pushNamed(context, UserSignUpPage.id);
-                  },
-                  minWidth: 200.0,
-                  height: 42.0,
-                  child: Text(
-                    'Create account',
-                    style: TextStyle(color: Colors.black),
+                Padding(
+                  padding: EdgeInsets.symmetric(vertical: 4.0),
+                  child: TextButton(
+                    onPressed: () async {
+                      Navigator.pushNamed(context, StoreOwnerSignUp.id);
+                    },
+                    style: TextButton.styleFrom(
+                      side: BorderSide(
+                          color: Colors.black,
+                          width: 1,
+                          style: BorderStyle.solid),
+                      shape: RoundedRectangleBorder(
+                        borderRadius: BorderRadius.circular(32.0),
+                      ),
+                    ),
+                    child: Container(
+                      height: 30.0,
+                      child: Center(
+                        child: Text(
+                          'Join as a store owner',
+                          style: TextStyle(
+                            color: Colors.black,
+                          ),
+                        ),
+                      ),
+                    ),
                   ),
-                ),
-                // Padding(
-                //   padding: EdgeInsets.symmetric(vertical: 16.0),
-                //   child: Material(
-                //     shadowColor: Colors.transparent,
-                //     elevation: 5.0,
-                //     color: Colors.white,
-                //     borderRadius: BorderRadius.circular(30.0),
-                //     child: MaterialButton(
-                //       shape: Border.all(
-                //           color: Colors.black,
-                //           width: 1,
-                //           style: BorderStyle.solid),
-                //       padding: EdgeInsets.symmetric(vertical: 16.0),
-                //       onPressed: () async {
-                //         Navigator.pushNamed(context, UserSignUpPage.id);
-                //       },
-                //       minWidth: 200.0,
-                //       height: 42.0,
-                //       child: Text(
-                //         'Create account',
-                //         style: TextStyle(color: Colors.black),
-                //       ),
-                //     ),
-                //   ),
-                // ),
-                // ButtonPadding(
-                //   buttonName: 'Create account',
-                //   buttonColor: Color.fromARGB(255, 119, 113, 188),
-                //   onPressed: () async {
-                //     Navigator.pushNamed(context, UserSignUpPage.id);
-                //   },
-                // ),
-
-                ButtonPadding(
-                  buttonName: 'Join as a store owner',
-                  buttonColor: Color.fromARGB(255, 119, 113, 188),
-                  onPressed: () async {
-                    Navigator.pushNamed(context, StoreOwnerSignUp.id);
-                  },
                 ),
               ],
             ),

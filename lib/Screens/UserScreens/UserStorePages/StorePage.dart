@@ -3,8 +3,8 @@ import 'dart:ffi';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
-import 'package:wishy_store/Screens/UserScreens/ShowStoreForUser/ItemsCard.dart';
-import 'package:wishy_store/Screens/UserScreens/ShowStoreForUser/ItemDetailsPage.dart';
+import 'package:wishy_store/Screens/UserScreens/UserStorePages/ItemsCard.dart';
+import 'package:wishy_store/Screens/UserScreens/UserStorePages/ItemDetailsPage.dart';
 import 'package:wishy_store/Widgets/postiontedArrowBack.dart';
 
 class StorePage extends StatefulWidget {
@@ -43,70 +43,76 @@ class _StorePageState extends State<StorePage> with TickerProviderStateMixin {
       required this.storeCategories});
 
   Widget storeCoverAndElements() {
-    return Stack(children: [
-      SingleChildScrollView(
-          child: Column(children: [
-        Stack(
-          children: [
-            Column(
-              crossAxisAlignment: CrossAxisAlignment.stretch,
-              children: [
-                FutureBuilder(
-                  future: FirebaseFirestore.instance
-                      .collection('StoreOwners')
-                      .doc(storeOwnerUid)
-                      .get(),
-                  builder: (context, AsyncSnapshot snapshot) {
-                    if (snapshot.hasData) {
-                      return SizedBox(
+    return SingleChildScrollView(
+        child: Column(children: [
+      Stack(
+        children: [
+          Column(
+            crossAxisAlignment: CrossAxisAlignment.stretch,
+            children: [
+              FutureBuilder(
+                future: FirebaseFirestore.instance
+                    .collection('StoreOwners')
+                    .doc(storeOwnerUid)
+                    .get(),
+                builder: (context, AsyncSnapshot snapshot) {
+                  if (snapshot.hasData) {
+                    return SizedBox(
+                      height: 200,
+                      child: Image.network(
+                        snapshot.data['storeLogo'],
+                        fit: BoxFit.cover,
+                      ),
+                    );
+                  } else {
+                    return Card(
+                      child: SizedBox(
                         height: 200,
-                        child: Image.network(
-                          snapshot.data['storeLogo'],
+                        child: Image.asset(
+                          'images/dummyImageCoverLogo.png',
                           fit: BoxFit.cover,
                         ),
-                      );
-                    } else {
-                      return Card(
-                        child: SizedBox(
-                          height: 200,
-                          child: Image.asset(
-                            'images/dummyImageCoverLogo.png',
-                            fit: BoxFit.cover,
-                          ),
-                        ),
-                      );
-                    }
-                  },
-                ),
-              ],
+                      ),
+                    );
+                  }
+                },
+              ),
+            ],
+          ),
+          positionedArrowBack(context, Color(0xff1F1C2C)),
+        ],
+      ),
+      SizedBox(
+        height: 10,
+      ),
+      Row(
+        mainAxisAlignment: MainAxisAlignment.start,
+        children: [
+          SizedBox(
+            width: 10,
+          ),
+          Text(
+            storeName,
+            style: TextStyle(
+                color: Colors.black87,
+                fontSize: 20,
+                fontWeight: FontWeight.bold),
+          ),
+          SizedBox(
+            width: 10,
+          ),
+          Text(
+            storeType,
+            style: TextStyle(
+              color: Colors.black87,
             ),
-            positionedArrowBack(context, Color(0xff1F1C2C)),
-          ],
-        ),
-        Row(
-          mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-          children: [
-            Text(
-              storeName,
-              style: TextStyle(color: Colors.white, fontSize: 20),
-            ),
-            Text(
-              storeType,
-              style: TextStyle(color: Colors.white),
-            ),
-            Card(
-              color: Colors.white,
-              child: IconButton(
-                  onPressed: () {},
-                  icon: Icon(
-                    Icons.search,
-                    color: Colors.black,
-                  )),
-            ),
-          ],
-        ),
-      ])),
-    ]);
+          ),
+        ],
+      ),
+      SizedBox(
+        height: 10,
+      ),
+    ]));
   }
 
   Widget itemsGridView({required String categoryName}) {
@@ -119,8 +125,17 @@ class _StorePageState extends State<StorePage> with TickerProviderStateMixin {
           .get(),
       builder: (context, AsyncSnapshot snapshot) {
         if (snapshot.hasData) {
-          return Expanded(
-            child: Padding(
+          if (snapshot.data['categories'][categoryName].isEmpty) {
+            return Center(
+              child: Text(
+                'No Items in this category',
+                style: TextStyle(
+                  color: Colors.black87,
+                ),
+              ),
+            );
+          } else
+            return Padding(
               padding: const EdgeInsets.symmetric(horizontal: 20.0),
               child: GridView.builder(
                   padding: EdgeInsets.only(top: 10),
@@ -184,10 +199,11 @@ class _StorePageState extends State<StorePage> with TickerProviderStateMixin {
                           }
                         });
                   }),
-            ),
-          );
+            );
         } else
-          return CircularProgressIndicator();
+          return Center(
+            child: CircularProgressIndicator(),
+          );
       },
     );
   }
@@ -203,7 +219,6 @@ class _StorePageState extends State<StorePage> with TickerProviderStateMixin {
         )
     ];
     return Scaffold(
-      backgroundColor: Color.fromARGB(255, 17, 14, 35),
       body: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
@@ -215,11 +230,11 @@ class _StorePageState extends State<StorePage> with TickerProviderStateMixin {
                   alignment: Alignment.centerLeft,
                   child: TabBar(
                     controller: _tabController,
-                    unselectedLabelColor: Colors.white,
+                    unselectedLabelColor: Colors.grey,
                     isScrollable: true,
-                    labelColor: Colors.amber,
+                    labelColor: Colors.black87,
                     labelStyle: TextStyle(fontSize: 13),
-                    indicatorColor: Colors.red,
+                    indicatorColor: Colors.black87,
                     tabs: listOfTabs,
                   ),
                 ),

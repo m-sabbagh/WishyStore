@@ -7,7 +7,7 @@ import 'package:firebase_storage/firebase_storage.dart';
 import 'package:flutter/material.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:wishy_store/Widgets/ErrorToast.dart';
-import '../../FirebaseNetowrkFile/ReadData/userData/GetUserName.dart';
+import '../../FirebaseNetowrkFile/GetUserName.dart';
 import '../User_StoreOwner sharedScreens/StoreOwner/LogInPage.dart';
 
 // import 'package:firebase_storage/firebase_storage.dart';
@@ -80,7 +80,10 @@ class _UserProfilePageState extends State<UserProfilePage> {
           mainAxisAlignment: MainAxisAlignment.spaceBetween,
           children: [
             Text('My Profile',
-                style: TextStyle(color: Colors.white, fontSize: 30)),
+                style: TextStyle(
+                    color: Colors.black87,
+                    fontSize: 30,
+                    fontWeight: FontWeight.bold)),
             Row(
               children: [
                 // IconButton(
@@ -95,7 +98,6 @@ class _UserProfilePageState extends State<UserProfilePage> {
           ],
         ),
       ),
-      backgroundColor: Color.fromARGB(255, 17, 14, 35),
       body: Center(
         child: SingleChildScrollView(
           child: Column(
@@ -339,8 +341,17 @@ class _UserProfilePageState extends State<UserProfilePage> {
                       endIndent: 20,
                     ),
                     ListTile(
+                      onTap: () {
+                        showDialog(
+                            context: context,
+                            builder: (context) {
+                              return AlertDialog(
+                                title: Text('Wishy Store\nVersion 0.0.1 beta'),
+                              );
+                            });
+                      },
                       title: const Text(
-                        'Terms and Conditions',
+                        'About us',
                         style: TextStyle(fontWeight: FontWeight.normal),
                       ),
                       leading: Icon(

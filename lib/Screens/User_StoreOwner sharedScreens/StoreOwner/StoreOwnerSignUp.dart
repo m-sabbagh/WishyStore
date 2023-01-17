@@ -1,8 +1,8 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:fluttertoast/fluttertoast.dart';
-import 'package:wishy_store/FirebaseNetowrkFile/UsersCollection.dart';
-import 'package:wishy_store/FirebaseNetowrkFile/StoreOwnersCollection.dart';
+import 'package:wishy_store/FirebaseNetowrkFile/Collections/UsersCollection.dart';
+import 'package:wishy_store/FirebaseNetowrkFile/Collections/StoreOwnersCollection.dart';
 import 'package:wishy_store/Screens/User_StoreOwner%20sharedScreens/StoreOwner/LogInPage.dart';
 
 import 'package:wishy_store/Widgets/buttonPadding.dart';
@@ -99,7 +99,7 @@ class _MyHomePageState extends State<StoreOwnerSignUp> {
   List<String> storeTypes = <String>[
     'Retail store',
     'Health and Beauty store',
-    'Gift centers store',
+    'Gift store',
     'Fitness store',
     'Clothing store',
     'Jewelry store',
@@ -210,6 +210,34 @@ class _MyHomePageState extends State<StoreOwnerSignUp> {
       } else if (email_valid.hasMatch(_supportEmailAddress.text) == false) {
         CustomFlutterToast_Error(
             message: "Please enter a valid email",
+            toastLength: Toast.LENGTH_SHORT);
+        setState(() {
+          showSpinner = false;
+        });
+      } else if (_storeName.text.length > 30) {
+        CustomFlutterToast_Error(
+            message: "Store Name must be at most 30 characters",
+            toastLength: Toast.LENGTH_SHORT);
+        setState(() {
+          showSpinner = false;
+        });
+      } else if (_storeName.text.length < 3) {
+        CustomFlutterToast_Error(
+            message: "Store Name must be at least 3 characters",
+            toastLength: Toast.LENGTH_SHORT);
+        setState(() {
+          showSpinner = false;
+        });
+      } else if (_supportEmailAddress.text.length > 50) {
+        CustomFlutterToast_Error(
+            message: "Support Email must be at most 50 characters",
+            toastLength: Toast.LENGTH_SHORT);
+        setState(() {
+          showSpinner = false;
+        });
+      } else if (_supportEmailAddress.text.length < 16) {
+        CustomFlutterToast_Error(
+            message: "Support Email must be at least 16 characters",
             toastLength: Toast.LENGTH_SHORT);
         setState(() {
           showSpinner = false;

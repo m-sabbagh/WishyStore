@@ -3,6 +3,7 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:wishy_store/StoreOwner/UploadToStorage.dart';
+import 'package:wishy_store/StoreOwner/itemExample.dart';
 
 class AddNewItemToStore extends StatefulWidget {
   const AddNewItemToStore({Key? key}) : super(key: key);
@@ -358,7 +359,14 @@ class _AddNewItemToStoreState extends State<AddNewItemToStore> {
                       shape: RoundedRectangleBorder(
                         borderRadius: BorderRadius.circular(10.0),
                       ),
-                      onPressed: () {},
+                      onPressed: () {
+                        Navigator.push(
+                          context,
+                          MaterialPageRoute(
+                            builder: (context) => ItemExample(),
+                          ),
+                        );
+                      },
                       color: Colors.black,
                       child: Text(
                         "Show item example",
