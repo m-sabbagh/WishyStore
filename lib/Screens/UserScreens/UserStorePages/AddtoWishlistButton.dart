@@ -9,6 +9,7 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
+import 'package:fluttertoast/fluttertoast.dart';
 import 'package:wishy_store/Screens/UserScreens/UserStorePages/addItemsToWishlist.dart';
 import 'package:wishy_store/constants.dart';
 
@@ -112,54 +113,49 @@ class _AddToWishlistButtonState extends State<AddToWishlistButton> {
                             children: [
                               for (var i = 0; i < wishlistNames.length; i++)
                                 ListTile(
-                                  leading: Radio(
-                                      value: "radio value",
-                                      groupValue: "group value",
-                                      onChanged: (value) {
-                                        wishlistName = wishlistNames[i];
-                                        setState(() {
-                                          AddItemsToWishlist().addNewItems(
-                                            //improtant , this works !
-                                            // wName: 'wishlist1',
-                                            itemBarcode:
-                                                widget.itemBarcode.toString(),
-                                            itemCategory:
-                                                widget.itemCategory.toString(),
-                                            itemDescription: widget
-                                                .itemDescription
-                                                .toString(),
-                                            itemStoreName:
-                                                widget.itemStoreName.toString(),
-                                            wName: wishlistName,
-                                            itemPrice:
-                                                widget.itemPrice.toString(),
-                                            itemTitle:
-                                                widget.itemTitle.toString(),
+                                  iconColor: Color.fromARGB(255, 120, 114, 186),
 
-                                            imageUrl:
-                                                widget.itemImage.toString(),
-                                          );
-                                        });
-                                        //selected value
-                                      }),
+                                  shape: RoundedRectangleBorder(
+                                    borderRadius: BorderRadius.circular(18),
+                                  ),
+                                  leading: Icon(Icons.card_giftcard_rounded),
+                                  // leading: Radio(
+                                  //     value: "radio value",
+                                  //     groupValue: "group value",
+                                  //     onChanged: (value) {
+
+                                  //       //selected value
+                                  //     }),
                                   title: Text(wishlistNames[i]),
                                   onTap: () {
-                                    //   setState(() {
-                                    //   AddItemsToWishlist().addNewItems(
-                                    //     //improtant , this works !
-                                    //     // wName: 'wishlist1',
-                                    //     wName: wishlistName,
-                                    //     itemPrice: storeitems[index]
-                                    //         .price
-                                    //         .toString(),
-                                    //     itemTitle: storeitems[index]
-                                    //         .title
-                                    //         .toString(),
-                                    //     photoUrl: storeitems[index]
-                                    //         .image
-                                    //         .toString(),
-                                    //   );
-                                    // });
+                                    wishlistName = wishlistNames[i];
+                                    setState(() {
+                                      AddItemsToWishlist().addNewItems(
+                                        //improtant , this works !
+                                        // wName: 'wishlist1',
+                                        itemBarcode:
+                                            widget.itemBarcode.toString(),
+                                        itemCategory:
+                                            widget.itemCategory.toString(),
+                                        itemDescription:
+                                            widget.itemDescription.toString(),
+                                        itemStoreName:
+                                            widget.itemStoreName.toString(),
+                                        wName: wishlistName,
+                                        itemPrice: widget.itemPrice.toString(),
+                                        itemTitle: widget.itemTitle.toString(),
+
+                                        imageUrl: widget.itemImage.toString(),
+                                      );
+                                      Fluttertoast.showToast(
+                                          msg: "Item added to $wishlistName",
+                                          toastLength: Toast.LENGTH_SHORT,
+                                          gravity: ToastGravity.BOTTOM,
+                                          timeInSecForIosWeb: 1,
+                                          backgroundColor: Colors.green,
+                                          textColor: Colors.white,
+                                          fontSize: 16.0);
+                                    });
                                   },
                                 ),
                             ],
@@ -172,8 +168,8 @@ class _AddToWishlistButtonState extends State<AddToWishlistButton> {
                           child: const Text('Cancel'),
                         ),
                         TextButton(
-                          onPressed: () => Navigator.pop(context, 'OK'),
-                          child: const Text('OK'),
+                          onPressed: () => Navigator.pop(context, 'Done'),
+                          child: const Text('Done'),
                         ),
                       ],
                     ),
@@ -194,9 +190,3 @@ class _AddToWishlistButtonState extends State<AddToWishlistButton> {
     );
   }
 }
-
-
-// class AddtoWishlistButton extends StatelessWidget {
-
-
-// }

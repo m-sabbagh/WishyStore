@@ -1,14 +1,14 @@
 import 'package:flutter/material.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/services.dart';
-import 'package:wishy_store/Screens/User_StoreOwner%20sharedScreens/StoreOwner/UserNavBar.dart';
+import 'package:wishy_store/Screens/UserScreens/UserNavBar.dart';
 import 'package:wishy_store/Screens/User_StoreOwner%20sharedScreens/StoreOwner/StoreOwnerSignUp.dart';
 import 'package:wishy_store/Screens/UserScreens/MyWishPage/MyWishPage.dart';
 import 'package:wishy_store/Screens/UserScreens/UserProfilePage.dart';
 import 'package:wishy_store/Screens/UserScreens/WishlistsPage.dart';
 import 'package:wishy_store/Screens/UserScreens/UserStorePages/StoresPage.dart';
 import 'package:wishy_store/Screens/UserScreens/UserHomePage.dart';
-import 'package:wishy_store/Screens/UserScreens/WishHubUser.dart';
+import 'package:wishy_store/Screens/UserScreens/UsersThatSharedInWishHub.dart';
 import 'package:wishy_store/StoreOwner/StoreOwnerNavBar.dart';
 import 'package:wishy_store/StoreOwner/MyCategories.dart';
 import 'package:wishy_store/StoreOwner/addNewItemToStore.dart';
@@ -49,7 +49,7 @@ class WishyStore extends StatelessWidget {
         // WishlistPage.id: (context) => WishlistPage(),
         WishlistPage.id: (context) => WishlistPage(),
         // StorePage.id: (context) => StorePage(),
-        WishHubUser.id: (context) => WishHubUser(),
+        UsersThatSharedInWishHub.id: (context) => UsersThatSharedInWishHub(),
         StoreOwnerNavBar.id: (context) => StoreOwnerNavBar(),
         AddNewItemToStore.id: (context) => AddNewItemToStore(),
         MyCategories.id: (context) => MyCategories(),

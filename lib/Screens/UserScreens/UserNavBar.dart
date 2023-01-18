@@ -4,7 +4,7 @@ import 'package:wishy_store/Screens/UserScreens/UserProfilePage.dart';
 import 'package:wishy_store/Screens/UserScreens/UserStorePages/StoresPage.dart';
 import 'package:wishy_store/Screens/UserScreens/UserHomePage.dart';
 
-import '../../UserScreens/MyWishPage/WishHubPage.dart';
+import 'MyWishPage/WishHubPage.dart';
 
 class NavigationBarForUser extends StatefulWidget {
   static String id = 'navigation_bar';

@@ -13,6 +13,7 @@ class ItemDetailsPage extends StatefulWidget {
   String itemDescription;
   String itemCategory;
   String storeName;
+  bool showAddToWishlistButton;
   ItemDetailsPage({
     required this.itemBarcode,
     required this.itemTitle,
@@ -21,6 +22,7 @@ class ItemDetailsPage extends StatefulWidget {
     required this.itemDescription,
     required this.itemCategory,
     required this.storeName,
+    required this.showAddToWishlistButton,
   });
 
   @override
@@ -124,15 +126,18 @@ class _ItemDetailsPageState extends State<ItemDetailsPage> {
                         SizedBox(height: 20.0 / 2),
                         // CounterWithFavBtn(),
                         SizedBox(height: 20.0 / 2),
-                        AddToWishlistButton(
-                          itemBarcode: widget.itemBarcode,
-                          itemTitle: widget.itemTitle,
-                          itemPrice: widget.itemPrice,
-                          itemImage: widget.itemImage,
-                          itemCategory: widget.itemCategory,
-                          itemDescription: widget.itemDescription,
-                          itemStoreName: widget.storeName,
-                        ),
+                        if (widget.showAddToWishlistButton == true)
+                          AddToWishlistButton(
+                            itemBarcode: widget.itemBarcode,
+                            itemTitle: widget.itemTitle,
+                            itemPrice: widget.itemPrice,
+                            itemImage: widget.itemImage,
+                            itemCategory: widget.itemCategory,
+                            itemDescription: widget.itemDescription,
+                            itemStoreName: widget.storeName,
+                          ),
+                        if (widget.showAddToWishlistButton == false)
+                          SizedBox(height: 20.0 / 2),
                       ],
                     ),
                   ),

@@ -2,7 +2,7 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:fluttertoast/fluttertoast.dart';
 import 'package:modal_progress_hud_nsn/modal_progress_hud_nsn.dart';
-import 'package:wishy_store/Screens/User_StoreOwner%20sharedScreens/StoreOwner/UserNavBar.dart';
+import 'package:wishy_store/Screens/UserScreens/UserNavBar.dart';
 import 'package:wishy_store/Screens/User_StoreOwner%20sharedScreens/StoreOwner/StoreOwnerSignUp.dart';
 import 'package:wishy_store/StoreOwner/StoreOwnerNavBar.dart';
 import 'package:wishy_store/Widgets/buttonPadding.dart';

@@ -4,7 +4,7 @@ import 'package:eva_icons_flutter/eva_icons_flutter.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
-import 'package:wishy_store/Screens/User_StoreOwner%20sharedScreens/StoreOwner/UserNavBar.dart';
+import 'package:wishy_store/Screens/UserScreens/UserNavBar.dart';
 import 'package:wishy_store/Screens/UserScreens/UserStorePages/StoresPage.dart';
 import 'package:wishy_store/Screens/UserScreens/UserStorePages/StorePage.dart';
 import 'package:wishy_store/StoreOwner/StoreOwnerPage.dart';
@@ -76,13 +76,13 @@ class _UserHomePageState extends State<UserHomePage> {
             ),
             Row(
               children: [
-                IconButton(
-                  onPressed: () {},
-                  icon: Icon(
-                    EvaIcons.search,
-                    color: Colors.black87,
-                  ),
-                ),
+                // IconButton(
+                //   onPressed: () {},
+                //   icon: Icon(
+                //     EvaIcons.search,
+                //     color: Colors.black87,
+                //   ),
+                // ),
               ],
             ),
           ],

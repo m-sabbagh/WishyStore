@@ -1,6 +1,7 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:fluttertoast/fluttertoast.dart';
+import 'package:wishy_store/Widgets/ErrorToast.dart';
 
 //Firebase
 class ShareWishlistToUser {
@@ -41,7 +42,6 @@ class ShareWishlistToUser {
         .where('email', isEqualTo: emailAddressForSharing.text)
         .get()
         .then((snapshot) {
-      // print(snapshot.docs[0].data()['uId']);
       sharedTo_UserId = snapshot.docs[0].data()['uId'];
       createWishlistForSharedUser(sharedTo_UserId);
       Fluttertoast.showToast(
@@ -53,7 +53,9 @@ class ShareWishlistToUser {
           textColor: Colors.white,
           fontSize: 16.0);
     }).catchError((error) {
-      Fluttertoast.showToast(msg: "There's no user with that email");
+      CustomFlutterToast_Error(
+        message: "There's no user with that email",
+      );
     });
 
     // print(snapshot.docs[0].data()['uId']));
@@ -94,7 +96,7 @@ class ShareWishlistToUser {
   void createWishlistForSharedUser(String? ShareUid) async {
     var userItems = await getThatWishlistItems(wishlistName);
 
-    print(userItems);
+    // print(userItems);
     await db.collection('wishlists').doc(ShareUid).set({
       'sharedWishlistsFromUsers': {
         // "$wishlistName $currentUserEmail": {

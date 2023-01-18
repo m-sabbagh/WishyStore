@@ -185,6 +185,7 @@ class _StorePageState extends State<StorePage> with TickerProviderStateMixin {
                                         itemPrice: categoryItems.values
                                             .toList()[index]['itemPrice'],
                                         storeName: storeName,
+                                        showAddToWishlistButton: true,
                                       ),
                                     ),
                                   );

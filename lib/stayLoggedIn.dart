@@ -4,7 +4,7 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:wishy_store/Screens/User_StoreOwner%20sharedScreens/StoreOwner/LogInPage.dart';
 import 'package:wishy_store/StoreOwner/StoreOwnerNavBar.dart';
 
-import 'Screens/User_StoreOwner sharedScreens/StoreOwner/UserNavBar.dart';
+import 'Screens/UserScreens/UserNavBar.dart';
 
 class StayLoggedIn extends StatelessWidget {
   const StayLoggedIn({Key? key}) : super(key: key);

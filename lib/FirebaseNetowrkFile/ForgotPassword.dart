@@ -52,6 +52,9 @@ class _ForgotPasswordState extends State<ForgotPassword> {
       });
     } on FirebaseAuthException catch (e) {
       if (_emailcontroller.text.isEmpty == true) {
+        CustomFlutterToast_Error(
+            message: "Please enter your email",
+            toastLength: Toast.LENGTH_SHORT);
       } else if (e.code == 'user-not-found') {
         CustomFlutterToast_Error(
             message: "No user found for that email.",

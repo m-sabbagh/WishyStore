@@ -114,7 +114,7 @@ class _MyWishPageState extends State<MyWishPage> {
   final _wishListName = TextEditingController();
   final _wishlistDescription = TextEditingController();
 
-  WishlistCard wishlistCard = WishlistCard();
+  // WishlistCard wishlistCard = WishlistCard();
 
   int wishlistCounters = 0;
 
@@ -193,13 +193,13 @@ class _MyWishPageState extends State<MyWishPage> {
                     child: Column(
                       //call each wishlist card here
                       children: [
-                        ...wishlistNames.map((e) => WishlistCard(
-                              wishname: e,
+                        ...wishlistNames.map((name) => WishlistCard(
+                              wishname: name,
                               wishType:
-                                  wishlistTypeNew[wishlistNames.indexOf(e)],
+                                  wishlistTypeNew[wishlistNames.indexOf(name)],
                               shareButtonVisi: ShareButtonVisible,
-                              wishlistDescription:
-                                  wishlistdescription[wishlistNames.indexOf(e)],
+                              wishlistDescription: wishlistdescription[
+                                  wishlistNames.indexOf(name)],
                             )),
                       ],
                     ),
