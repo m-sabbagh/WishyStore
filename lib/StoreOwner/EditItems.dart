@@ -5,7 +5,6 @@ import 'dart:io';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
-import 'package:wishy_store/StoreOwner/UploadToStorage.dart';
 
 class EditItems extends StatefulWidget {
   String itemBarcode;
@@ -196,6 +195,7 @@ class _EditItemsState extends State<EditItems> {
                               ),
                             ),
                             IconButton(
+                                splashRadius: 2.0,
                                 onPressed: () {
                                   editDialog(
                                       title: 'Edit item price',
@@ -227,6 +227,7 @@ class _EditItemsState extends State<EditItems> {
                               ),
                             ),
                             IconButton(
+                                splashRadius: 2.0,
                                 onPressed: () {
                                   editDialog(
                                       title: 'Edit item barcode',

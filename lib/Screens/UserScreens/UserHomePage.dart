@@ -1,15 +1,9 @@
 import 'package:carousel_slider/carousel_slider.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
-import 'package:eva_icons_flutter/eva_icons_flutter.dart';
 import 'package:firebase_auth/firebase_auth.dart';
-import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
-import 'package:wishy_store/Screens/UserScreens/UserNavBar.dart';
-import 'package:wishy_store/Screens/UserScreens/UserStorePages/StoresPage.dart';
-import 'package:wishy_store/Screens/UserScreens/UserStorePages/StorePage.dart';
 import 'package:wishy_store/Screens/UserScreens/WishlistsPage.dart';
 import 'package:wishy_store/Screens/UserScreens/wishlistsImages.dart';
-import 'package:wishy_store/StoreOwner/StoreOwnerPage.dart';
 import 'MyWishPage/MyWishPage.dart';
 
 class UserHomePage extends StatefulWidget {
@@ -31,10 +25,32 @@ class _UserHomePageState extends State<UserHomePage> {
   List<String> wishlistTypeNew = [];
   Map wishlistData = {};
 
+  List<String> mainPromotionStores = [];
+  List<String> mainPromotionImages = [];
+
+  Future getFeedsStores() async {
+    FirebaseFirestore.instance
+        .collection('Promotions')
+        .doc('MainPagePromotion')
+        .get()
+        .then((value) {
+      if (value.data() == null) {
+      } else {
+        value.data()!.forEach((key, value) {
+          if (value['approved'] == true) {
+            mainPromotionStores.add(key);
+            mainPromotionImages.add(value['storePromotionImage']);
+          } else if (value['approved'] == false) {}
+        });
+      }
+    });
+  }
+
   @override
   void initState() {
     // TODO: implement initState
     super.initState();
+    getFeedsStores();
   }
 
   FirebaseAuth _auth = FirebaseAuth.instance;
@@ -68,33 +84,76 @@ class _UserHomePageState extends State<UserHomePage> {
               SizedBox(
                 height: 20,
               ),
-              CarouselSlider(
-                options: CarouselOptions(
-                  autoPlay: true,
-                  aspectRatio: 2.0,
-                  enlargeCenterPage: true,
-                ),
-                items: [
-                  'images/Promotion/promotion2.png',
-                  'images/Promotion/promotion.jpeg',
-                  'images/Promotion/leaderz.jpeg',
-                  'images/Promotion/promotion3.jpeg',
-                ].map((item) {
-                  return Builder(
-                    builder: (BuildContext context) {
-                      return Container(
-                        width: MediaQuery.of(context).size.width,
-                        padding: EdgeInsets.symmetric(horizontal: 5.0),
-                        margin: EdgeInsets.symmetric(horizontal: 5.0),
-                        child: Image.asset(
-                          item,
-                          fit: BoxFit.fill,
+              FutureBuilder(
+                  future: FirebaseFirestore.instance
+                      .collection('Promotions')
+                      .doc('MainPagePromotions')
+                      .get(),
+                  builder: (context, AsyncSnapshot snapshot) {
+                    if (snapshot.hasData) {
+                      return CarouselSlider(
+                        options: CarouselOptions(
+                          height: 200.0,
+                          autoPlay: true,
+                          autoPlayInterval: Duration(seconds: 3),
+                          autoPlayAnimationDuration:
+                              Duration(milliseconds: 800),
+                          autoPlayCurve: Curves.fastOutSlowIn,
+                          enlargeCenterPage: true,
+                          scrollDirection: Axis.horizontal,
                         ),
+                        items: mainPromotionImages.map((i) {
+                          return Builder(
+                            builder: (BuildContext context) {
+                              return Container(
+                                width: MediaQuery.of(context).size.width,
+                                margin: EdgeInsets.symmetric(horizontal: 5.0),
+                                decoration: BoxDecoration(
+                                  color: Colors.grey,
+                                ),
+                                child: Image.network(
+                                  i,
+                                  fit: BoxFit.fill,
+                                ),
+                              );
+                            },
+                          );
+                        }).toList(),
                       );
-                    },
-                  );
-                }).toList(),
-              ),
+                    } else {
+                      return CarouselSlider(
+                        options: CarouselOptions(
+                          height: 200.0,
+                          autoPlay: true,
+                          autoPlayInterval: Duration(seconds: 3),
+                          autoPlayAnimationDuration:
+                              Duration(milliseconds: 800),
+                          autoPlayCurve: Curves.fastOutSlowIn,
+                          enlargeCenterPage: true,
+                          scrollDirection: Axis.horizontal,
+                        ),
+                        items: [
+                          'https://reactnativecode.com/wp-content/uploads/2018/02/Default_Image_Thumbnail.png'
+                        ].map((i) {
+                          return Builder(
+                            builder: (BuildContext context) {
+                              return Container(
+                                width: MediaQuery.of(context).size.width,
+                                margin: EdgeInsets.symmetric(horizontal: 5.0),
+                                decoration: BoxDecoration(
+                                  color: Colors.grey,
+                                ),
+                                child: Image.network(
+                                  i,
+                                  fit: BoxFit.fill,
+                                ),
+                              );
+                            },
+                          );
+                        }).toList(),
+                      );
+                    }
+                  }),
               SizedBox(
                 height: 30,
               ),
@@ -218,19 +277,19 @@ class _UserHomePageState extends State<UserHomePage> {
                     ),
                   ),
                   SizedBox(
-                    width: 180,
+                    width: 230,
                   ),
-                  GestureDetector(
-                    onTap: () {
-                      // Navigator.pushNamed(context, MyWishPage.id);
-                    },
-                    child: Text(
-                      "View all",
-                      style: TextStyle(
-                        color: Colors.black87,
-                      ),
-                    ),
-                  ),
+                  // GestureDetector(
+                  //   onTap: () {
+                  //     // Navigator.pushNamed(context, MyWishPage.id);
+                  //   },
+                  //   child: Text(
+                  //     "View all",
+                  //     style: TextStyle(
+                  //       color: Colors.black87,
+                  //     ),
+                  //   ),
+                  // ),
                 ],
               ),
               FutureBuilder(
@@ -260,17 +319,6 @@ class _UserHomePageState extends State<UserHomePage> {
                               SizedBox(
                                 height: 20,
                               ),
-                              GestureDetector(
-                                onTap: () {
-                                  Navigator.pushNamed(context, MyWishPage.id);
-                                },
-                                child: Text(
-                                  "Create a wishlist",
-                                  style: TextStyle(
-                                    color: Colors.black87,
-                                  ),
-                                ),
-                              ),
                             ],
                           ),
                         ),
@@ -282,47 +330,78 @@ class _UserHomePageState extends State<UserHomePage> {
                         itemCount:
                             snapshot.data['userWishlists'].keys.toList().length,
                         itemBuilder: (BuildContext context, int index) {
-                          return ListTile(
-                            onTap: () {
-                              Navigator.push(
-                                  context,
-                                  MaterialPageRoute(
-                                      builder: (context) => WishlistPage(
-                                            isSharedUser: false,
-                                            wishlistName: snapshot
-                                                .data['userWishlists'].keys
-                                                .toList()[index],
-                                            wishlistType: snapshot
-                                                    .data['userWishlists']
-                                                    .values
-                                                    .toList()[index]
-                                                ['wishlistType'],
-                                            uid: _auth.currentUser!.uid,
-                                            wishlistDescription: snapshot
-                                                    .data['userWishlists']
-                                                    .values
-                                                    .toList()[index]
-                                                ['wishlistDescription'],
-                                          )));
-                            },
-                            leading: wishlistImages(snapshot
-                                .data['userWishlists'].values
-                                .toList()[index]['wishlistType']),
-                            title: Text(
-                              snapshot.data['userWishlists'].keys
-                                  .toList()[index],
-                              style: TextStyle(
-                                color: Colors.black87,
-                                fontSize: 20,
+                          return Column(
+                            children: [
+                              SizedBox(
+                                height: 10,
                               ),
-                            ),
+                              Card(
+                                elevation: 4,
+                                shadowColor: Color.fromARGB(255, 174, 172, 172),
+                                shape: RoundedRectangleBorder(
+                                  borderRadius: BorderRadius.circular(20.0),
+                                ),
+                                child: ListTile(
+                                  onTap: () {
+                                    Navigator.push(
+                                        context,
+                                        MaterialPageRoute(
+                                            builder: (context) => WishlistPage(
+                                                  isSharedUser: false,
+                                                  wishlistName: snapshot
+                                                      .data['userWishlists']
+                                                      .keys
+                                                      .toList()[index],
+                                                  wishlistType: snapshot
+                                                          .data['userWishlists']
+                                                          .values
+                                                          .toList()[index]
+                                                      ['wishlistType'],
+                                                  uid: _auth.currentUser!.uid,
+                                                  wishlistDescription: snapshot
+                                                          .data['userWishlists']
+                                                          .values
+                                                          .toList()[index]
+                                                      ['wishlistDescription'],
+                                                )));
+                                  },
+                                  leading: wishlistImages(snapshot
+                                      .data['userWishlists'].values
+                                      .toList()[index]['wishlistType']),
+                                  title: Text(
+                                    snapshot.data['userWishlists'].keys
+                                        .toList()[index],
+                                    style: TextStyle(
+                                      color: Colors.black87,
+                                      fontSize: 20,
+                                    ),
+                                  ),
+                                ),
+                              ),
+                            ],
                           );
                         },
                       );
                     }
                   } else {
-                    return Center(
-                      child: CircularProgressIndicator(),
+                    return Column(
+                      children: [
+                        SizedBox(
+                          height: 10,
+                        ),
+                        Card(
+                          elevation: 4,
+                          shadowColor: Color.fromARGB(255, 174, 172, 172),
+                          shape: RoundedRectangleBorder(
+                            borderRadius: BorderRadius.circular(20.0),
+                          ),
+                          child: ListTile(
+                            leading: Image.network(
+                                'https://reactnativecode.com/wp-content/uploads/2018/02/Default_Image_Thumbnail.png'),
+                            title: Text('Loading...'),
+                          ),
+                        ),
+                      ],
                     );
                   }
                   // }

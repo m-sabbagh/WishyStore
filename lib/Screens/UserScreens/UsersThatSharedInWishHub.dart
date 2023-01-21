@@ -2,7 +2,6 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:eva_icons_flutter/eva_icons_flutter.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
-import 'package:rflutter_alert/rflutter_alert.dart';
 import 'package:wishy_store/Screens/UserScreens/WishlistsPage.dart';
 
 class UsersThatSharedInWishHub extends StatefulWidget {
@@ -128,49 +127,57 @@ class _UsersThatSharedInWishHubState extends State<UsersThatSharedInWishHub> {
                           itemBuilder: ((context, index) {
                             return Column(
                               children: [
-                                ListTile(
+                                Card(
+                                  elevation: 4,
+                                  shadowColor:
+                                      Color.fromARGB(255, 174, 172, 172),
                                   shape: RoundedRectangleBorder(
-                                    borderRadius: BorderRadius.circular(30.0),
+                                    borderRadius: BorderRadius.circular(20.0),
                                   ),
-                                  tileColor: Color.fromARGB(255, 120, 114, 186),
-                                  title: Text(
-                                    wishlistNames[index],
-                                    style: TextStyle(
-                                      color: Colors.black87,
+                                  child: ListTile(
+                                    shape: RoundedRectangleBorder(
+                                      borderRadius: BorderRadius.circular(20.0),
                                     ),
-                                  ),
-                                  subtitle: Text(
-                                    wishlistTypes[index],
-                                    style: TextStyle(
-                                      color: Colors.black87,
-                                    ),
-                                  ),
-                                  leading: Icon(
-                                    EvaIcons.giftOutline,
-                                    color: Colors.black87,
-                                  ),
-                                  // trailing: IconButton(
-                                  //   icon: Icon(
-                                  //     Icons.delete,
-                                  //     color: Colors.black87,
-                                  //   ),
-                                  //   onPressed: () {},
-                                  // ),
-                                  onTap: () {
-                                    Navigator.push(
-                                      context,
-                                      MaterialPageRoute(
-                                        builder: (context) => WishlistPage(
-                                          isSharedUser: true,
-                                          wishlistName: wishlistNames[index],
-                                          wishlistType: wishlistTypes[index],
-                                          uid: userId,
-                                          wishlistDescription:
-                                              wishlistDescriptions[index],
-                                        ),
+
+                                    title: Text(
+                                      wishlistNames[index],
+                                      style: TextStyle(
+                                        color: Colors.black87,
                                       ),
-                                    );
-                                  },
+                                    ),
+                                    subtitle: Text(
+                                      wishlistTypes[index],
+                                      style: TextStyle(
+                                        color: Colors.black87,
+                                      ),
+                                    ),
+                                    leading: Icon(
+                                      EvaIcons.giftOutline,
+                                      color: Colors.black87,
+                                    ),
+                                    // trailing: IconButton(
+                                    //   icon: Icon(
+                                    //     Icons.delete,
+                                    //     color: Colors.black87,
+                                    //   ),
+                                    //   onPressed: () {},
+                                    // ),
+                                    onTap: () {
+                                      Navigator.push(
+                                        context,
+                                        MaterialPageRoute(
+                                          builder: (context) => WishlistPage(
+                                            isSharedUser: true,
+                                            wishlistName: wishlistNames[index],
+                                            wishlistType: wishlistTypes[index],
+                                            uid: userId,
+                                            wishlistDescription:
+                                                wishlistDescriptions[index],
+                                          ),
+                                        ),
+                                      );
+                                    },
+                                  ),
                                 ),
                                 SizedBox(
                                   height: 10,
