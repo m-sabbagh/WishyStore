@@ -200,160 +200,176 @@ class _WishlistPageState extends State<WishlistPage> {
                               color: Colors.white,
                             ),
                           ),
-                          child: ListTile(
-                            shape: RoundedRectangleBorder(
-                              borderRadius: BorderRadius.circular(30.0),
-                            ),
-                            onTap: () {
-                              Navigator.push(
-                                context,
-                                MaterialPageRoute(
-                                  builder: (context) => ItemDetailsPage(
-                                    itemTitle: itemTitle[index],
-                                    itemPrice: itemPrice[index],
-                                    itemBarcode: itemBarcode[index],
-                                    itemCategory: itemCategory[index],
-                                    itemDescription: itemDescription[index],
-                                    storeName: itemStoreName[index],
-                                    itemImage: imageUrl[index],
-                                    showAddToWishlistButton: false,
-                                  ),
+                          child: Padding(
+                            padding: const EdgeInsets.all(4.0),
+                            child: Card(
+                              elevation: 4,
+                              shadowColor: Color.fromARGB(255, 174, 172, 172),
+                              shape: RoundedRectangleBorder(
+                                borderRadius: BorderRadius.circular(20.0),
+                              ),
+                              child: ListTile(
+                                shape: RoundedRectangleBorder(
+                                  borderRadius: BorderRadius.circular(20.0),
                                 ),
-                              );
-                            },
+                                onTap: () {
+                                  Navigator.push(
+                                    context,
+                                    MaterialPageRoute(
+                                      builder: (context) => ItemDetailsPage(
+                                        itemTitle: itemTitle[index],
+                                        itemPrice: itemPrice[index],
+                                        itemBarcode: itemBarcode[index],
+                                        itemCategory: itemCategory[index],
+                                        itemDescription: itemDescription[index],
+                                        storeName: itemStoreName[index],
+                                        itemImage: imageUrl[index],
+                                        showAddToWishlistButton: false,
+                                      ),
+                                    ),
+                                  );
+                                },
 
-                            //isSharedUSER==false then its enabled which means its True for the user
-                            //if u entered the wishlists items as its shared and the item is resereved then its disabled which means its false
-                            trailing: GestureDetector(
-                              onTap: () {
-                                if (isSharedUser == true &&
-                                    isReserved[index] == true) {
-                                  //bottom flutter toast
-                                  Fluttertoast.showToast(
-                                      msg: "This item is reserved",
-                                      toastLength: Toast.LENGTH_SHORT,
-                                      gravity: ToastGravity.BOTTOM,
-                                      timeInSecForIosWeb: 1,
-                                      backgroundColor: Colors.grey,
-                                      textColor: Colors.white,
-                                      fontSize: 16.0);
-                                } else if (isSharedUser == false) {
-                                  setState(() {
-                                    isReserved[index] = !isReserved[index];
-                                  });
+                                //isSharedUSER==false then its enabled which means its True for the user
+                                //if u entered the wishlists items as its shared and the item is resereved then its disabled which means its false
+                                trailing: GestureDetector(
+                                  onTap: () {
+                                    if (isSharedUser == true &&
+                                        isReserved[index] == true) {
+                                      //bottom flutter toast
+                                      Fluttertoast.showToast(
+                                          msg: "This item is reserved",
+                                          toastLength: Toast.LENGTH_SHORT,
+                                          gravity: ToastGravity.BOTTOM,
+                                          timeInSecForIosWeb: 1,
+                                          backgroundColor: Colors.grey,
+                                          textColor: Colors.white,
+                                          fontSize: 16.0);
+                                    } else if (isSharedUser == false) {
+                                      setState(() {
+                                        isReserved[index] = !isReserved[index];
+                                      });
 
-                                  wishlists
-                                      .collection('wishlists')
-                                      .doc(usrid)
-                                      .set({
-                                    // 'userWishlists.$wishlistname.UserItems.${itemTitle[index]}.isReserved':
-                                    // value
-                                    'userWishlists': {
-                                      '$wishlistname': {
-                                        'UserItems': {
-                                          '${itemTitle[index]}': {
-                                            'isReserved': isReserved[index]
+                                      wishlists
+                                          .collection('wishlists')
+                                          .doc(usrid)
+                                          .set({
+                                        // 'userWishlists.$wishlistname.UserItems.${itemTitle[index]}.isReserved':
+                                        // value
+                                        'userWishlists': {
+                                          '$wishlistname': {
+                                            'UserItems': {
+                                              '${itemTitle[index]}': {
+                                                'isReserved': isReserved[index]
+                                              }
+                                            }
                                           }
                                         }
-                                      }
-                                    }
-                                  }, SetOptions(merge: true));
-                                  //remove
+                                      }, SetOptions(merge: true));
+                                      //remove
 
-                                } else {
-                                  showDialog(
-                                      context: context,
-                                      builder: (context) {
-                                        return AlertDialog(
-                                          title: Text(
-                                              'Are you sure you want to reserve this item? \nThis action cannot be undone'),
-                                          actions: [
-                                            TextButton(
-                                                onPressed: () {
-                                                  Navigator.pop(context);
-                                                },
-                                                child: Text('Cancel')),
-                                            TextButton(
-                                                onPressed: () {
-                                                  setState(() {
-                                                    isReserved[index] =
-                                                        !isReserved[index];
-                                                    FirebaseFirestore
-                                                        wishlists =
+                                    } else {
+                                      showDialog(
+                                          context: context,
+                                          builder: (context) {
+                                            return AlertDialog(
+                                              title: Text(
+                                                  'Are you sure you want to reserve this item? \nThis action cannot be undone'),
+                                              actions: [
+                                                TextButton(
+                                                    onPressed: () {
+                                                      Navigator.pop(context);
+                                                    },
+                                                    child: Text('Cancel')),
+                                                TextButton(
+                                                    onPressed: () {
+                                                      setState(() {
+                                                        isReserved[index] =
+                                                            !isReserved[index];
                                                         FirebaseFirestore
-                                                            .instance;
+                                                            wishlists =
+                                                            FirebaseFirestore
+                                                                .instance;
 
-                                                    wishlists
-                                                        .collection('wishlists')
-                                                        .doc(usrid)
-                                                        .set({
-                                                      'userWishlists': {
-                                                        '$wishlistname': {
-                                                          'UserItems': {
-                                                            '${itemTitle[index]}':
+                                                        wishlists
+                                                            .collection(
+                                                                'wishlists')
+                                                            .doc(usrid)
+                                                            .set(
                                                                 {
-                                                              'isReserved':
-                                                                  isReserved[
-                                                                      index]
-                                                            }
-                                                          }
-                                                        }
-                                                      }
-                                                    }, SetOptions(merge: true));
-                                                  });
-                                                  Navigator.pop(context);
-                                                },
-                                                child: Text('Yes'))
-                                          ],
-                                        );
-                                      });
-                                }
-                              },
-                              child: ClipRRect(
-                                borderRadius: BorderRadius.circular(10),
-                                child: Container(
-                                  color: isReserved[index]
-                                      ? Colors.red
-                                      : Colors.green, //
-                                  child: Padding(
-                                    padding: const EdgeInsets.all(8.0),
-                                    child: Text(
-                                      isReserved[index]
-                                          ? 'Reserved'
-                                          : 'Reserve', //
-                                      style: TextStyle(color: Colors.white),
-                                    ),
-                                  ),
-                                ),
-                              ),
-                            ),
-                            leading: Stack(children: [
-                              ClipRect(
-                                child: Container(
-                                  width: 50,
-                                  height: 50,
-                                  decoration: BoxDecoration(
+                                                              'userWishlists': {
+                                                                '$wishlistname':
+                                                                    {
+                                                                  'UserItems': {
+                                                                    '${itemTitle[index]}':
+                                                                        {
+                                                                      'isReserved':
+                                                                          isReserved[
+                                                                              index]
+                                                                    }
+                                                                  }
+                                                                }
+                                                              }
+                                                            },
+                                                                SetOptions(
+                                                                    merge:
+                                                                        true));
+                                                      });
+                                                      Navigator.pop(context);
+                                                    },
+                                                    child: Text('Yes'))
+                                              ],
+                                            );
+                                          });
+                                    }
+                                  },
+                                  child: ClipRRect(
                                     borderRadius: BorderRadius.circular(10),
-                                    image: DecorationImage(
-                                      image:
-                                          Image.network(imageUrl[index]).image,
-                                      fit: BoxFit.cover,
+                                    child: Container(
+                                      color: isReserved[index]
+                                          ? Colors.red
+                                          : Colors.green, //
+                                      child: Padding(
+                                        padding: const EdgeInsets.all(8.0),
+                                        child: Text(
+                                          isReserved[index]
+                                              ? 'Reserved'
+                                              : 'Reserve', //
+                                          style: TextStyle(color: Colors.white),
+                                        ),
+                                      ),
                                     ),
                                   ),
                                 ),
-                              )
-                            ]),
-                            title: Text(
-                              itemTitle[index].trim(),
-                              style: TextStyle(
-                                color: Colors.black87,
-                                decoration: TextDecoration.none,
-                              ),
-                            ),
-                            subtitle: Text(
-                              'Price: ${itemPrice[index]}JD',
-                              style: TextStyle(
-                                color: Colors.black87,
+                                leading: Stack(children: [
+                                  ClipRect(
+                                    child: Container(
+                                      width: 50,
+                                      height: 50,
+                                      decoration: BoxDecoration(
+                                        borderRadius: BorderRadius.circular(10),
+                                        image: DecorationImage(
+                                          image: Image.network(imageUrl[index])
+                                              .image,
+                                          fit: BoxFit.cover,
+                                        ),
+                                      ),
+                                    ),
+                                  )
+                                ]),
+                                title: Text(
+                                  itemTitle[index].trim(),
+                                  style: TextStyle(
+                                    color: Colors.black87,
+                                    decoration: TextDecoration.none,
+                                  ),
+                                ),
+                                subtitle: Text(
+                                  'Price: ${itemPrice[index]}JD',
+                                  style: TextStyle(
+                                    color: Colors.black87,
+                                  ),
+                                ),
                               ),
                             ),
                           ),

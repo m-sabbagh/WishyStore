@@ -1,8 +1,5 @@
-import 'dart:ffi';
-
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
-import 'package:provider/provider.dart';
 import 'package:wishy_store/Screens/UserScreens/UserStorePages/ItemsCard.dart';
 import 'package:wishy_store/Screens/UserScreens/UserStorePages/ItemDetailsPage.dart';
 import 'package:wishy_store/Widgets/postiontedArrowBack.dart';
@@ -86,26 +83,42 @@ class _StorePageState extends State<StorePage> with TickerProviderStateMixin {
         height: 10,
       ),
       Row(
-        mainAxisAlignment: MainAxisAlignment.start,
+        mainAxisAlignment: MainAxisAlignment.spaceEvenly,
         children: [
           SizedBox(
             width: 10,
           ),
-          Text(
-            storeName,
-            style: TextStyle(
-                color: Colors.black87,
-                fontSize: 20,
-                fontWeight: FontWeight.bold),
+          Expanded(
+            child: Text(
+              storeName,
+              style: TextStyle(
+                  color: Colors.black87,
+                  fontSize: 20,
+                  fontWeight: FontWeight.bold),
+            ),
+          ),
+          Expanded(
+            flex: 3,
+            child: SizedBox(
+              width: 10,
+            ),
+          ),
+          Card(
+            shape: RoundedRectangleBorder(
+              borderRadius: BorderRadius.circular(10.0),
+            ),
+            elevation: 4,
+            child: SizedBox(
+              height: 40,
+              width: 40,
+              child: IconButton(
+                onPressed: () {},
+                icon: Icon(Icons.search),
+              ),
+            ),
           ),
           SizedBox(
             width: 10,
-          ),
-          Text(
-            storeType,
-            style: TextStyle(
-              color: Colors.black87,
-            ),
           ),
         ],
       ),

@@ -140,111 +140,119 @@ class _WishHubPageState extends State<WishHubPage> {
                           itemBuilder: (context, index) {
                             return Column(
                               children: [
-                                ListTile(
+                                Card(
+                                  elevation: 4,
+                                  shadowColor:
+                                      Color.fromARGB(255, 174, 172, 172),
                                   shape: RoundedRectangleBorder(
-                                    borderRadius: BorderRadius.circular(30.0),
+                                    borderRadius: BorderRadius.circular(20.0),
                                   ),
-                                  tileColor: Color.fromARGB(255, 120, 114, 186),
-                                  title: Text(
-                                    wishlistUsers.keys.elementAt(index),
-                                    style: TextStyle(
-                                        color: Colors.black87,
-                                        fontSize: 20,
-                                        fontWeight: FontWeight.bold,
-                                        fontFamily: 'Montserrat'),
-                                  ),
-                                  leading: Icon(
-                                    Icons.location_history,
-                                    color: Colors.black87,
-                                  ),
-                                  trailing: IconButton(
-                                    icon: Icon(
-                                      Icons.delete,
+                                  child: ListTile(
+                                    shape: RoundedRectangleBorder(
+                                      borderRadius: BorderRadius.circular(20.0),
+                                    ),
+                                    title: Text(
+                                      wishlistUsers.keys.elementAt(index),
+                                      style: TextStyle(
+                                          color: Colors.black87,
+                                          fontSize: 20,
+                                          fontWeight: FontWeight.bold,
+                                          fontFamily: 'Montserrat'),
+                                    ),
+                                    leading: Icon(
+                                      Icons.location_history,
                                       color: Colors.black87,
                                     ),
-                                    onPressed: () {
-                                      setState(() {
-                                        showDialog(
-                                            context: context,
-                                            builder: (context) {
-                                              return AlertDialog(
-                                                title: Text(
-                                                    'Are you sure you want to delete your friend wishlists?'),
-                                                content: Row(
-                                                  children: [
-                                                    Expanded(
-                                                      child: DialogButton(
-                                                        color:
-                                                            Color(0xFF5E57A5),
-                                                        onPressed: () =>
-                                                            Navigator.pop(
-                                                                context),
-                                                        child: Text(
-                                                          "Cancel",
-                                                          style: TextStyle(
-                                                              color:
-                                                                  Colors.white,
-                                                              fontSize: 20),
+                                    trailing: IconButton(
+                                      icon: Icon(
+                                        Icons.delete,
+                                        color: Colors.black87,
+                                      ),
+                                      onPressed: () {
+                                        setState(() {
+                                          showDialog(
+                                              context: context,
+                                              builder: (context) {
+                                                return AlertDialog(
+                                                  title: Text(
+                                                      'Are you sure you want to delete your friend wishlists?'),
+                                                  content: Row(
+                                                    children: [
+                                                      Expanded(
+                                                        child: DialogButton(
+                                                          color:
+                                                              Color(0xFF5E57A5),
+                                                          onPressed: () =>
+                                                              Navigator.pop(
+                                                                  context),
+                                                          child: Text(
+                                                            "Cancel",
+                                                            style: TextStyle(
+                                                                color: Colors
+                                                                    .white,
+                                                                fontSize: 20),
+                                                          ),
                                                         ),
                                                       ),
-                                                    ),
-                                                    Expanded(
-                                                      child: DialogButton(
-                                                        color:
-                                                            Color(0xFF5E57A5),
-                                                        onPressed: () {
-                                                          setState(() {
-                                                            FirebaseFirestore
-                                                                wishlist =
-                                                                FirebaseFirestore
-                                                                    .instance;
-                                                            final docref = wishlist
-                                                                .collection(
-                                                                    'wishlists')
-                                                                .doc(FirebaseAuth
-                                                                    .instance
-                                                                    .currentUser!
-                                                                    .uid);
-                                                            docref.update({
-                                                              'sharedWishlistsFromUsers.${wishlistUsers.keys.elementAt(index)}':
-                                                                  FieldValue
-                                                                      .delete()
+                                                      Expanded(
+                                                        child: DialogButton(
+                                                          color:
+                                                              Color(0xFF5E57A5),
+                                                          onPressed: () {
+                                                            setState(() {
+                                                              FirebaseFirestore
+                                                                  wishlist =
+                                                                  FirebaseFirestore
+                                                                      .instance;
+                                                              final docref = wishlist
+                                                                  .collection(
+                                                                      'wishlists')
+                                                                  .doc(FirebaseAuth
+                                                                      .instance
+                                                                      .currentUser!
+                                                                      .uid);
+                                                              docref.update({
+                                                                'sharedWishlistsFromUsers.${wishlistUsers.keys.elementAt(index)}':
+                                                                    FieldValue
+                                                                        .delete()
+                                                              });
+                                                              SetOptions(
+                                                                  merge: true);
+                                                              // checkIftheresWishlists();
+                                                              Navigator.pop(
+                                                                  context);
                                                             });
-                                                            SetOptions(
-                                                                merge: true);
-                                                            // checkIftheresWishlists();
-                                                            Navigator.pop(
-                                                                context);
-                                                          });
-                                                        },
-                                                        child: Text(
-                                                          "Yes",
-                                                          style: TextStyle(
-                                                              color:
-                                                                  Colors.white,
-                                                              fontSize: 20),
+                                                          },
+                                                          child: Text(
+                                                            "Yes",
+                                                            style: TextStyle(
+                                                                color: Colors
+                                                                    .white,
+                                                                fontSize: 20),
+                                                          ),
                                                         ),
                                                       ),
-                                                    ),
-                                                  ],
-                                                ),
-                                              );
-                                            });
+                                                    ],
+                                                  ),
+                                                );
+                                              });
+                                        });
+                                      },
+                                    ),
+                                    onTap: () {
+                                      setState(() {
+                                        Navigator.push(
+                                            context,
+                                            MaterialPageRoute(
+                                                builder: (context) =>
+                                                    UsersThatSharedInWishHub(
+                                                        userEmail: wishlistUsers
+                                                            .keys
+                                                            .elementAt(
+                                                                index))));
                                       });
                                     },
                                   ),
-                                  onTap: () {
-                                    setState(() {
-                                      Navigator.push(
-                                          context,
-                                          MaterialPageRoute(
-                                              builder: (context) =>
-                                                  UsersThatSharedInWishHub(
-                                                      userEmail: wishlistUsers
-                                                          .keys
-                                                          .elementAt(index))));
-                                    });
-                                  },
                                 ),
                                 SizedBox(
                                   height: 10,

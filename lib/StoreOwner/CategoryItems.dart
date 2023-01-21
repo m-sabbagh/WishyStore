@@ -47,92 +47,116 @@ class _CategoryItemsState extends State<CategoryItems> {
               scrollDirection: Axis.vertical,
               shrinkWrap: true,
               padding: EdgeInsets.all(10),
+              physics: BouncingScrollPhysics(),
               itemCount:
                   snapshot.data['categories'][widget.categoryName].length,
               itemBuilder: (context, index) {
-                return ListTile(
-                  onTap: () {
-                    Navigator.push(
-                        context,
-                        MaterialPageRoute(
-                            builder: (context) => EditItems(
-                                  itemBarcode: snapshot
-                                      .data['categories'][widget.categoryName]
-                                      .values
-                                      .toList()[index]['itemBarcode'],
-                                  itemTitle: snapshot
-                                      .data['categories'][widget.categoryName]
-                                      .keys
-                                      .toList()[index],
-                                  itemPrice: snapshot
-                                      .data['categories'][widget.categoryName]
-                                      .values
-                                      .toList()[index]['itemPrice'],
-                                  itemCategory: widget.categoryName,
-                                  itemImage: snapshot
-                                      .data['categories'][widget.categoryName]
-                                      .values
-                                      .toList()[index]['itemImage'],
-                                  itemDescription: snapshot
-                                      .data['categories'][widget.categoryName]
-                                      .values
-                                      .toList()[index]['itemDescription'],
-                                )));
-                  },
-                  subtitle: Text(
-                      '${snapshot.data['categories'][widget.categoryName].values.toList()[index]['itemBarcode']}'),
-                  title: Text(
-                      '${snapshot.data['categories'][widget.categoryName].keys.toList()[index]}'),
-                  leading: Container(
-                    height: 50,
-                    width: 50,
-                    decoration: BoxDecoration(
-                      image: DecorationImage(
-                        image: NetworkImage(snapshot
-                            .data['categories'][widget.categoryName].values
-                            .toList()[index]['itemImage']),
-                        fit: BoxFit.cover,
+                return Column(
+                  children: [
+                    Card(
+                      elevation: 4,
+                      shadowColor: Color.fromARGB(255, 174, 172, 172),
+                      shape: RoundedRectangleBorder(
+                        borderRadius: BorderRadius.circular(20.0),
+                      ),
+                      child: ListTile(
+                        shape: RoundedRectangleBorder(
+                          borderRadius: BorderRadius.circular(20.0),
+                        ),
+                        onTap: () {
+                          Navigator.push(
+                              context,
+                              MaterialPageRoute(
+                                  builder: (context) => EditItems(
+                                        itemBarcode: snapshot
+                                            .data['categories']
+                                                [widget.categoryName]
+                                            .values
+                                            .toList()[index]['itemBarcode'],
+                                        itemTitle: snapshot
+                                            .data['categories']
+                                                [widget.categoryName]
+                                            .keys
+                                            .toList()[index],
+                                        itemPrice: snapshot
+                                            .data['categories']
+                                                [widget.categoryName]
+                                            .values
+                                            .toList()[index]['itemPrice'],
+                                        itemCategory: widget.categoryName,
+                                        itemImage: snapshot
+                                            .data['categories']
+                                                [widget.categoryName]
+                                            .values
+                                            .toList()[index]['itemImage'],
+                                        itemDescription: snapshot
+                                            .data['categories']
+                                                [widget.categoryName]
+                                            .values
+                                            .toList()[index]['itemDescription'],
+                                      )));
+                        },
+                        subtitle: Text(
+                            '${snapshot.data['categories'][widget.categoryName].values.toList()[index]['itemBarcode']}'),
+                        title: Text(
+                            '${snapshot.data['categories'][widget.categoryName].keys.toList()[index]}'),
+                        leading: Container(
+                          height: 50,
+                          width: 50,
+                          decoration: BoxDecoration(
+                            image: DecorationImage(
+                              image: NetworkImage(snapshot
+                                  .data['categories'][widget.categoryName]
+                                  .values
+                                  .toList()[index]['itemImage']),
+                              fit: BoxFit.cover,
+                            ),
+                          ),
+                        ),
+                        trailing: IconButton(
+                          icon: Icon(Icons.delete),
+                          onPressed: () {
+                            showDialog(
+                                context: context,
+                                builder: (BuildContext context) {
+                                  return AlertDialog(
+                                    title: Text('Delete Item'),
+                                    content: Text(
+                                        'Are you sure you want to delete this item?'),
+                                    actions: [
+                                      TextButton(
+                                          onPressed: () {
+                                            Navigator.pop(context);
+                                          },
+                                          child: Text('Cancel')),
+                                      TextButton(
+                                          onPressed: () {
+                                            FirebaseFirestore.instance
+                                                .collection('StoreOwners')
+                                                .doc(FirebaseAuth
+                                                    .instance.currentUser!.uid)
+                                                .update({
+                                              'categories.${widget.categoryName}.${snapshot.data['categories'][widget.categoryName].keys.toList()[index]}':
+                                                  FieldValue.delete()
+                                            });
+                                            setState(() {
+                                              Navigator.pop(context);
+                                            });
+                                          },
+                                          child: Text('Delete')),
+                                    ],
+                                  );
+                                });
+                          },
+                        ),
+                        // trailing:
+                        //     Text(snapshot.data['categories'][widget.categoryName]),
                       ),
                     ),
-                  ),
-                  trailing: IconButton(
-                    icon: Icon(Icons.delete),
-                    onPressed: () {
-                      showDialog(
-                          context: context,
-                          builder: (BuildContext context) {
-                            return AlertDialog(
-                              title: Text('Delete Item'),
-                              content: Text(
-                                  'Are you sure you want to delete this item?'),
-                              actions: [
-                                TextButton(
-                                    onPressed: () {
-                                      Navigator.pop(context);
-                                    },
-                                    child: Text('Cancel')),
-                                TextButton(
-                                    onPressed: () {
-                                      FirebaseFirestore.instance
-                                          .collection('StoreOwners')
-                                          .doc(FirebaseAuth
-                                              .instance.currentUser!.uid)
-                                          .update({
-                                        'categories.${widget.categoryName}.${snapshot.data['categories'][widget.categoryName].keys.toList()[index]}':
-                                            FieldValue.delete()
-                                      });
-                                      setState(() {
-                                        Navigator.pop(context);
-                                      });
-                                    },
-                                    child: Text('Delete')),
-                              ],
-                            );
-                          });
-                    },
-                  ),
-                  // trailing:
-                  //     Text(snapshot.data['categories'][widget.categoryName]),
+                    SizedBox(
+                      height: 5,
+                    ),
+                  ],
                 );
               },
             );

@@ -18,6 +18,12 @@ class ListOfStores extends StatefulWidget {
       storetype: storeType);
 }
 
+List<String> storesnames = [];
+List<String> storesimages = [];
+List<String> storesowners = [];
+List<List<String>> storescategories = [];
+String? storetypes;
+
 class _ListOfStoresState extends State<ListOfStores> {
   List<String> listOfStoreOwnerIds_UserId;
   String storetype;
@@ -44,6 +50,10 @@ class _ListOfStoresState extends State<ListOfStores> {
   void initState() {
     super.initState();
     // getStores();
+    storesnames.clear();
+    storesimages.clear();
+    storesowners.clear();
+    storescategories.clear();
   }
 
   Widget StoreCard({
@@ -52,11 +62,15 @@ class _ListOfStoresState extends State<ListOfStores> {
     required String userId,
     required List<String> storecategories,
   }) {
+    if (storeName != 'Loading') {
+      storesnames.add(storeName);
+      storesimages.add(imageURL);
+      storesowners.add(userId);
+      storescategories.add(storecategories);
+      storetypes = storetype;
+    }
     return GestureDetector(
       onTap: () {
-        //send the user id to the store page
-        //send the store type
-        //send the store name
         setState(() {
           Navigator.push(
               context,
@@ -149,6 +163,10 @@ class _ListOfStoresState extends State<ListOfStores> {
           );
         }
         if (snapshot.connectionState == ConnectionState.waiting) {
+          storesnames.clear();
+          storesimages.clear();
+          storesowners.clear();
+          storescategories.clear();
           return StoreCard(
             storeName: 'Loading',
             imageURL:
@@ -163,6 +181,10 @@ class _ListOfStoresState extends State<ListOfStores> {
           );
         }
         if (snapshot.hasData) {
+          storesnames.clear();
+          storesimages.clear();
+          storesowners.clear();
+          storescategories.clear();
           return StoreCard(
             storeName: snapshot.data!['storeName'],
             imageURL: snapshot.data!['storeLogo'],
@@ -208,7 +230,9 @@ class _ListOfStoresState extends State<ListOfStores> {
               ),
             ),
             IconButton(
-              onPressed: () {},
+              onPressed: () {
+                showSearch(context: context, delegate: delegate());
+              },
               icon: Icon(
                 EvaIcons.search,
                 color: Colors.black87,
@@ -236,5 +260,116 @@ class _ListOfStoresState extends State<ListOfStores> {
         ),
       ),
     );
+  }
+}
+
+class delegate extends SearchDelegate {
+  List<String> searchresults = storesnames;
+  @override
+  List<Widget>? buildActions(BuildContext context) {
+    IconButton(
+      icon: Icon(Icons.clear, color: Colors.black87),
+      onPressed: () {
+        if (query.isEmpty) {
+          close(context, null);
+        } else {
+          query = '';
+        }
+      },
+    );
+    return null;
+  }
+
+  @override
+  Widget? buildLeading(BuildContext context) {
+    IconButton(
+        icon: Icon(Icons.arrow_back),
+        onPressed: () {
+          storesnames.clear();
+          storesimages.clear();
+          storescategories.clear();
+          storesowners.clear();
+          close(context, null);
+        });
+    return null;
+  }
+
+  @override
+  Widget buildResults(BuildContext context) {
+    List<String> suggestions = searchresults.where((searchresults) {
+      final result = searchresults.toLowerCase();
+      final input = query.toLowerCase();
+      return result.contains(input);
+    }).toList();
+
+    return ListView.builder(
+      scrollDirection: Axis.vertical,
+      shrinkWrap: true,
+      physics: NeverScrollableScrollPhysics(),
+      itemCount: suggestions.length,
+      itemBuilder: ((context, index) {
+        final suggestion = suggestions[index];
+
+        return Column(
+          children: [
+            ListTile(
+                leading: Image.network(storesimages[index]),
+                title: Text(suggestion),
+                onTap: () {
+                  Navigator.push(
+                      context,
+                      MaterialPageRoute(
+                          builder: (context) => StorePage(
+                                storeName: suggestion,
+                                storeType: storetypes as String,
+                                storeOwnerUid: storesowners[index],
+                                storeCategories: storescategories[index],
+                              )));
+                }),
+            // if (!searchresults.contains(query))
+            //   Center(
+            //     child: Text('No results found',
+            //         style: TextStyle(color: Colors.red)),
+            //   ),
+          ],
+        );
+      }),
+    );
+  }
+
+  @override
+  Widget buildSuggestions(BuildContext context) {
+    if (query.isNotEmpty) {
+      List<String> suggestions = searchresults.where((searchresults) {
+        final result = searchresults.toLowerCase();
+        final input = query.toLowerCase();
+        return result.contains(input);
+      }).toList();
+      return ListView.builder(
+        scrollDirection: Axis.vertical,
+        shrinkWrap: true,
+        physics: NeverScrollableScrollPhysics(),
+        itemCount: suggestions.length,
+        itemBuilder: ((context, index) {
+          final suggestion = suggestions[index];
+          return ListTile(
+              leading: Image.network(storesimages[index]),
+              title: Text(suggestion),
+              onTap: () {
+                Navigator.push(
+                    context,
+                    MaterialPageRoute(
+                        builder: (context) => StorePage(
+                              storeName: suggestion,
+                              storeType: storetypes as String,
+                              storeOwnerUid: storesowners[index],
+                              storeCategories: storescategories[index],
+                            )));
+              });
+        }),
+      );
+    } else {
+      return Center();
+    }
   }
 }

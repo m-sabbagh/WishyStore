@@ -215,168 +215,179 @@ class _MyCategoriesState extends State<MyCategories> {
                           shrinkWrap: true,
                           itemCount: categories.length,
                           itemBuilder: (context, index) {
-                            return ListTile(
-                              onTap: () {
-                                Navigator.push(
-                                  context,
-                                  MaterialPageRoute(
-                                    builder: (context) => CategoryItems(
-                                      categoryName: categories[index],
+                            return Card(
+                              elevation: 4,
+                              shadowColor: Color.fromARGB(255, 174, 172, 172),
+                              shape: RoundedRectangleBorder(
+                                borderRadius: BorderRadius.circular(20.0),
+                              ),
+                              child: ListTile(
+                                shape: RoundedRectangleBorder(
+                                  borderRadius: BorderRadius.circular(20.0),
+                                ),
+                                onTap: () {
+                                  Navigator.push(
+                                    context,
+                                    MaterialPageRoute(
+                                      builder: (context) => CategoryItems(
+                                        categoryName: categories[index],
+                                      ),
                                     ),
-                                  ),
-                                );
-                              },
-                              // leading: Icon(Icons .),
-                              // subtitle: Text(
-                              //   categories[index],
-                              //   style: TextStyle(
-                              //     color: Colors.black,
-                              //     fontSize: 20.0,
-                              //     fontWeight: FontWeight.bold,
-                              //   ),
-                              // ),
-                              // onTap: () {},
-                              trailing: Column(
-                                children: [
-                                  // Expanded(
-                                  //     child: IconButton(
-                                  //   onPressed: () {
-                                  //     showDialog(
-                                  //       context: context,
-                                  //       builder: (BuildContext context) {
-                                  //         return AlertDialog(
-                                  //           title: Text("Edit category name "),
-                                  //           actions: [
-                                  //             TextField(
-                                  //               controller: _editCategoryName,
-                                  //               decoration: InputDecoration(
-                                  //                 hintText:
-                                  //                     '${categories[index]}',
-                                  //                 hintStyle: TextStyle(
-                                  //                   color: Colors.black,
-                                  //                 ),
-                                  //                 border: OutlineInputBorder(
-                                  //                   borderRadius:
-                                  //                       BorderRadius.circular(
-                                  //                           10.0),
-                                  //                   borderSide: BorderSide(
-                                  //                     color: Colors.grey,
-                                  //                     width: 2.0,
-                                  //                   ),
-                                  //                 ),
-                                  //               ),
-                                  //             ),
-                                  //             Row(
-                                  //               children: [
-                                  //                 TextButton(
-                                  //                   child: Text("Cancel"),
-                                  //                   onPressed: () {
-                                  //                     Navigator.of(context)
-                                  //                         .pop();
-                                  //                   },
-                                  //                 ),
-                                  //                 TextButton(
-                                  //                   child: Text("Confirm"),
-                                  //                   onPressed: () {
-                                  //                     setState(() {
-                                  //                       FirebaseFirestore
-                                  //                           .instance
-                                  //                           .collection(
-                                  //                               'StoreOwners')
-                                  //                           .doc(userId)
-                                  //                           .update({
-                                  //                         'categories': {
-                                  //                           categories[index]=
-                                  //                               _editCategoryName
-                                  //                                   .text
+                                  );
+                                },
+                                // leading: Icon(Icons .),
+                                // subtitle: Text(
+                                //   categories[index],
+                                //   style: TextStyle(
+                                //     color: Colors.black,
+                                //     fontSize: 20.0,
+                                //     fontWeight: FontWeight.bold,
+                                //   ),
+                                // ),
+                                // onTap: () {},
+                                trailing: Column(
+                                  children: [
+                                    // Expanded(
+                                    //     child: IconButton(
+                                    //   onPressed: () {
+                                    //     showDialog(
+                                    //       context: context,
+                                    //       builder: (BuildContext context) {
+                                    //         return AlertDialog(
+                                    //           title: Text("Edit category name "),
+                                    //           actions: [
+                                    //             TextField(
+                                    //               controller: _editCategoryName,
+                                    //               decoration: InputDecoration(
+                                    //                 hintText:
+                                    //                     '${categories[index]}',
+                                    //                 hintStyle: TextStyle(
+                                    //                   color: Colors.black,
+                                    //                 ),
+                                    //                 border: OutlineInputBorder(
+                                    //                   borderRadius:
+                                    //                       BorderRadius.circular(
+                                    //                           10.0),
+                                    //                   borderSide: BorderSide(
+                                    //                     color: Colors.grey,
+                                    //                     width: 2.0,
+                                    //                   ),
+                                    //                 ),
+                                    //               ),
+                                    //             ),
+                                    //             Row(
+                                    //               children: [
+                                    //                 TextButton(
+                                    //                   child: Text("Cancel"),
+                                    //                   onPressed: () {
+                                    //                     Navigator.of(context)
+                                    //                         .pop();
+                                    //                   },
+                                    //                 ),
+                                    //                 TextButton(
+                                    //                   child: Text("Confirm"),
+                                    //                   onPressed: () {
+                                    //                     setState(() {
+                                    //                       FirebaseFirestore
+                                    //                           .instance
+                                    //                           .collection(
+                                    //                               'StoreOwners')
+                                    //                           .doc(userId)
+                                    //                           .update({
+                                    //                         'categories': {
+                                    //                           categories[index]=
+                                    //                               _editCategoryName
+                                    //                                   .text
 
-                                  //                         }
-                                  //                       });
-                                  //                       SetOptions(merge: true);
+                                    //                         }
+                                    //                       });
+                                    //                       SetOptions(merge: true);
 
-                                  //                       // FirebaseFirestore
-                                  //                       //     .instance
-                                  //                       //     .collection(
-                                  //                       //         'StoreOwners')
-                                  //                       //     .doc(userId)
-                                  //                       //     .update({
-                                  //                       //   'categories': {
-                                  //                       //     _editCategoryName
-                                  //                       //         .text
-                                  //                       //   }
-                                  //                       // });
-                                  //                       // SetOptions(merge: true);
-                                  //                       Navigator.of(context)
-                                  //                           .pop();
-                                  //                     });
-                                  //                   },
-                                  //                 ),
-                                  //               ],
-                                  //             )
-                                  //           ],
-                                  //         );
-                                  //       },
-                                  //     );
-                                  //   },
-                                  //   icon: Icon(Icons.edit),
-                                  // )),
-                                  Expanded(
-                                    child: IconButton(
-                                        onPressed: () {
-                                          showDialog(
-                                            context: context,
-                                            builder: (BuildContext context) {
-                                              return AlertDialog(
-                                                title: Text(
-                                                    "Are you sure you want to delete this category? this will delete all the products in this category"),
-                                                actions: [
-                                                  TextButton(
-                                                    child: Text("No"),
-                                                    onPressed: () {
-                                                      Navigator.of(context)
-                                                          .pop();
-                                                    },
-                                                  ),
-                                                  TextButton(
-                                                    child: Text("Yes"),
-                                                    onPressed: () {
-                                                      setState(() {
-                                                        FirebaseFirestore
-                                                            firestore =
-                                                            FirebaseFirestore
-                                                                .instance;
-                                                        final docref = firestore
-                                                            .collection(
-                                                                'StoreOwners')
-                                                            .doc(userId);
-
-                                                        docref.update({
-                                                          'categories.${categories[index]}':
-                                                              FieldValue
-                                                                  .delete(),
-                                                        });
-                                                        SetOptions(merge: true);
-
+                                    //                       // FirebaseFirestore
+                                    //                       //     .instance
+                                    //                       //     .collection(
+                                    //                       //         'StoreOwners')
+                                    //                       //     .doc(userId)
+                                    //                       //     .update({
+                                    //                       //   'categories': {
+                                    //                       //     _editCategoryName
+                                    //                       //         .text
+                                    //                       //   }
+                                    //                       // });
+                                    //                       // SetOptions(merge: true);
+                                    //                       Navigator.of(context)
+                                    //                           .pop();
+                                    //                     });
+                                    //                   },
+                                    //                 ),
+                                    //               ],
+                                    //             )
+                                    //           ],
+                                    //         );
+                                    //       },
+                                    //     );
+                                    //   },
+                                    //   icon: Icon(Icons.edit),
+                                    // )),
+                                    Expanded(
+                                      child: IconButton(
+                                          onPressed: () {
+                                            showDialog(
+                                              context: context,
+                                              builder: (BuildContext context) {
+                                                return AlertDialog(
+                                                  title: Text(
+                                                      "Are you sure you want to delete this category? this will delete all the products in this category"),
+                                                  actions: [
+                                                    TextButton(
+                                                      child: Text("No"),
+                                                      onPressed: () {
                                                         Navigator.of(context)
                                                             .pop();
-                                                      });
-                                                    },
-                                                  ),
-                                                ],
-                                              );
-                                            },
-                                          );
-                                        },
-                                        icon: Icon(Icons.delete)),
+                                                      },
+                                                    ),
+                                                    TextButton(
+                                                      child: Text("Yes"),
+                                                      onPressed: () {
+                                                        setState(() {
+                                                          FirebaseFirestore
+                                                              firestore =
+                                                              FirebaseFirestore
+                                                                  .instance;
+                                                          final docref = firestore
+                                                              .collection(
+                                                                  'StoreOwners')
+                                                              .doc(userId);
+
+                                                          docref.update({
+                                                            'categories.${categories[index]}':
+                                                                FieldValue
+                                                                    .delete(),
+                                                          });
+                                                          SetOptions(
+                                                              merge: true);
+
+                                                          Navigator.of(context)
+                                                              .pop();
+                                                        });
+                                                      },
+                                                    ),
+                                                  ],
+                                                );
+                                              },
+                                            );
+                                          },
+                                          icon: Icon(Icons.delete)),
+                                    ),
+                                  ],
+                                ),
+                                title: Text(
+                                  categories[index],
+                                  style: TextStyle(
+                                    color: Colors.black,
+                                    fontSize: 20.0,
+                                    fontWeight: FontWeight.bold,
                                   ),
-                                ],
-                              ),
-                              title: Text(
-                                categories[index],
-                                style: TextStyle(
-                                  color: Colors.black,
-                                  fontSize: 20.0,
-                                  fontWeight: FontWeight.bold,
                                 ),
                               ),
                             );

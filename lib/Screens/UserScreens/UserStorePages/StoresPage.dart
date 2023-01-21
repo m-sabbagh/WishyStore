@@ -73,46 +73,57 @@ class _UserStorePageState extends State<UserStorePage> {
       required List<String> listOfUserIds,
       required String imageUrl,
       required String storeTitle}) {
-    return ListTile(
+    return Card(
+      elevation: 4,
+      shadowColor: Color.fromARGB(255, 174, 172, 172),
       shape: RoundedRectangleBorder(
-        borderRadius: BorderRadius.circular(30),
+        borderRadius: BorderRadius.circular(20.0),
       ),
-      trailing: Icon(
-        EvaIcons.arrowIosForward,
-        color: Colors.black,
-      ),
-      onTap: () async {
-        //i want to navigatoe to the list of stores
-        //and i want to send the list of user ids of the stores
+      child: ListTile(
+        shape: RoundedRectangleBorder(
+          borderRadius: BorderRadius.circular(20),
+        ),
+        trailing: Icon(
+          EvaIcons.arrowIosForward,
+          color: Colors.black,
+        ),
+        onTap: () async {
+          //i want to navigatoe to the list of stores
+          //and i want to send the list of user ids of the stores
 
-        Navigator.push(
-          context,
-          MaterialPageRoute(builder: (context) {
-            return ListOfStores(
-                listOfStoreOwnerIds_UserId: listOfUserIds,
-                storeType: storeType);
-          }),
-        );
-      },
-      // subtitle: Text(
-      //   'Retail',
-      //   style: TextStyle(color: Colors.white, fontSize: 20),
-      // ),
+          Navigator.push(
+            context,
+            MaterialPageRoute(builder: (context) {
+              return ListOfStores(
+                  listOfStoreOwnerIds_UserId: listOfUserIds,
+                  storeType: storeType);
+            }),
+          );
+        },
+        // subtitle: Text(
+        //   'Retail',
+        //   style: TextStyle(color: Colors.white, fontSize: 20),
+        // ),
 
-      // subtitle: Image.asset(
-      //   imageUrl,
-      // ),
-      leading: Image.asset(
-        imageUrl,
+        // subtitle: Image.asset(
+        //   imageUrl,
+        // ),
+        leading: ClipRRect(
+          borderRadius: BorderRadius.circular(30),
+          child: Image.asset(
+            imageUrl,
+          ),
+        ),
+        title: Text(
+          storeTitle,
+          style:
+              TextStyle(color: Color.fromARGB(255, 16, 15, 15), fontSize: 20),
+        ),
+        // trailing: Icon(
+        //   Icons.arrow_forward_ios,
+        //   color: Colors.white,
+        // ),
       ),
-      title: Text(
-        storeTitle,
-        style: TextStyle(color: Color.fromARGB(255, 16, 15, 15), fontSize: 20),
-      ),
-      // trailing: Icon(
-      //   Icons.arrow_forward_ios,
-      //   color: Colors.white,
-      // ),
     );
   }
 
@@ -126,7 +137,7 @@ class _UserStorePageState extends State<UserStorePage> {
         title: Row(
           mainAxisAlignment: MainAxisAlignment.spaceBetween,
           children: [
-            Text('Stores cateogires',
+            Text('Cateogires',
                 style: TextStyle(
                     color: Colors.black,
                     fontSize: 30,
@@ -135,75 +146,78 @@ class _UserStorePageState extends State<UserStorePage> {
         ),
       ),
       body: SingleChildScrollView(
-        child: Column(
-          //           List<String> storeTypes = <String>[
-          //   'Retail store',
-          //   'Health and Beauty store',
-          //   'Gift store',
-          //   'Fitness store',
-          //   'Clothing store',
-          //   'Jewelry store',
-          // ];
+        child: Padding(
+          padding: const EdgeInsets.all(10.0),
+          child: Column(
+            //           List<String> storeTypes = <String>[
+            //   'Retail store',
+            //   'Health and Beauty store',
+            //   'Gift store',
+            //   'Fitness store',
+            //   'Clothing store',
+            //   'Jewelry store',
+            // ];
 
-          children: [
-            SizedBox(
-              height: 10,
-            ),
-            storeslist(
-              storeType: 'Retail store',
-              listOfUserIds: userIdForRetailStores,
-              imageUrl: 'images/storeCategories/retailstores.png',
-              storeTitle: 'Retail stores',
-            ),
-            SizedBox(
-              height: 10,
-            ),
-            storeslist(
-              storeType: 'Health and Beauty store',
-              listOfUserIds: userIdForHealthAndBeautyStores,
-              imageUrl: 'images/storeCategories/healthandbeuaty.png',
-              storeTitle: 'Health and Beauty stores',
-            ),
-            SizedBox(
-              height: 10,
-            ),
-            storeslist(
-              storeType: 'Gift store',
-              listOfUserIds: userIdForGiftCenter,
-              imageUrl: 'images/storeCategories/giftstores2.png',
-              storeTitle: 'Gift stores',
-            ),
-            SizedBox(
-              height: 10,
-            ),
-            storeslist(
-              storeType: 'Fitness store',
-              listOfUserIds: userIdForFitnessStores,
-              imageUrl: 'images/storeCategories/fitness.png',
-              storeTitle: 'Fitness stores',
-            ),
-            SizedBox(
-              height: 10,
-            ),
-            storeslist(
-              storeType: 'Clothing store',
-              listOfUserIds: userIdForClothingStores,
-              imageUrl: 'images/storeCategories/clothingstores.png',
-              storeTitle: 'Clothing stores',
-            ),
-            SizedBox(
-              height: 10,
-            ),
-            storeslist(
-              storeType: 'Jewelry store',
-              listOfUserIds: userIdForJewelryStores,
-              imageUrl: 'images/storeCategories/jewlary2.png',
-              storeTitle: 'Jewelry stores',
-            ),
-            SizedBox(
-              height: 20,
-            ),
-          ],
+            children: [
+              SizedBox(
+                height: 10,
+              ),
+              storeslist(
+                storeType: 'Retail store',
+                listOfUserIds: userIdForRetailStores,
+                imageUrl: 'images/storeCategories/retailstores.png',
+                storeTitle: 'Retail stores',
+              ),
+              SizedBox(
+                height: 10,
+              ),
+              storeslist(
+                storeType: 'Health and Beauty store',
+                listOfUserIds: userIdForHealthAndBeautyStores,
+                imageUrl: 'images/storeCategories/healthandbeuaty.png',
+                storeTitle: 'Health and Beauty stores',
+              ),
+              SizedBox(
+                height: 10,
+              ),
+              storeslist(
+                storeType: 'Gift store',
+                listOfUserIds: userIdForGiftCenter,
+                imageUrl: 'images/storeCategories/giftstores2.png',
+                storeTitle: 'Gift stores',
+              ),
+              SizedBox(
+                height: 10,
+              ),
+              storeslist(
+                storeType: 'Fitness store',
+                listOfUserIds: userIdForFitnessStores,
+                imageUrl: 'images/storeCategories/fitness.png',
+                storeTitle: 'Fitness stores',
+              ),
+              SizedBox(
+                height: 10,
+              ),
+              storeslist(
+                storeType: 'Clothing store',
+                listOfUserIds: userIdForClothingStores,
+                imageUrl: 'images/storeCategories/clothingstores.png',
+                storeTitle: 'Clothing stores',
+              ),
+              SizedBox(
+                height: 10,
+              ),
+              storeslist(
+                storeType: 'Jewelry store',
+                listOfUserIds: userIdForJewelryStores,
+                imageUrl: 'images/storeCategories/jewlary2.png',
+                storeTitle: 'Jewelry stores',
+              ),
+              SizedBox(
+                height: 20,
+              ),
+            ],
+          ),
         ),
       ),
     );

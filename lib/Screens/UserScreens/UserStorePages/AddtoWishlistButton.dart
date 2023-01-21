@@ -160,39 +160,48 @@ class _AddToWishlistButtonState extends State<AddToWishlistButton> {
                     builder: (BuildContext context) => AlertDialog(
                       title: const Text('Please pick your wishlist'),
                       content: Container(
-                        height: 200,
+                        height: 300,
                         child: SingleChildScrollView(
                           child: Column(
                             children: [
                               if (wishlistNames.isEmpty == true)
                                 Text(
-                                  'You dont have any wishlist yet, please create one',
+                                  'You dont have any wishlist yet.\nPlease create one to add items to it.',
                                   style: TextStyle(color: Colors.grey),
                                 ),
                               for (var i = 0; i < wishlistNames.length; i++)
-                                ListTile(
-                                  iconColor: Color.fromARGB(255, 120, 114, 186),
-
+                                Card(
+                                  elevation: 4,
+                                  shadowColor:
+                                      Color.fromARGB(255, 174, 172, 172),
                                   shape: RoundedRectangleBorder(
-                                    borderRadius: BorderRadius.circular(18),
+                                    borderRadius: BorderRadius.circular(30.0),
                                   ),
-                                  leading: Icon(Icons.card_giftcard_rounded),
-                                  // leading: Radio(
-                                  //     value: "radio value",
-                                  //     groupValue: "group value",
-                                  //     onChanged: (value) {
+                                  child: ListTile(
+                                    iconColor:
+                                        Color.fromARGB(255, 120, 114, 186),
 
-                                  //       //selected value
-                                  //     }),
-                                  title: Text(wishlistNames[i]),
-                                  onTap: () {
-                                    wishlistName = wishlistNames[i];
-                                    setState(() {
-                                      checkIfItemIsAlreadyInWishlist(
-                                          wishlistName: wishlistName!,
-                                          itemBarcode: widget.itemBarcode);
-                                    });
-                                  },
+                                    shape: RoundedRectangleBorder(
+                                      borderRadius: BorderRadius.circular(18),
+                                    ),
+                                    leading: Icon(Icons.card_giftcard_rounded),
+                                    // leading: Radio(
+                                    //     value: "radio value",
+                                    //     groupValue: "group value",
+                                    //     onChanged: (value) {
+
+                                    //       //selected value
+                                    //     }),
+                                    title: Text(wishlistNames[i]),
+                                    onTap: () {
+                                      wishlistName = wishlistNames[i];
+                                      setState(() {
+                                        checkIfItemIsAlreadyInWishlist(
+                                            wishlistName: wishlistName!,
+                                            itemBarcode: widget.itemBarcode);
+                                      });
+                                    },
+                                  ),
                                 ),
                             ],
                           ),
