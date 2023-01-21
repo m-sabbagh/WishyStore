@@ -1,6 +1,7 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:fluttertoast/fluttertoast.dart';
+import 'package:rflutter_alert/rflutter_alert.dart';
 import 'package:wishy_store/FirebaseNetowrkFile/Collections/UsersCollection.dart';
 import 'package:wishy_store/FirebaseNetowrkFile/Collections/StoreOwnersCollection.dart';
 import 'package:wishy_store/Screens/User_StoreOwner%20sharedScreens/StoreOwner/LogInPage.dart';
@@ -49,31 +50,6 @@ class _MyHomePageState extends State<StoreOwnerSignUp> {
     usersCollection.userType = 'StoreOwner';
     usersCollection.uId = user.uid;
     await db.collection('Users').doc(user.uid).set(usersCollection.toMap());
-
-    // await db.collection(selectedStoreType.toString()).doc(user!.uid).set({
-    // 'uid': user.uid,
-    // 'email address': _emailcontroller.text,
-    // 'store name': _storeName.text,
-    // 'store type': selectedStoreType,
-    // 'phone number': _phonecontroller.text,
-    // 'support email address': _supportEmailAddress.text,
-    // 'categories': {},
-    // "storeOwnerGranted": false,
-
-    // 'store owner name':
-    //     _firstNamecontroller.text + " " + _lastNamecontroller.text,
-    // 'store owner email address': _emailcontroller.text,
-    // 'store owner phone number': _phonecontroller.text,
-    // 'store owner password': _passwordcontroller.text,
-    // 'store owner uid': user.uid,
-    // 'store owner profile picture': user.photoURL,
-    // 'store owner store name': _storeName.text,
-    // 'store owner support email address': _supportEmailAddress.text,
-    // 'store owner store type': selectedStoreType,
-    // 'store owner store owner name':
-    //     _firstNamecontroller.text + " " + _lastNamecontroller.text,
-    // 'store owner store owner email address': _emailcontroller.text,
-    // });
   }
 
   bool showSpinner = false;
@@ -272,39 +248,76 @@ class _MyHomePageState extends State<StoreOwnerSignUp> {
         // }
         setState(() {
           showSpinner = false;
-          showDialog(
+          Alert(
               context: context,
-              builder: (context) => Dialog(
-                    child: Container(
-                      height: 300,
-                      child: Column(
-                        children: [
-                          SizedBox(
-                            height: 20,
-                          ),
-                          Text(
-                            'Your request has been sent successfully , we will contact you through your email soon for more details contact us wishystore@support.jo',
-                            style: TextStyle(fontSize: 20),
-                          ),
-                          SizedBox(
-                            height: 20,
-                          ),
-                          ElevatedButton(
-                              onPressed: () {
-                                setState(() {
-                                  FirebaseAuth.instance.signOut();
-                                });
-                                Navigator.pushAndRemoveUntil(
-                                    context,
-                                    MaterialPageRoute(
-                                        builder: (context) => LoginScreen()),
-                                    (route) => false);
-                              },
-                              child: Text('OK'))
-                        ],
-                      ),
+              title: "Welcome to WishyStore ",
+              style: AlertStyle(
+                backgroundColor: Colors.white,
+                titleStyle: TextStyle(
+                  color: Colors.black,
+                  fontSize: 20,
+                  fontWeight: FontWeight.bold,
+                ),
+              ),
+              content: Column(
+                children: <Widget>[
+                  SizedBox(
+                    height: 10,
+                  ),
+                  Text(
+                    'Dear ${_firstNamecontroller.text}.Your request has been sent successfully. We will contact you soon through your email for more details contact us at wishystore@support.jo',
+                    style: TextStyle(
+                      fontSize: 13,
+                      color: Colors.black54,
+                      // color: Colors.black,
                     ),
-                  ));
+                  ),
+                ],
+              ),
+              buttons: [
+                DialogButton(
+                  color: Color(0xFF5E57A5),
+                  onPressed: () {
+                    setState(() {
+                      FirebaseAuth.instance.signOut();
+                    });
+                    Navigator.pushAndRemoveUntil(
+                        context,
+                        MaterialPageRoute(builder: (context) => LoginScreen()),
+                        (route) => false);
+                  },
+                  child: Text(
+                    "Done",
+                    style: TextStyle(color: Colors.white, fontSize: 20),
+                  ),
+                )
+              ]).show();
+          // showDialog(
+          //     context: context,
+          //     builder: (context) => Dialog(
+          //           child: Container(
+          //             height: 300,
+          //             child: Column(
+          //               children: [
+          //                 SizedBox(
+          //                   height: 20,
+          //                 ),
+          //                 Text(
+          //                   'Your request has been sent successfully , we will contact you through your email soon for more details contact us wishystore@support.jo',
+          //                   style: TextStyle(fontSize: 20),
+          //                 ),
+          //                 SizedBox(
+          //                   height: 20,
+          //                 ),
+          //                 ElevatedButton(
+          //                     onPressed: () {
+
+          //                     },
+          //                     child: Text('OK'))
+          //               ],
+          //             ),
+          //           ),
+          //         ));
         });
         clearallfields();
       }
@@ -373,7 +386,7 @@ class _MyHomePageState extends State<StoreOwnerSignUp> {
               Navigator.pop(context);
             },
           ),
-          backgroundColor: Colors.white,
+          backgroundColor: Colors.transparent,
           elevation: 0,
         ),
         body: Padding(
@@ -399,6 +412,8 @@ class _MyHomePageState extends State<StoreOwnerSignUp> {
                         child: TextField(
                           controller: _firstNamecontroller,
                           decoration: InputDecoration(
+                            filled: true,
+                            fillColor: Colors.white,
                             hintText: 'First name',
                             hintStyle: TextStyle(
                               color: Colors.grey,
@@ -424,6 +439,8 @@ class _MyHomePageState extends State<StoreOwnerSignUp> {
                         child: TextField(
                           controller: _lastNamecontroller,
                           decoration: InputDecoration(
+                            filled: true,
+                            fillColor: Colors.white,
                             hintText: 'Last name',
                             hintStyle: TextStyle(
                               color: Colors.grey,
@@ -450,6 +467,8 @@ class _MyHomePageState extends State<StoreOwnerSignUp> {
                   child: TextField(
                     controller: _emailcontroller,
                     decoration: InputDecoration(
+                      filled: true,
+                      fillColor: Colors.white,
                       hintText: 'Enter your email',
                       hintStyle: TextStyle(
                         color: Colors.grey,
@@ -475,6 +494,8 @@ class _MyHomePageState extends State<StoreOwnerSignUp> {
                         child: TextField(
                           controller: _storeName,
                           decoration: InputDecoration(
+                            filled: true,
+                            fillColor: Colors.white,
                             hintText: 'Store name',
                             hintStyle: TextStyle(
                               color: Colors.grey,
@@ -496,17 +517,14 @@ class _MyHomePageState extends State<StoreOwnerSignUp> {
                     SizedBox(width: 8),
                   ],
                 ),
-
                 SizedBox(height: 8),
-
                 SizedBox(
                   height: 45,
                   child: Container(
                     padding: EdgeInsets.only(left: 20, right: 16),
                     alignment: Alignment.center,
                     decoration: BoxDecoration(
-                      border:
-                          Border.all(color: Colors.grey.shade400, width: 2.0),
+                      border: Border.all(color: Colors.grey, width: 1.0),
                       borderRadius: BorderRadius.circular(10),
                     ),
                     child: DropdownButton<String>(
@@ -514,13 +532,6 @@ class _MyHomePageState extends State<StoreOwnerSignUp> {
                         setState(() {
                           selectedStoreType = value!;
                           selectedStoreType = value.toString();
-
-                          // for (var i = 0; i < items.length; i++) {
-                          //   if (items[i] == value) {
-                          //     selecteditem = items[i];
-                          //     value = items[i];
-                          //   }
-                          // }
                         });
                       },
                       hint: Text('Select Store Type'),

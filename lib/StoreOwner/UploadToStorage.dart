@@ -3,28 +3,9 @@ import 'package:firebase_storage/firebase_storage.dart' as firebase_storage;
 import 'package:firebase_storage/firebase_storage.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+import 'package:fluttertoast/fluttertoast.dart';
 import 'package:image_picker/image_picker.dart';
-
-// import '../export_feature.dart';
-
-//  ImagePicker imagePicker = ImagePicker();
-//           XFile? filename = await imagePicker.pickImage(
-//               source: ImageSource.gallery);
-
-//           String uniqueImageUrl =
-//               DateTime.now().millisecondsSinceEpoch.toString();
-
-//           Reference refRoot = FirebaseStorage.instance.ref();
-//           Reference refDirImage = refRoot.child(storename!);
-//           //name the image whatever you want
-//           Reference referenceImageToUpload =
-//               refDirImage.child(uniqueImageUrl);
-
-//           //store the file
-//           await referenceImageToUpload
-//               .putFile(File(filename!.path));
-//           //get the url of the image
-//           imageUrl = await refDirImage.getDownloadURL();
+import 'package:wishy_store/Widgets/ErrorToast.dart';
 
 class Storage {
   static final picker = ImagePicker();
@@ -38,13 +19,18 @@ class Storage {
     try {
       TaskSnapshot? upImage = await ref.putFile(image);
       String? url = await upImage.ref.getDownloadURL();
+      Fluttertoast.showToast(msg: 'Image selected successfully');
       return url;
     } on firebase_storage.FirebaseStorage catch (error) {
-      debugPrint(error.toString());
+      CustomFlutterToast_Error(
+        message: 'Something went wrong, please try again',
+      );
       return Future.error(error.toString());
     } on PlatformException catch (error) {
-      debugPrint('Error');
-      debugPrint(error.toString());
+      CustomFlutterToast_Error(
+        message: 'Something went wrong, please try again',
+      );
+
       return Future.error(error.toString());
     }
   }
@@ -54,7 +40,9 @@ class Storage {
     if (pickedFile != null) {
       return image = File(pickedFile.path);
     } else {
-      debugPrint('No Image selected.');
+      CustomFlutterToast_Error(
+        message: 'No Image selected.',
+      );
       return Future.error('No Image selected.');
     }
   }

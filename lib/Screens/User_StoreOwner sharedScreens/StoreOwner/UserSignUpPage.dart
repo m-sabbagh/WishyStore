@@ -281,7 +281,7 @@ class _MyHomePageState extends State<UserSignUpPage> {
               Navigator.pop(context);
             },
           ),
-          backgroundColor: Colors.white,
+          backgroundColor: Colors.transparent,
           elevation: 0,
         ),
         body: Padding(
@@ -309,6 +309,8 @@ class _MyHomePageState extends State<UserSignUpPage> {
                           child: TextField(
                             controller: _firstNamecontroller,
                             decoration: InputDecoration(
+                              filled: true,
+                              fillColor: Colors.white,
                               hintText: 'First Name',
                               hintStyle: TextStyle(
                                 color: Colors.grey,
@@ -331,6 +333,8 @@ class _MyHomePageState extends State<UserSignUpPage> {
                           child: TextField(
                             controller: _lastNamecontroller,
                             decoration: InputDecoration(
+                              filled: true,
+                              fillColor: Colors.white,
                               hintText: 'Last Name',
                               hintStyle: TextStyle(
                                 color: Colors.grey,
@@ -354,6 +358,8 @@ class _MyHomePageState extends State<UserSignUpPage> {
                     child: TextField(
                       controller: _emailcontroller,
                       decoration: InputDecoration(
+                        filled: true,
+                        fillColor: Colors.white,
                         hintText: 'Enter your email',
                         hintStyle: TextStyle(
                           color: Colors.grey,

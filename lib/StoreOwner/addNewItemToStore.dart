@@ -16,6 +16,8 @@ class AddNewItemToStore extends StatefulWidget {
 class _AddNewItemToStoreState extends State<AddNewItemToStore> {
   // XFile? image;
   String? storename;
+  RegExp barcode_valid = RegExp(r'^[0-9]{13}$');
+  RegExp price_valid = RegExp(r'^[0-9]+(.[0-9]{1,2})?$');
 
   Future getstorename() async {
     await FirebaseFirestore.instance
@@ -54,13 +56,43 @@ class _AddNewItemToStoreState extends State<AddNewItemToStore> {
   final _itembarcode = TextEditingController();
   final _itemdescription = TextEditingController();
   Future addItemToStore() async {
+    if (imageURL == '') {
+      ScaffoldMessenger.of(context)
+          .showSnackBar(SnackBar(content: Text('Please upload an image')));
+    }
     if (_itemtitle.text.isEmpty ||
         _itemprice.text.isEmpty ||
         _itembarcode.text.isEmpty ||
-        imageURL == '' ||
         selectedItemCategory == null) {
       ScaffoldMessenger.of(context)
           .showSnackBar(SnackBar(content: Text('Please fill all fields')));
+    } else if (_itembarcode.text.length != 13) {
+      ScaffoldMessenger.of(context)
+          .showSnackBar(SnackBar(content: Text('Barcode must be 13 digits')));
+    } else if (_itemtitle.text.length > 20) {
+      ScaffoldMessenger.of(context).showSnackBar(SnackBar(
+          content: Text('Item title must be less than 20 characters')));
+    } else if (_itemdescription.text.length > 500) {
+      ScaffoldMessenger.of(context).showSnackBar(SnackBar(
+          content: Text('Item description must be less than 100 characters')));
+    } else if (!barcode_valid.hasMatch(_itembarcode.text)) {
+      ScaffoldMessenger.of(context).showSnackBar(
+          SnackBar(content: Text('Item barcode must be a number')));
+    } else if (_itemprice.text.length > 6) {
+      ScaffoldMessenger.of(context).showSnackBar(
+          SnackBar(content: Text('Item price must be less than 6 digits')));
+    } else if (!price_valid.hasMatch(_itemprice.text)) {
+      ScaffoldMessenger.of(context)
+          .showSnackBar(SnackBar(content: Text('Item price must be a number')));
+    } else if (double.parse(_itemprice.text) > 99999.99) {
+      ScaffoldMessenger.of(context).showSnackBar(
+          SnackBar(content: Text('Item price must be less than 99999.99')));
+    } else if (double.parse(_itemprice.text) < 0.01) {
+      ScaffoldMessenger.of(context).showSnackBar(
+          SnackBar(content: Text('Item price must be more than 0.01')));
+    } else if (_itemtitle.text.length < 3) {
+      ScaffoldMessenger.of(context).showSnackBar(
+          SnackBar(content: Text('Item title must be more than 3 characters')));
     } else {
       FirebaseFirestore.instance.collection('StoreOwners').doc(userId).set({
         'categories': {
@@ -88,6 +120,8 @@ class _AddNewItemToStoreState extends State<AddNewItemToStore> {
     _itemprice.clear();
     _itembarcode.clear();
     _itemdescription.clear();
+    imageURL = '';
+    // selectedItemCategory = null;
   }
 
   // Image backgroundimage() {
@@ -175,9 +209,9 @@ class _AddNewItemToStoreState extends State<AddNewItemToStore> {
                     ),
                     SizedBox(height: 5.0),
                     Text(
-                      'image must be 512x512',
+                      'it is recommended to upload images\n with dimensions of 280x300 pixels.',
                       style: TextStyle(
-                        color: Colors.red,
+                        color: Color.fromARGB(255, 211, 183, 105),
                         fontSize: 15,
                         fontWeight: FontWeight.bold,
                       ),
@@ -263,8 +297,7 @@ class _AddNewItemToStoreState extends State<AddNewItemToStore> {
                     padding: EdgeInsets.only(left: 20, right: 16),
                     alignment: Alignment.center,
                     decoration: BoxDecoration(
-                      border:
-                          Border.all(color: Colors.grey.shade400, width: 2.0),
+                      border: Border.all(color: Colors.grey, width: 1.0),
                       borderRadius: BorderRadius.circular(10),
                     ),
                     child: FutureBuilder(

@@ -7,6 +7,8 @@ import 'package:flutter/material.dart';
 import 'package:wishy_store/Screens/UserScreens/UserNavBar.dart';
 import 'package:wishy_store/Screens/UserScreens/UserStorePages/StoresPage.dart';
 import 'package:wishy_store/Screens/UserScreens/UserStorePages/StorePage.dart';
+import 'package:wishy_store/Screens/UserScreens/WishlistsPage.dart';
+import 'package:wishy_store/Screens/UserScreens/wishlistsImages.dart';
 import 'package:wishy_store/StoreOwner/StoreOwnerPage.dart';
 import 'MyWishPage/MyWishPage.dart';
 
@@ -29,34 +31,13 @@ class _UserHomePageState extends State<UserHomePage> {
   List<String> wishlistTypeNew = [];
   Map wishlistData = {};
 
-//got it from my wish page
-  void getWishlistsIfExists() {
-    FirebaseFirestore wishlist = FirebaseFirestore.instance;
-    wishlist
-        .collection('wishlists')
-        .doc(FirebaseAuth.instance.currentUser!.uid)
-        .get()
-        .asStream()
-        .toList()
-        .then((value) {
-      value.forEach((element) {
-        wishlistData = element.data() as Map;
-
-        wishlistData['userWishlists'].forEach((key, value) {
-          wishlistNames.add(key);
-          wishlistTypeNew.add(value['wishlistType']);
-        });
-      });
-    });
-  }
-
   @override
   void initState() {
     // TODO: implement initState
     super.initState();
-    getWishlistsIfExists();
   }
 
+  FirebaseAuth _auth = FirebaseAuth.instance;
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -75,15 +56,7 @@ class _UserHomePageState extends State<UserHomePage> {
                   fontWeight: FontWeight.bold),
             ),
             Row(
-              children: [
-                // IconButton(
-                //   onPressed: () {},
-                //   icon: Icon(
-                //     EvaIcons.search,
-                //     color: Colors.black87,
-                //   ),
-                // ),
-              ],
+              children: [],
             ),
           ],
         ),
@@ -122,29 +95,26 @@ class _UserHomePageState extends State<UserHomePage> {
                   );
                 }).toList(),
               ),
-              // _widgetOptions.elementAt(_selectedIndex),
               SizedBox(
                 height: 30,
               ),
               Row(
                 children: [
                   SizedBox(
-                    width: 20,
+                    width: 10,
                   ),
                   Text(
-                    "Stores",
+                    "Popular Stores",
                     style: TextStyle(
                       color: Colors.black87,
                       fontSize: 20,
                     ),
                   ),
                   SizedBox(
-                    width: 250,
+                    width: 180,
                   ),
                   GestureDetector(
-                    onTap: () {
-                      Navigator.pushNamed(context, UserStorePage.id);
-                    },
+                    onTap: () {},
                     child: Text(
                       "View all",
                       style: TextStyle(
@@ -158,10 +128,6 @@ class _UserHomePageState extends State<UserHomePage> {
                 scrollDirection: Axis.horizontal,
                 child: Row(
                   children: [
-                    // ReusableCard(
-                    //     colour: kActiveCardColour,
-                    //     cardChild: Image.asset('images/ledrz.jpeg'),
-                    //     onPress: () {}),
                     Column(
                       mainAxisAlignment: MainAxisAlignment.center,
                       children: [
@@ -245,18 +211,18 @@ class _UserHomePageState extends State<UserHomePage> {
                 mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                 children: [
                   Text(
-                    "My wishlists",
+                    "My Wishlists",
                     style: TextStyle(
                       color: Colors.black87,
                       fontSize: 20,
                     ),
                   ),
                   SizedBox(
-                    width: 200,
+                    width: 180,
                   ),
                   GestureDetector(
                     onTap: () {
-                      Navigator.pushNamed(context, MyWishPage.id);
+                      // Navigator.pushNamed(context, MyWishPage.id);
                     },
                     child: Text(
                       "View all",
@@ -273,38 +239,103 @@ class _UserHomePageState extends State<UserHomePage> {
                     .doc(FirebaseAuth.instance.currentUser!.uid)
                     .get(),
                 builder: (context, AsyncSnapshot snapshot) {
-                  if (snapshot.hasData) {
-                    return ListView.builder(
-                      shrinkWrap: true,
-                      itemCount: 2,
-                      itemBuilder: (BuildContext context, int index) {
-                        return Container(
-                          // ListTile(
-                          //   title: Text(
-                          //     snapshot.data['userWishlists'].keys
-                          //         .toList()[index],
-                          //     style: TextStyle(color: Colors.white),
-                          //   ),
-                          //   trailing: Icon(
-                          //     Icons.favorite,
-                          //     color: Colors.red,
-                          //   ),
-                          // ),
-                          width: 200,
-                          color: Colors.red,
-                          margin: EdgeInsets.all(10),
-                          child: Text(
-                            snapshot.data['userWishlists'].keys.toList()[index],
-                            style: TextStyle(color: Colors.white),
+                  if (snapshot.connectionState == ConnectionState.done) {
+                    Map<String, dynamic> data =
+                        snapshot.data!.data() as Map<String, dynamic>;
+                    if (data['userWishlists'].isEmpty ||
+                        data['userWishlists'] == null) {
+                      return Padding(
+                        padding: const EdgeInsets.only(top: 50.0),
+                        child: Center(
+                          child: Column(
+                            mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                            children: [
+                              Text(
+                                "You don't have any wishlists yet",
+                                style: TextStyle(
+                                  color: Colors.black87,
+                                  fontSize: 20,
+                                ),
+                              ),
+                              SizedBox(
+                                height: 20,
+                              ),
+                              GestureDetector(
+                                onTap: () {
+                                  Navigator.pushNamed(context, MyWishPage.id);
+                                },
+                                child: Text(
+                                  "Create a wishlist",
+                                  style: TextStyle(
+                                    color: Colors.black87,
+                                  ),
+                                ),
+                              ),
+                            ],
                           ),
-                        );
-                      },
-                    );
+                        ),
+                      );
+                    } else {
+                      return ListView.builder(
+                        physics: NeverScrollableScrollPhysics(),
+                        shrinkWrap: true,
+                        itemCount:
+                            snapshot.data['userWishlists'].keys.toList().length,
+                        itemBuilder: (BuildContext context, int index) {
+                          return ListTile(
+                            onTap: () {
+                              Navigator.push(
+                                  context,
+                                  MaterialPageRoute(
+                                      builder: (context) => WishlistPage(
+                                            isSharedUser: false,
+                                            wishlistName: snapshot
+                                                .data['userWishlists'].keys
+                                                .toList()[index],
+                                            wishlistType: snapshot
+                                                    .data['userWishlists']
+                                                    .values
+                                                    .toList()[index]
+                                                ['wishlistType'],
+                                            uid: _auth.currentUser!.uid,
+                                            wishlistDescription: snapshot
+                                                    .data['userWishlists']
+                                                    .values
+                                                    .toList()[index]
+                                                ['wishlistDescription'],
+                                          )));
+                            },
+                            leading: wishlistImages(snapshot
+                                .data['userWishlists'].values
+                                .toList()[index]['wishlistType']),
+                            title: Text(
+                              snapshot.data['userWishlists'].keys
+                                  .toList()[index],
+                              style: TextStyle(
+                                color: Colors.black87,
+                                fontSize: 20,
+                              ),
+                            ),
+                          );
+                        },
+                      );
+                    }
                   } else {
                     return Center(
                       child: CircularProgressIndicator(),
                     );
                   }
+                  // }
+
+                  // if (snapshot.hasData) {
+
+                  // }
+
+                  // else {
+                  //   return Center(
+                  //     child: CircularProgressIndicator(),
+                  //   );
+                  // }
                 },
               ),
               SizedBox(

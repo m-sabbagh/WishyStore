@@ -1,6 +1,7 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:eva_icons_flutter/eva_icons_flutter.dart';
 import 'package:flutter/material.dart';
+import 'package:rflutter_alert/rflutter_alert.dart';
 import 'package:wishy_store/Screens/UserScreens/UserStorePages/StorePage.dart';
 import 'package:wishy_store/Screens/UserScreens/UserStorePages/ListOfStores.dart';
 
@@ -17,15 +18,6 @@ class UserStorePage extends StatefulWidget {
 //we can also use a list of widgets to store them
 
 class _UserStorePageState extends State<UserStorePage> {
-  // List<String> storeTypes = <String>[
-  //   'Retail store',
-  //   'Health and Beauty store',
-  //   'Gift store',
-  //   'Fitness store',
-  //   'Clothing store',
-  //   'Jewelry store',
-  // ];
-  // List<String> retailStoresUserIds = [];
   Map<String, dynamic> storeData = {};
 
   List<String> userIdForGiftCenter = [];
@@ -82,13 +74,14 @@ class _UserStorePageState extends State<UserStorePage> {
       required String imageUrl,
       required String storeTitle}) {
     return ListTile(
+      shape: RoundedRectangleBorder(
+        borderRadius: BorderRadius.circular(30),
+      ),
       trailing: Icon(
         EvaIcons.arrowIosForward,
         color: Colors.black,
       ),
       onTap: () async {
-        // ListOfStores
-
         //i want to navigatoe to the list of stores
         //and i want to send the list of user ids of the stores
 
@@ -123,8 +116,6 @@ class _UserStorePageState extends State<UserStorePage> {
     );
   }
 
-  bool test = false;
-
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -135,7 +126,7 @@ class _UserStorePageState extends State<UserStorePage> {
         title: Row(
           mainAxisAlignment: MainAxisAlignment.spaceBetween,
           children: [
-            Text('Stores',
+            Text('Stores cateogires',
                 style: TextStyle(
                     color: Colors.black,
                     fontSize: 30,
@@ -211,28 +202,6 @@ class _UserStorePageState extends State<UserStorePage> {
             ),
             SizedBox(
               height: 20,
-            ),
-            ListTile(
-              trailing: GestureDetector(
-                onTap: () {
-                  setState(() {
-                    test = !test;
-                  });
-                },
-                child: ClipRRect(
-                  borderRadius: BorderRadius.circular(10),
-                  child: Container(
-                    color: test ? Colors.red : Colors.green,
-                    child: Padding(
-                      padding: const EdgeInsets.all(8.0),
-                      child: Text(
-                        test ? 'Reserved' : 'Reserve',
-                        style: TextStyle(color: Colors.white),
-                      ),
-                    ),
-                  ),
-                ),
-              ),
             ),
           ],
         ),

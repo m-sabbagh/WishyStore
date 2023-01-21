@@ -64,7 +64,6 @@ class _MyCategoriesState extends State<MyCategories> {
           message: "Category name can't be more than 10 characters",
           toastLength: Toast.LENGTH_SHORT);
     } else if (categories.contains(_categoryName.text) == true) {
-      print('HUN ');
       CustomFlutterToast_Error(
           message: "Category already exists", toastLength: Toast.LENGTH_SHORT);
     } else {

@@ -36,6 +36,9 @@ class _NavigationBarForUserState extends State<NavigationBarForUser> {
         child: _widgetOptions.elementAt(_selectedIndex),
       ),
       bottomNavigationBar: BottomNavigationBar(
+        // iconSize: 20,
+        selectedFontSize: 10,
+        unselectedFontSize: 10,
         type: BottomNavigationBarType.fixed,
         items: const <BottomNavigationBarItem>[
           BottomNavigationBarItem(
@@ -43,12 +46,12 @@ class _NavigationBarForUserState extends State<NavigationBarForUser> {
             label: 'Home',
           ),
           BottomNavigationBarItem(
-            icon: Icon(Icons.store),
-            label: 'Stores',
+            icon: Icon(Icons.widgets),
+            label: 'Categories',
           ),
           BottomNavigationBarItem(
             icon: Icon(
-              Icons.widgets,
+              Icons.card_giftcard_sharp,
             ),
             label: 'MyWish',
           ),

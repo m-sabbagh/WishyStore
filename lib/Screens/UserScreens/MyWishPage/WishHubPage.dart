@@ -142,7 +142,7 @@ class _WishHubPageState extends State<WishHubPage> {
                               children: [
                                 ListTile(
                                   shape: RoundedRectangleBorder(
-                                    borderRadius: BorderRadius.circular(10.0),
+                                    borderRadius: BorderRadius.circular(30.0),
                                   ),
                                   tileColor: Color.fromARGB(255, 120, 114, 186),
                                   title: Text(
@@ -172,49 +172,58 @@ class _WishHubPageState extends State<WishHubPage> {
                                                     'Are you sure you want to delete your friend wishlists?'),
                                                 content: Row(
                                                   children: [
-                                                    DialogButton(
-                                                      color: Color(0xFF5E57A5),
-                                                      onPressed: () {
-                                                        setState(() {
-                                                          FirebaseFirestore
-                                                              wishlist =
-                                                              FirebaseFirestore
-                                                                  .instance;
-                                                          final docref = wishlist
-                                                              .collection(
-                                                                  'wishlists')
-                                                              .doc(FirebaseAuth
-                                                                  .instance
-                                                                  .currentUser!
-                                                                  .uid);
-                                                          docref.update({
-                                                            'sharedWishlistsFromUsers.${wishlistUsers.keys.elementAt(index)}':
-                                                                FieldValue
-                                                                    .delete()
-                                                          });
-                                                          SetOptions(
-                                                              merge: true);
-                                                          // checkIftheresWishlists();
-                                                          // Navigator.pop(context);
-                                                        });
-                                                      },
-                                                      child: Text(
-                                                        "Yes",
-                                                        style: TextStyle(
-                                                            color: Colors.white,
-                                                            fontSize: 20),
+                                                    Expanded(
+                                                      child: DialogButton(
+                                                        color:
+                                                            Color(0xFF5E57A5),
+                                                        onPressed: () =>
+                                                            Navigator.pop(
+                                                                context),
+                                                        child: Text(
+                                                          "Cancel",
+                                                          style: TextStyle(
+                                                              color:
+                                                                  Colors.white,
+                                                              fontSize: 20),
+                                                        ),
                                                       ),
                                                     ),
-                                                    DialogButton(
-                                                      color: Color(0xFF5E57A5),
-                                                      onPressed: () =>
-                                                          Navigator.pop(
-                                                              context),
-                                                      child: Text(
-                                                        "Cancel",
-                                                        style: TextStyle(
-                                                            color: Colors.white,
-                                                            fontSize: 20),
+                                                    Expanded(
+                                                      child: DialogButton(
+                                                        color:
+                                                            Color(0xFF5E57A5),
+                                                        onPressed: () {
+                                                          setState(() {
+                                                            FirebaseFirestore
+                                                                wishlist =
+                                                                FirebaseFirestore
+                                                                    .instance;
+                                                            final docref = wishlist
+                                                                .collection(
+                                                                    'wishlists')
+                                                                .doc(FirebaseAuth
+                                                                    .instance
+                                                                    .currentUser!
+                                                                    .uid);
+                                                            docref.update({
+                                                              'sharedWishlistsFromUsers.${wishlistUsers.keys.elementAt(index)}':
+                                                                  FieldValue
+                                                                      .delete()
+                                                            });
+                                                            SetOptions(
+                                                                merge: true);
+                                                            // checkIftheresWishlists();
+                                                            Navigator.pop(
+                                                                context);
+                                                          });
+                                                        },
+                                                        child: Text(
+                                                          "Yes",
+                                                          style: TextStyle(
+                                                              color:
+                                                                  Colors.white,
+                                                              fontSize: 20),
+                                                        ),
                                                       ),
                                                     ),
                                                   ],

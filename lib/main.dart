@@ -23,22 +23,14 @@ void main() async {
 }
 
 class WishyStore extends StatelessWidget {
-  // This widget is the root of your application.
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
       debugShowCheckedModeBanner: false,
-
       theme: ThemeData(
-        scaffoldBackgroundColor: Color.fromARGB(250, 250, 250, 250),
-        // scaffoldBackgroundColor: Colors.white,
+        scaffoldBackgroundColor: Color.fromARGB(249, 252, 252, 252),
       ),
-
       home: StayLoggedIn(),
-      // home: LoginScreen(),
-      // home: StoreOwnerNavBar(),
-      // home: NavigationBarForUser(),
-      // home: MyWidget(),
       routes: {
         UserSignUpPage.id: (context) => UserSignUpPage(),
         NavigationBarForUser.id: (context) => NavigationBarForUser(),
@@ -46,16 +38,12 @@ class WishyStore extends StatelessWidget {
         UserHomePage.id: (context) => UserHomePage(),
         MyWishPage.id: (context) => MyWishPage(),
         UserStorePage.id: (context) => UserStorePage(),
-        // WishlistPage.id: (context) => WishlistPage(),
         WishlistPage.id: (context) => WishlistPage(),
-        // StorePage.id: (context) => StorePage(),
         UsersThatSharedInWishHub.id: (context) => UsersThatSharedInWishHub(),
         StoreOwnerNavBar.id: (context) => StoreOwnerNavBar(),
         AddNewItemToStore.id: (context) => AddNewItemToStore(),
         MyCategories.id: (context) => MyCategories(),
         StoreOwnerSignUp.id: (context) => StoreOwnerSignUp(),
-
-        // SharedWishlistsItems.id: (context) => SharedWishlistsItems(),
       },
     );
   }

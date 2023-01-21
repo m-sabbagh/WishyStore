@@ -1,5 +1,3 @@
-// import  'dart:ffi';
-
 class UsersCollection {
   String? firstname;
   String? email;
@@ -24,8 +22,6 @@ class UsersCollection {
       password: Map['password'],
       userType: Map['userType'],
       uId: Map['uId'],
-
-      // selectedItem: Map['selectedItem'],
     );
   }
 
@@ -38,8 +34,6 @@ class UsersCollection {
       'userType': userType,
       'uId': uId,
       if (userType == 'StoreOwner') 'storeOwnerGranted': false,
-
-      // 'selectedItem': selectedItem,
     };
   }
 }

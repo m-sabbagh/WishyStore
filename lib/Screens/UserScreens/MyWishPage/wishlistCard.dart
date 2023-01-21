@@ -93,103 +93,101 @@ class _WishlistCardState extends State<WishlistCard> {
                   ),
                   Row(
                     children: [
-                      if (ShareButtonVisi == true)
-                        IconButton(
-                            onPressed: () {
-                              Alert(
-                                  context: context,
-                                  title:
-                                      "Share Wishlist to another user by email",
-                                  content: Column(
-                                    children: <Widget>[
-                                      SizedBox(
-                                        height: 15.0,
-                                      ),
-                                      SizedBox(
-                                        height: 45.0,
-                                        child: TextField(
-                                          controller: _ShareEmailAddress,
-                                          decoration: InputDecoration(
-                                            hintText: 'email address',
-                                            hintStyle: TextStyle(
+                      IconButton(
+                          onPressed: () {
+                            Alert(
+                                context: context,
+                                title:
+                                    "Share Wishlist to another user by email",
+                                content: Column(
+                                  children: <Widget>[
+                                    SizedBox(
+                                      height: 15.0,
+                                    ),
+                                    SizedBox(
+                                      height: 45.0,
+                                      child: TextField(
+                                        controller: _ShareEmailAddress,
+                                        decoration: InputDecoration(
+                                          hintText: 'email address',
+                                          hintStyle: TextStyle(
+                                            color: Colors.grey,
+                                          ),
+                                          border: OutlineInputBorder(
+                                            borderRadius:
+                                                BorderRadius.circular(10.0),
+                                            borderSide: BorderSide(
                                               color: Colors.grey,
-                                            ),
-                                            border: OutlineInputBorder(
-                                              borderRadius:
-                                                  BorderRadius.circular(10.0),
-                                              borderSide: BorderSide(
-                                                color: Colors.grey,
-                                                width: 2.0,
-                                              ),
+                                              width: 2.0,
                                             ),
                                           ),
                                         ),
                                       ),
-                                    ],
-                                  ),
-                                  buttons: [
-                                    DialogButton(
-                                      color: Color(0xFF5E57A5),
-                                      onPressed: () => Navigator.pop(context),
-                                      child: Text(
-                                        "Cancel",
-                                        style: TextStyle(
-                                            color: Colors.white, fontSize: 20),
-                                      ),
                                     ),
-                                    DialogButton(
-                                      color: Color(0xFF5E57A5),
-                                      onPressed: () {
-                                        if (_ShareEmailAddress.text.isEmpty) {
-                                          CustomFlutterToast_Error(
-                                              message: "Please enter an email",
-                                              toastLength: Toast.LENGTH_SHORT);
-                                        } else if (!_ShareEmailAddress.text
-                                                    .contains('@') ==
-                                                true ||
-                                            !_ShareEmailAddress.text
-                                                    .contains('.com') ==
-                                                true ||
-                                            !_ShareEmailAddress.text
-                                                    .contains(email_valid) ==
-                                                true) {
-                                          CustomFlutterToast_Error(
-                                              message:
-                                                  "Please enter a valid email",
-                                              toastLength: Toast.LENGTH_SHORT);
-                                        } else {
-                                          ShareWishlistToUser
-                                              shareWishlistTOuser =
-                                              ShareWishlistToUser(
-                                            emailAddressForSharing:
-                                                _ShareEmailAddress,
-                                            currentUserEmail:
-                                                _auth.currentUser!.email,
-                                            wishlistName: wishlistn,
-                                            currentUserId:
-                                                _auth.currentUser!.uid,
-                                            wishlisttype: wishlistTps,
-                                            wishlistDescription:
-                                                wishlistDescription,
-                                          );
-                                          setState(() {
-                                            shareWishlistTOuser
-                                                .checkONtheSharedEmail();
-                                            _ShareEmailAddress.clear();
-                                          });
+                                  ],
+                                ),
+                                buttons: [
+                                  DialogButton(
+                                    color: Color(0xFF5E57A5),
+                                    onPressed: () => Navigator.pop(context),
+                                    child: Text(
+                                      "Cancel",
+                                      style: TextStyle(
+                                          color: Colors.white, fontSize: 20),
+                                    ),
+                                  ),
+                                  DialogButton(
+                                    color: Color(0xFF5E57A5),
+                                    onPressed: () {
+                                      if (_ShareEmailAddress.text.isEmpty) {
+                                        CustomFlutterToast_Error(
+                                            message: "Please enter an email",
+                                            toastLength: Toast.LENGTH_SHORT);
+                                      } else if (!_ShareEmailAddress.text
+                                                  .contains('@') ==
+                                              true ||
+                                          !_ShareEmailAddress.text
+                                                  .contains('.com') ==
+                                              true ||
+                                          !_ShareEmailAddress.text
+                                                  .contains(email_valid) ==
+                                              true) {
+                                        CustomFlutterToast_Error(
+                                            message:
+                                                "Please enter a valid email",
+                                            toastLength: Toast.LENGTH_SHORT);
+                                      } else {
+                                        ShareWishlistToUser
+                                            shareWishlistTOuser =
+                                            ShareWishlistToUser(
+                                          emailAddressForSharing:
+                                              _ShareEmailAddress,
+                                          currentUserEmail:
+                                              _auth.currentUser!.email,
+                                          wishlistName: wishlistn,
+                                          currentUserId: _auth.currentUser!.uid,
+                                          wishlisttype: wishlistTps,
+                                          wishlistDescription:
+                                              wishlistDescription,
+                                        );
+                                        setState(() {
+                                          shareWishlistTOuser
+                                              .checkONtheSharedEmail();
+                                          _ShareEmailAddress.clear();
+                                        });
 
-                                          Navigator.pop(context);
-                                        }
-                                      },
-                                      child: Text(
-                                        "Share",
-                                        style: TextStyle(
-                                            color: Colors.white, fontSize: 20),
-                                      ),
-                                    )
-                                  ]).show();
-                            },
-                            icon: Icon(Icons.share_rounded)),
+                                        Navigator.pop(context);
+                                      }
+                                    },
+                                    child: Text(
+                                      "Share",
+                                      style: TextStyle(
+                                          color: Colors.white, fontSize: 20),
+                                    ),
+                                  )
+                                ]).show();
+                          },
+                          icon: Icon(Icons.share_rounded)),
                       SizedBox(
                         height: 40,
                       ),

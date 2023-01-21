@@ -82,6 +82,59 @@ class _AddToWishlistButtonState extends State<AddToWishlistButton> {
     });
   }
 
+  void checkIfItemIsAlreadyInWishlist(
+      {required String wishlistName, required String itemBarcode}) {
+    FirebaseFirestore wishlist = FirebaseFirestore.instance;
+    wishlist
+        .collection('wishlists')
+        .doc(FirebaseAuth.instance.currentUser!.uid)
+        .get()
+        .asStream()
+        .toList()
+        .then((value) {
+      value.forEach((element) {
+        wishlistData = element.data() as Map;
+        if (wishlistData['userWishlists'][wishlistName]['UserItems']
+                [widget.itemTitle] !=
+            null) {
+          if (wishlistData['userWishlists'][wishlistName]['UserItems']
+                  [widget.itemTitle]
+              .containsValue(itemBarcode)) {
+            Fluttertoast.showToast(
+                msg: "Item already in $wishlistName",
+                toastLength: Toast.LENGTH_SHORT,
+                gravity: ToastGravity.BOTTOM,
+                timeInSecForIosWeb: 1,
+                backgroundColor: Colors.red,
+                textColor: Colors.white,
+                fontSize: 16.0);
+          }
+        } else {
+          AddItemsToWishlist().addNewItems(
+            //improtant , this works !
+            // wName: 'wishlist1',
+            itemBarcode: widget.itemBarcode.toString(),
+            itemCategory: widget.itemCategory.toString(),
+            itemDescription: widget.itemDescription.toString(),
+            itemStoreName: widget.itemStoreName.toString(),
+            wName: wishlistName,
+            itemPrice: widget.itemPrice.toString(),
+            itemTitle: widget.itemTitle.toString(),
+            imageUrl: widget.itemImage.toString(),
+          );
+          Fluttertoast.showToast(
+              msg: "Item added to $wishlistName",
+              toastLength: Toast.LENGTH_SHORT,
+              gravity: ToastGravity.BOTTOM,
+              timeInSecForIosWeb: 1,
+              backgroundColor: Colors.green,
+              textColor: Colors.white,
+              fontSize: 16.0);
+        }
+      });
+    });
+  }
+
   @override
   void initState() {
     super.initState();
@@ -111,6 +164,11 @@ class _AddToWishlistButtonState extends State<AddToWishlistButton> {
                         child: SingleChildScrollView(
                           child: Column(
                             children: [
+                              if (wishlistNames.isEmpty == true)
+                                Text(
+                                  'You dont have any wishlist yet, please create one',
+                                  style: TextStyle(color: Colors.grey),
+                                ),
                               for (var i = 0; i < wishlistNames.length; i++)
                                 ListTile(
                                   iconColor: Color.fromARGB(255, 120, 114, 186),
@@ -130,31 +188,9 @@ class _AddToWishlistButtonState extends State<AddToWishlistButton> {
                                   onTap: () {
                                     wishlistName = wishlistNames[i];
                                     setState(() {
-                                      AddItemsToWishlist().addNewItems(
-                                        //improtant , this works !
-                                        // wName: 'wishlist1',
-                                        itemBarcode:
-                                            widget.itemBarcode.toString(),
-                                        itemCategory:
-                                            widget.itemCategory.toString(),
-                                        itemDescription:
-                                            widget.itemDescription.toString(),
-                                        itemStoreName:
-                                            widget.itemStoreName.toString(),
-                                        wName: wishlistName,
-                                        itemPrice: widget.itemPrice.toString(),
-                                        itemTitle: widget.itemTitle.toString(),
-
-                                        imageUrl: widget.itemImage.toString(),
-                                      );
-                                      Fluttertoast.showToast(
-                                          msg: "Item added to $wishlistName",
-                                          toastLength: Toast.LENGTH_SHORT,
-                                          gravity: ToastGravity.BOTTOM,
-                                          timeInSecForIosWeb: 1,
-                                          backgroundColor: Colors.green,
-                                          textColor: Colors.white,
-                                          fontSize: 16.0);
+                                      checkIfItemIsAlreadyInWishlist(
+                                          wishlistName: wishlistName!,
+                                          itemBarcode: widget.itemBarcode);
                                     });
                                   },
                                 ),

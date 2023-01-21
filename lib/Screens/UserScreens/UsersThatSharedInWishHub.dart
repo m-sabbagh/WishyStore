@@ -126,103 +126,56 @@ class _UsersThatSharedInWishHubState extends State<UsersThatSharedInWishHub> {
                           itemCount: wishlistNames.length,
                           shrinkWrap: true,
                           itemBuilder: ((context, index) {
-                            return ListTile(
-                              shape: RoundedRectangleBorder(
-                                borderRadius: BorderRadius.circular(20),
-                              ),
-                              tileColor: Color.fromARGB(255, 120, 114, 186),
-                              title: Text(
-                                wishlistNames[index],
-                                style: TextStyle(
-                                  color: Colors.black87,
-                                ),
-                              ),
-                              subtitle: Text(
-                                wishlistTypes[index],
-                                style: TextStyle(
-                                  color: Colors.black87,
-                                ),
-                              ),
-                              leading: Icon(
-                                EvaIcons.giftOutline,
-                                color: Colors.black87,
-                              ),
-                              trailing: IconButton(
-                                icon: Icon(
-                                  Icons.delete,
-                                  color: Colors.black87,
-                                ),
-                                onPressed: () {
-                                  // showDialog(
-                                  //     context: context,
-                                  //     builder: (context) {
-                                  //       return AlertDialog(
-                                  //         title: Text(
-                                  //             'Are you sure you want to delete your friend wishlist?'),
-                                  //         content: Row(
-                                  //           children: [
-                                  //             DialogButton(
-                                  //               color: Color(0xFF5E57A5),
-                                  //               onPressed: () {
-                                  //                 setState(() {
-                                  //                   FirebaseFirestore wishlist =
-                                  //                       FirebaseFirestore
-                                  //                           .instance;
-                                  //                   final docref = wishlist
-                                  //                       .collection('wishlists')
-                                  //                       .doc(FirebaseAuth
-                                  //                           .instance
-                                  //                           .currentUser!
-                                  //                           .uid);
-                                  //                   docref.update({
-                                  //                     'sharedWishlistsFromUsers.$userEsadsadmail.$wishlistNames[index]{':
-                                  //                         FieldValue
-                                  //                             .delete()
-                                  //                   });
-                                  //                   SetOptions(merge: true);
-                                  //                   // checkIftheresWishlists();
-                                  //                   // Navigator.pop(context);
-                                  //                 });
-                                  //               },
-                                  //               child: Text(
-                                  //                 "Yes",
-                                  //                 style: TextStyle(
-                                  //                     color: Colors.white,
-                                  //                     fontSize: 20),
-                                  //               ),
-                                  //             ),
-                                  //             DialogButton(
-                                  //               color: Color(0xFF5E57A5),
-                                  //               onPressed: () =>
-                                  //                   Navigator.pop(context),
-                                  //               child: Text(
-                                  //                 "Cancel",
-                                  //                 style: TextStyle(
-                                  //                     color: Colors.white,
-                                  //                     fontSize: 20),
-                                  //               ),
-                                  //             ),
-                                  //           ],
-                                  //         ),
-                                  //       );
-                                  //     });
-                                },
-                              ),
-                              onTap: () {
-                                Navigator.push(
-                                  context,
-                                  MaterialPageRoute(
-                                    builder: (context) => WishlistPage(
-                                      isSharedUser: true,
-                                      wishlistName: wishlistNames[index],
-                                      wishlistType: wishlistTypes[index],
-                                      uid: userId,
-                                      wishlistDescription:
-                                          wishlistDescriptions[index],
+                            return Column(
+                              children: [
+                                ListTile(
+                                  shape: RoundedRectangleBorder(
+                                    borderRadius: BorderRadius.circular(30.0),
+                                  ),
+                                  tileColor: Color.fromARGB(255, 120, 114, 186),
+                                  title: Text(
+                                    wishlistNames[index],
+                                    style: TextStyle(
+                                      color: Colors.black87,
                                     ),
                                   ),
-                                );
-                              },
+                                  subtitle: Text(
+                                    wishlistTypes[index],
+                                    style: TextStyle(
+                                      color: Colors.black87,
+                                    ),
+                                  ),
+                                  leading: Icon(
+                                    EvaIcons.giftOutline,
+                                    color: Colors.black87,
+                                  ),
+                                  // trailing: IconButton(
+                                  //   icon: Icon(
+                                  //     Icons.delete,
+                                  //     color: Colors.black87,
+                                  //   ),
+                                  //   onPressed: () {},
+                                  // ),
+                                  onTap: () {
+                                    Navigator.push(
+                                      context,
+                                      MaterialPageRoute(
+                                        builder: (context) => WishlistPage(
+                                          isSharedUser: true,
+                                          wishlistName: wishlistNames[index],
+                                          wishlistType: wishlistTypes[index],
+                                          uid: userId,
+                                          wishlistDescription:
+                                              wishlistDescriptions[index],
+                                        ),
+                                      ),
+                                    );
+                                  },
+                                ),
+                                SizedBox(
+                                  height: 10,
+                                ),
+                              ],
                             );
                           })),
                       SizedBox(

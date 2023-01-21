@@ -2,6 +2,7 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:fluttertoast/fluttertoast.dart';
 import 'package:modal_progress_hud_nsn/modal_progress_hud_nsn.dart';
+import 'package:rflutter_alert/rflutter_alert.dart';
 import 'package:wishy_store/Screens/UserScreens/UserNavBar.dart';
 import 'package:wishy_store/Screens/User_StoreOwner%20sharedScreens/StoreOwner/StoreOwnerSignUp.dart';
 import 'package:wishy_store/StoreOwner/StoreOwnerNavBar.dart';
@@ -14,7 +15,6 @@ import 'package:wishy_store/FirebaseNetowrkFile/ForgotPassword.dart';
 
 class LoginScreen extends StatefulWidget {
   static String id = 'login_screen';
-
   @override
   _LoginScreenState createState() => _LoginScreenState();
 }
@@ -23,16 +23,14 @@ class _LoginScreenState extends State<LoginScreen> {
   final _auth = FirebaseAuth.instance;
   final _emailcontroller = TextEditingController();
   final _passwordcontroller = TextEditingController();
-
   bool? isFilled;
   bool? isGranted;
-
   void clearallfields() {
     _emailcontroller.clear();
     _passwordcontroller.clear();
   }
 
-  getusertype() {
+  getUserTyoe() {
     FirebaseFirestore.instance
         .collection('Users')
         .doc(_auth.currentUser!.uid)
@@ -44,37 +42,49 @@ class _LoginScreenState extends State<LoginScreen> {
           //change it to alert
           setState(() {
             showSpinner = false;
-            showDialog(
+            Alert(
                 context: context,
-                builder: (context) => Dialog(
-                      child: Container(
-                        height: 300,
-                        child: Column(
-                          children: [
-                            SizedBox(
-                              height: 20,
-                            ),
-                            Text(
-                              'Your request is still pending , please wait for the admin to grant you access',
-                              style: TextStyle(fontSize: 20),
-                            ),
-                            SizedBox(
-                              height: 20,
-                            ),
-                            ElevatedButton(
-                                onPressed: () {
-                                  setState(() {
-                                    FirebaseAuth.instance.signOut();
-                                  });
-                                  clearallfields();
-
-                                  Navigator.pop(context);
-                                },
-                                child: Text('OK'))
-                          ],
-                        ),
+                title: "Welcome to WishyStore ",
+                style: AlertStyle(
+                  backgroundColor: Colors.white,
+                  titleStyle: TextStyle(
+                    color: Colors.black,
+                    fontSize: 20,
+                    fontWeight: FontWeight.bold,
+                  ),
+                ),
+                content: Column(
+                  children: <Widget>[
+                    SizedBox(
+                      height: 10,
+                    ),
+                    Text(
+                      'Your request is still pending , please contact us for more information at wishystore@support.jo ',
+                      style: TextStyle(
+                        fontSize: 13,
+                        color: Colors.black54,
+                        // color: Colors.black,
                       ),
-                    ));
+                    ),
+                  ],
+                ),
+                buttons: [
+                  DialogButton(
+                    color: Color(0xFF5E57A5),
+                    onPressed: () {
+                      setState(() {
+                        FirebaseAuth.instance.signOut();
+                      });
+                      clearallfields();
+
+                      Navigator.pop(context);
+                    },
+                    child: Text(
+                      "Done",
+                      style: TextStyle(color: Colors.white, fontSize: 20),
+                    ),
+                  )
+                ]).show();
           });
         } else if (value['storeOwnerGranted'] == true) {
           Navigator.pushNamedAndRemoveUntil(
@@ -86,34 +96,7 @@ class _LoginScreenState extends State<LoginScreen> {
         Navigator.pushNamedAndRemoveUntil(
             context, NavigationBarForUser.id, (route) => false);
       }
-
-//from up there
-      //   Navigator.pushNamedAndRemoveUntil(
-      //       context, NavigationBarsssss.id, (route) => false);
-      // }
-      //     //    Navigator.pushNamedAndRemoveUntil(
-      //     // context, StoreOwnerPage.id, (route) => false);
-
-      // }
     });
-    // if (isFilled == false) {
-    //   Navigator.pushNamedAndRemoveUntil(
-    //       context, StoreOwnerNavBar.id, (route) => false);
-    // } else if (isGranted == false) {
-    //   CustomFlutterToast_Error(
-    //       message: "Your request is still pending",
-    //       toastLength: Toast.LENGTH_SHORT);
-    // } else {
-    //   //seniro ele rah yadwik 3ala el store owner page
-
-    // }
-
-    // FirebaseFirestore.instance
-    //     .collection('StoreOwners')
-    //     .doc(_auth.currentUser!.uid)
-    //     .get()
-    //     .then((value) {
-    // });
   }
 
   void dispose() {
@@ -122,12 +105,6 @@ class _LoginScreenState extends State<LoginScreen> {
     super.dispose();
   }
 
-  // if(getusertype()=='Store Owner'){
-  //   Navigator.pushNamed(context, StoreOwnerPage.id);
-  // }
-  // else if(getusertype()=='User'){
-  //   Navigator.pushNamed(context, NavigationBarsssss.id);
-  // }
   @override
   Future LogIn() async {
     try {
@@ -135,7 +112,7 @@ class _LoginScreenState extends State<LoginScreen> {
           email: _emailcontroller.text.trim(),
           password: _passwordcontroller.text.toString());
       if (user != null) {
-        getusertype();
+        getUserTyoe();
       }
     } on FirebaseAuthException catch (e) {
       if (_passwordcontroller.text.isEmpty == true ||
@@ -169,46 +146,6 @@ class _LoginScreenState extends State<LoginScreen> {
     }
   }
 
-  // Future<void> signInWithGoogle(BuildContext context) async {
-  //   try {
-  //     if (kIsWeb) {
-  //       GoogleAuthProvider googleProvider = GoogleAuthProvider();
-  //
-  //       googleProvider
-  //           .addScope('https://www.googleapis.com/auth/contacts.readonly');
-  //
-  //       await _auth.signInWithPopup(googleProvider);
-  //     } else {
-  //       final GoogleSignInAccount? googleUser = await GoogleSignIn().signIn();
-  //
-  //       final GoogleSignInAuthentication? googleAuth =
-  //           await googleUser?.authentication;
-  //
-  //       if (googleAuth?.accessToken != null && googleAuth?.idToken != null) {
-  //         // Create a new credential
-  //         final credential = GoogleAuthProvider.credential(
-  //           accessToken: googleAuth?.accessToken,
-  //           idToken: googleAuth?.idToken,
-  //         );
-  //         UserCredential userCredential =
-  //             await _auth.signInWithCredential(credential);
-  //
-  //         // if you want to do specific task like storing information in firestore
-  //         // only for new users using google sign in (since there are no two options
-  //         // for google sign in and google sign up, only one as of now),
-  //         // do the following:
-  //
-  //         // if (userCredential.user != null) {
-  //         //   if (userCredential.additionalUserInfo!.isNewUser) {}
-  //         // }
-  //       }
-  //     }
-  //   } on FirebaseAuthException catch (e) {
-  //     FlutterToastErorrStyle(e.message!); // Displaying the error message
-  //   }
-  // }
-
-  //text filed sizedBox height named as sizedBoxHeightTextF
   double sizedBoxHeightTextF = 45.0;
   bool showSpinner = false;
   bool isVisable = true;

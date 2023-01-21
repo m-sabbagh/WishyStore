@@ -32,9 +32,13 @@ dependencies:
   eva_icons_flutter: ^3.1.0
   flutter_svg: ^1.1.6
   smooth_page_indicator: ^1.0.0+2
+  # integration_test:
+    # sdk: flutter
 
 
 dev_dependencies:
+  integration_test:
+    sdk: flutter
   flutter_test:
     sdk: flutter
 

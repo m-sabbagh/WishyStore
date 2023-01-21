@@ -75,7 +75,7 @@ class _ItemDetailsPageState extends State<ItemDetailsPage> {
                     child: Column(
                       children: <Widget>[
                         // ColorAndSize(items: items),
-                        SizedBox(height: 20.0),
+                        SizedBox(height: 60.0),
                         Row(
                           children: <Widget>[
                             Expanded(
@@ -113,13 +113,16 @@ class _ItemDetailsPageState extends State<ItemDetailsPage> {
                           ],
                         ),
                         SizedBox(height: 20.0 / 2),
-                        Padding(
-                          padding: const EdgeInsets.symmetric(vertical: 20.0),
-                          child: Text(
-                            widget.itemDescription,
-                            style: TextStyle(
-                              height: 1.5,
-                              color: Colors.white,
+                        Align(
+                          alignment: Alignment.centerLeft,
+                          child: Padding(
+                            padding: const EdgeInsets.symmetric(vertical: 20.0),
+                            child: Text(
+                              widget.itemDescription,
+                              style: TextStyle(
+                                height: 1.5,
+                                color: Colors.white,
+                              ),
                             ),
                           ),
                         ),

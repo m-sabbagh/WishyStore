@@ -28,7 +28,6 @@ class _ListOfStoresState extends State<ListOfStores> {
   //   //take the user id from the list
   //   //walk on every documment with the user id and get the store name and store logo
   //   //add the store name and store logo to the list of store cards
-
   //   for (int i = 0; i < listOfStoreOwnerIds_UserId.length; i++) {
   //     await FirebaseFirestore.instance
   //         .collection('StoreOwners')

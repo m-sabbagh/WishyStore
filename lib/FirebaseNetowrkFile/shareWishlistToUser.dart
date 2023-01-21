@@ -23,12 +23,11 @@ class ShareWishlistToUser {
 
   FirebaseFirestore db = FirebaseFirestore.instance;
 
-  String FirestLastName = '';
+  String firstLastName = '';
 
   void checkONtheSharedEmail() {
     if (emailAddressForSharing.text == currentUserEmail) {
       Fluttertoast.showToast(msg: "You can't share with yourself");
-      //show a message that you can't share with yourself
     } else {
       getFirstNameForCurrent();
       getSharedEmail_UserId();
@@ -57,8 +56,6 @@ class ShareWishlistToUser {
         message: "There's no user with that email",
       );
     });
-
-    // print(snapshot.docs[0].data()['uId']));
   }
 
   void getFirstNameForCurrent() {
@@ -67,9 +64,7 @@ class ShareWishlistToUser {
         .where('uId', isEqualTo: currentUserId)
         .get()
         .then((snapshot) {
-      // FirestLastName = snapshot.data()!['firstname'] + ' ' + snapshot.data()!['Lastname'];
-
-      FirestLastName = snapshot.docs[0].data()['firstname'] +
+      firstLastName = snapshot.docs[0].data()['firstname'] +
           ' ' +
           snapshot.docs[0].data()['Lastname'];
     });
@@ -95,17 +90,9 @@ class ShareWishlistToUser {
 
   void createWishlistForSharedUser(String? ShareUid) async {
     var userItems = await getThatWishlistItems(wishlistName);
-
-    // print(userItems);
     await db.collection('wishlists').doc(ShareUid).set({
       'sharedWishlistsFromUsers': {
-        // "$wishlistName $currentUserEmail": {
-        //   "wishlistName": wishlistName,
-        //   "wishlistOwnerEmail": currentUserEmail,
-        //   'userId': currentUserId,
-        //   'wishlistType': wishlisttype,
-        // }
-        "$FirestLastName": {
+        "$firstLastName": {
           wishlistName: {
             'wishlistName': wishlistName,
             'wishlistType': wishlisttype,
@@ -114,14 +101,6 @@ class ShareWishlistToUser {
           "wishlistOwnerEmail": currentUserEmail,
           'userId': currentUserId,
         }
-
-        //after you click share , you send your wishlist to the sharedUser
-        // "$currentUserEmail wishlist": {
-        //   '$wishlistName-UserItems': {...userItems},
-        //   'wishlistOwnerEmail': currentUserEmail
-        // },
-        // ''
-        // 'wishlist owner email': currentUserEmail,
       },
     }, SetOptions(merge: true));
   }

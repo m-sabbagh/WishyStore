@@ -45,6 +45,7 @@ class ItemTitleAndImage extends StatelessWidget {
           ),
           SizedBox(height: 20.0),
           Row(
+            mainAxisAlignment: MainAxisAlignment.spaceBetween,
             children: <Widget>[
               RichText(
                 text: TextSpan(
@@ -64,17 +65,24 @@ class ItemTitleAndImage extends StatelessWidget {
                 ),
               ),
               SizedBox(width: 10.0),
-              Expanded(
-                child: Container(
-                  child: ClipRRect(
-                    borderRadius: BorderRadius.circular(18),
-                    child: Image.network(
-                      itemImage,
-                      fit: BoxFit.cover,
-                    ),
-                  ),
+              ClipRRect(
+                borderRadius: BorderRadius.circular(20), // Image border
+                child: SizedBox.fromSize(
+                  size: Size(280, 300),
+                  child: Image.network(itemImage, fit: BoxFit.cover),
                 ),
-              )
+              ),
+              // Expanded(
+              //   child: Container(
+              //     child: ClipRRect(
+              //       borderRadius: BorderRadius.circular(18),
+              //       child: Image.network(
+              //         itemImage,
+              //         fit: BoxFit.cover,
+              //       ),
+              //     ),
+              //   ),
+              // )
             ],
           )
         ],
