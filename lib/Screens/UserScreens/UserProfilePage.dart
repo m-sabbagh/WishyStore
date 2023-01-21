@@ -1,7 +1,5 @@
 import 'dart:io';
-
 import 'package:cloud_firestore/cloud_firestore.dart';
-import 'package:eva_icons_flutter/eva_icons_flutter.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_storage/firebase_storage.dart';
 import 'package:flutter/material.dart';
@@ -346,7 +344,7 @@ class _UserProfilePageState extends State<UserProfilePage> {
                             context: context,
                             builder: (context) {
                               return AlertDialog(
-                                title: Text('Wishy Store\nVersion 0.0.1 beta'),
+                                title: Text('Wishy Store\nVersion 1.0.0 beta'),
                               );
                             });
                       },
