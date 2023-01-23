@@ -10,13 +10,10 @@ class StoreOwnerNavBar extends StatefulWidget {
 
 class _StoreOwnerNavBarState extends State<StoreOwnerNavBar> {
   int _selectedIndex = 0;
-  // static const TextStyle optionStyle =
-  //     TextStyle(fontSize: 30, fontWeight: FontWeight.bold);
+
   static List<Widget> _widgetOptions = <Widget>[
-    // FillingInformation(),
     StoreOwnerPage(),
     UserProfilePage(),
-    //hello
   ];
 
   void _onItemTapped(int index) {

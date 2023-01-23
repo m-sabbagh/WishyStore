@@ -7,6 +7,7 @@ import 'package:rflutter_alert/rflutter_alert.dart';
 import 'package:wishy_store/Screens/UserScreens/MyWishPage/CreateWishList.dart';
 import 'package:wishy_store/Screens/UserScreens/WishlistsPage.dart';
 import 'package:wishy_store/Screens/UserScreens/wishlistsImages.dart';
+import 'package:wishy_store/constants.dart';
 import '../../../FirebaseNetowrkFile/shareWishlistToUser.dart';
 import '../../../Widgets/ErrorToast.dart';
 
@@ -216,17 +217,80 @@ class _MyWishPageState extends State<MyWishPage> {
                                 child: SizedBox(
                                   width: 350,
                                   height: 100,
-                                  child: ListTile(
-                                    shape: RoundedRectangleBorder(
-                                      borderRadius: BorderRadius.circular(20.0),
-                                    ),
-                                    tileColor: Colors.white,
-                                    trailing: Column(
-                                        mainAxisAlignment:
-                                            MainAxisAlignment.spaceEvenly,
-                                        children: [
-                                          Expanded(
-                                            child: IconButton(
+                                  child: Stack(
+                                    children: [
+                                      ListTile(
+                                        shape: RoundedRectangleBorder(
+                                          borderRadius:
+                                              BorderRadius.circular(20.0),
+                                        ),
+                                        tileColor: Colors.white,
+                                        onTap: () {
+                                          Navigator.push(
+                                              context,
+                                              MaterialPageRoute(
+                                                  builder: (context) =>
+                                                      WishlistPage(
+                                                        isSharedUser: false,
+                                                        wishlistName: snapshot
+                                                            .data![
+                                                                'userWishlists']
+                                                            .keys
+                                                            .toList()[index],
+                                                        wishlistType: snapshot
+                                                                .data![
+                                                                    'userWishlists']
+                                                                .values
+                                                                .toList()[index]
+                                                            ['wishlistType'],
+                                                        uid: _auth
+                                                            .currentUser!.uid,
+                                                        wishlistDescription: snapshot
+                                                                .data![
+                                                                    'userWishlists']
+                                                                .values
+                                                                .toList()[index]
+                                                            [
+                                                            'wishlistDescription'],
+                                                      )));
+                                        },
+                                        title: Row(
+                                          children: [
+                                            ClipRRect(
+                                              borderRadius:
+                                                  BorderRadius.circular(20),
+                                              child: SizedBox.fromSize(
+                                                size: Size.fromRadius(
+                                                    47), // Image radius
+                                                child: wishlistImages(snapshot
+                                                        .data!['userWishlists']
+                                                        .values
+                                                        .toList()[index]
+                                                    ['wishlistType']),
+                                              ),
+                                            ),
+                                            Text(
+                                              snapshot
+                                                  .data!['userWishlists'].keys
+                                                  .toList()[index],
+                                              style: TextStyle(
+                                                color: Colors.black87,
+                                                fontSize: 20,
+                                              ),
+                                            ),
+                                          ],
+                                        ),
+                                      ),
+                                      Positioned(
+                                        right: 0,
+                                        left: 10,
+                                        top: 10,
+                                        bottom: 10,
+                                        child: Row(
+                                            mainAxisAlignment:
+                                                MainAxisAlignment.end,
+                                            children: [
+                                              IconButton(
                                                 onPressed: () {
                                                   Alert(
                                                       context: context,
@@ -370,167 +434,114 @@ class _MyWishPageState extends State<MyWishPage> {
                                                 icon: Icon(
                                                   Icons.share,
                                                   size: 30,
-                                                )),
-                                          ),
-                                          SizedBox(
-                                            height: 20,
-                                          ),
-                                          Expanded(
-                                            child: IconButton(
-                                              padding: EdgeInsets.zero,
-                                              highlightColor:
-                                                  Colors.transparent,
-                                              icon: Icon(
-                                                Icons.delete,
-                                                size: 30,
+                                                  color: Colors.grey.shade700,
+                                                ),
                                               ),
-                                              onPressed: () {
-                                                // delete them from firebase
-                                                //  wishlistNames.remove(wishlistn);
-                                                // //                                             wishlistTypeNew
-                                                // //                                                 .remove(wishlistTps);
-                                                showDialog(
-                                                    context: context,
-                                                    builder: (context) {
-                                                      return AlertDialog(
-                                                        title: Text(
-                                                            'Are you sure you want to delete your wishlist?'),
-                                                        content: Row(
-                                                          children: [
-                                                            Expanded(
-                                                              child:
-                                                                  DialogButton(
-                                                                color: Color(
-                                                                    0xFF5E57A5),
-                                                                onPressed: () {
-                                                                  Navigator.pop(
-                                                                      context);
-                                                                },
-                                                                child: Text(
-                                                                  "Cancel",
-                                                                  style: TextStyle(
-                                                                      color: Colors
-                                                                          .white,
-                                                                      fontSize:
-                                                                          20),
-                                                                ),
-                                                              ),
-                                                            ),
-                                                            Expanded(
-                                                              child:
-                                                                  DialogButton(
-                                                                color: Color(
-                                                                    0xFF5E57A5),
-                                                                onPressed: () {
-                                                                  setState(() {
-                                                                    FirebaseFirestore
-                                                                        wishlist =
-                                                                        FirebaseFirestore
-                                                                            .instance;
-                                                                    final docref = wishlist
-                                                                        .collection(
-                                                                            'wishlists')
-                                                                        .doc(FirebaseAuth
-                                                                            .instance
-                                                                            .currentUser!
-                                                                            .uid);
-                                                                    docref
-                                                                        .update({
-                                                                      'userWishlists.${snapshot.data!['userWishlists'].keys.toList()[index]}':
-                                                                          FieldValue
-                                                                              .delete()
-                                                                    });
-                                                                    SetOptions(
-                                                                        merge:
-                                                                            true);
-                                                                    Fluttertoast.showToast(
-                                                                        msg:
-                                                                            "Wishlist deleted successfully",
-                                                                        toastLength:
-                                                                            Toast
-                                                                                .LENGTH_SHORT,
-                                                                        gravity:
-                                                                            ToastGravity
-                                                                                .BOTTOM,
-                                                                        backgroundColor:
-                                                                            Colors
-                                                                                .green,
-                                                                        textColor:
-                                                                            Colors
-                                                                                .white,
+                                              SizedBox(
+                                                height: 30,
+                                              ),
+                                              IconButton(
+                                                padding: EdgeInsets.zero,
+                                                highlightColor:
+                                                    Colors.transparent,
+                                                icon: Icon(
+                                                  Icons.delete,
+                                                  size: 30,
+                                                  color: Colors.grey.shade700,
+                                                ),
+                                                onPressed: () {
+                                                  showDialog(
+                                                      context: context,
+                                                      builder: (context) {
+                                                        return AlertDialog(
+                                                          title: Text(
+                                                              'Are you sure you want to delete your wishlist?'),
+                                                          content: Row(
+                                                            children: [
+                                                              Expanded(
+                                                                child:
+                                                                    DialogButton(
+                                                                  color: Color(
+                                                                      0xFF5E57A5),
+                                                                  onPressed:
+                                                                      () {
+                                                                    Navigator.pop(
+                                                                        context);
+                                                                  },
+                                                                  child: Text(
+                                                                    "Cancel",
+                                                                    style: TextStyle(
+                                                                        color: Colors
+                                                                            .white,
                                                                         fontSize:
-                                                                            16.0);
-                                                                  });
-                                                                  Navigator.pop(
-                                                                      context);
-                                                                },
-                                                                child: Text(
-                                                                  "Yes",
-                                                                  style: TextStyle(
-                                                                      color: Colors
-                                                                          .white,
-                                                                      fontSize:
-                                                                          20),
+                                                                            20),
+                                                                  ),
                                                                 ),
                                                               ),
-                                                            ),
-                                                          ],
-                                                        ),
-                                                      );
-                                                    });
-                                              },
-                                            ),
-                                          ),
-                                        ]),
-                                    onTap: () {
-                                      Navigator.push(
-                                          context,
-                                          MaterialPageRoute(
-                                              builder: (context) =>
-                                                  WishlistPage(
-                                                    isSharedUser: false,
-                                                    wishlistName: snapshot
-                                                        .data!['userWishlists']
-                                                        .keys
-                                                        .toList()[index],
-                                                    wishlistType: snapshot
-                                                            .data!['userWishlists']
-                                                            .values
-                                                            .toList()[index]
-                                                        ['wishlistType'],
-                                                    uid: _auth.currentUser!.uid,
-                                                    wishlistDescription: snapshot
-                                                            .data!['userWishlists']
-                                                            .values
-                                                            .toList()[index]
-                                                        ['wishlistDescription'],
-                                                  )));
-                                    },
-                                    title: Row(
-                                      children: [
-                                        ClipRRect(
-                                          borderRadius:
-                                              BorderRadius.circular(20),
-                                          child: SizedBox.fromSize(
-                                            size: Size.fromRadius(
-                                                47), // Image radius
-                                            child: wishlistImages(snapshot
-                                                    .data!['userWishlists']
-                                                    .values
-                                                    .toList()[index]
-                                                ['wishlistType']),
-                                          ),
-                                        ),
-                                        Text(
-                                          snapshot.data!['userWishlists'].keys
-                                              .toList()[index],
-                                          style: TextStyle(
-                                            color: Colors.black87,
-                                            fontSize: 20,
-                                          ),
-                                        ),
-                                      ],
-                                    ),
+                                                              Expanded(
+                                                                child:
+                                                                    DialogButton(
+                                                                  color: Color(
+                                                                      0xFF5E57A5),
+                                                                  onPressed:
+                                                                      () {
+                                                                    setState(
+                                                                        () {
+                                                                      FirebaseFirestore
+                                                                          wishlist =
+                                                                          FirebaseFirestore
+                                                                              .instance;
+                                                                      final docref = wishlist
+                                                                          .collection(
+                                                                              'wishlists')
+                                                                          .doc(FirebaseAuth
+                                                                              .instance
+                                                                              .currentUser!
+                                                                              .uid);
+                                                                      docref
+                                                                          .update({
+                                                                        'userWishlists.${snapshot.data!['userWishlists'].keys.toList()[index]}':
+                                                                            FieldValue.delete()
+                                                                      });
+                                                                      SetOptions(
+                                                                          merge:
+                                                                              true);
+                                                                      Fluttertoast.showToast(
+                                                                          msg:
+                                                                              "Wishlist deleted successfully",
+                                                                          toastLength: Toast
+                                                                              .LENGTH_SHORT,
+                                                                          gravity: ToastGravity
+                                                                              .BOTTOM,
+                                                                          backgroundColor: Colors
+                                                                              .green,
+                                                                          textColor: Colors
+                                                                              .white,
+                                                                          fontSize:
+                                                                              16.0);
+                                                                    });
+                                                                    Navigator.pop(
+                                                                        context);
+                                                                  },
+                                                                  child: Text(
+                                                                    "Yes",
+                                                                    style: TextStyle(
+                                                                        color: Colors
+                                                                            .white,
+                                                                        fontSize:
+                                                                            20),
+                                                                  ),
+                                                                ),
+                                                              ),
+                                                            ],
+                                                          ),
+                                                        );
+                                                      });
+                                                },
+                                              ),
+                                            ]),
+                                      ),
+                                    ],
                                   ),
                                 ),
                               ),
@@ -560,6 +571,14 @@ class _MyWishPageState extends State<MyWishPage> {
           backgroundColor: Color(0xFF5E57A5),
           child: Icon(EvaIcons.plus),
           onPressed: () {
+            //New added for dispose
+            _wishListName.clear();
+            wishlistNames.clear();
+            wishlistData.clear();
+            _wishlistDescription.clear();
+            dropDownValue = null;
+            getWishlistsIfExists();
+
             Alert(
                 context: context,
                 title: "Create wishlist",
@@ -714,8 +733,6 @@ class _MyWishPageState extends State<MyWishPage> {
                           getWishlistsIfExists();
                           Navigator.pop(context);
                         });
-
-                        // Navigator.pushNamed(context
                       }
                     },
                     child: Text(
@@ -728,617 +745,3 @@ class _MyWishPageState extends State<MyWishPage> {
     );
   }
 }
-
-// Row(
-//               children: [
-//                 IconButton(
-//                     onPressed: () {
-//                       Alert(
-//                           context: context,
-//                           title:
-//                               "Share Wishlist to another user by email",
-//                           content: Column(
-//                             children: <Widget>[
-//                               SizedBox(
-//                                 height: 15.0,
-//                               ),
-//                               SizedBox(
-//                                 height: 45.0,
-//                                 child: TextField(
-//                                   controller: _ShareEmailAddress,
-//                                   decoration: InputDecoration(
-//                                     hintText: 'email address',
-//                                     hintStyle: TextStyle(
-//                                       color: Colors.grey,
-//                                     ),
-//                                     border: OutlineInputBorder(
-//                                       borderRadius:
-//                                           BorderRadius.circular(10.0),
-//                                       borderSide: BorderSide(
-//                                         color: Colors.grey,
-//                                         width: 2.0,
-//                                       ),
-//                                     ),
-//                                   ),
-//                                 ),
-//                               ),
-//                             ],
-//                           ),
-//                           buttons: [
-//                             DialogButton(
-//                               color: Color(0xFF5E57A5),
-//                               onPressed: () => Navigator.pop(context),
-//                               child: Text(
-//                                 "Cancel",
-//                                 style: TextStyle(
-//                                     color: Colors.white, fontSize: 20),
-//                               ),
-//                             ),
-//                             DialogButton(
-//                               color: Color(0xFF5E57A5),
-//                               onPressed: () {
-//                                 if (_ShareEmailAddress.text.isEmpty) {
-//                                   CustomFlutterToast_Error(
-//                                       message: "Please enter an email",
-//                                       toastLength: Toast.LENGTH_SHORT);
-//                                 } else if (!_ShareEmailAddress.text
-//                                             .contains('@') ==
-//                                         true ||
-//                                     !_ShareEmailAddress.text
-//                                             .contains('.com') ==
-//                                         true ||
-//                                     !_ShareEmailAddress.text
-//                                             .contains(email_valid) ==
-//                                         true) {
-//                                   CustomFlutterToast_Error(
-//                                       message:
-//                                           "Please enter a valid email",
-//                                       toastLength: Toast.LENGTH_SHORT);
-//                                 } else {
-//                                   ShareWishlistToUser
-//                                       shareWishlistTOuser =
-//                                       ShareWishlistToUser(
-//                                     emailAddressForSharing:
-//                                         _ShareEmailAddress,
-//                                     currentUserEmail:
-//                                         _auth.currentUser!.email,
-//                                     wishlistName: wishlistn,
-//                                     currentUserId: _auth.currentUser!.uid,
-//                                     wishlisttype: wishlistTps,
-//                                     wishlistDescription:
-//                                         wishlistDescription,
-//                                   );
-//                                   setState(() {
-//                                     shareWishlistTOuser
-//                                         .checkONtheSharedEmail();
-//                                     _ShareEmailAddress.clear();
-//                                   });
-
-//                                   Navigator.pop(context);
-//                                 }
-//                               },
-//                               child: Text(
-//                                 "Share",
-//                                 style: TextStyle(
-//                                     color: Colors.white, fontSize: 20),
-//                               ),
-//                             )
-//                           ]).show();
-//                     },
-//                     icon: Icon(Icons.share_rounded)),
-//                 SizedBox(
-//                   height: 40,
-//                 ),
-//                 IconButton(
-//                   highlightColor: Colors.transparent,
-//                   splashColor: Colors.transparent,
-//                   onPressed: () {
-//                     setState(() {
-//                       // delete them from firebase
-//                       //  wishlistNames.remove(wishlistn);
-//                       // //                                             wishlistTypeNew
-//                       // //                                                 .remove(wishlistTps);
-//                       showDialog(
-//                           context: context,
-//                           builder: (context) {
-//                             return AlertDialog(
-//                               title: Text(
-//                                   'Are you sure you want to delete your wishlist?'),
-//                               content: Row(
-//                                 children: [
-//                                   Expanded(
-//                                     child: DialogButton(
-//                                       color: Color(0xFF5E57A5),
-//                                       onPressed: () {
-//                                         Navigator.pop(context);
-//                                       },
-//                                       child: Text(
-//                                         "Cancel",
-//                                         style: TextStyle(
-//                                             color: Colors.white,
-//                                             fontSize: 20),
-//                                       ),
-//                                     ),
-//                                   ),
-//                                   Expanded(
-//                                     child: DialogButton(
-//                                       color: Color(0xFF5E57A5),
-//                                       onPressed: () {
-//                                         setState(() {
-//                                           FirebaseFirestore wishlist =
-//                                               FirebaseFirestore.instance;
-//                                           final docref = wishlist
-//                                               .collection('wishlists')
-//                                               .doc(FirebaseAuth.instance
-//                                                   .currentUser!.uid);
-//                                           docref.update({
-//                                             'userWishlists.$wishlistn':
-//                                                 FieldValue.delete()
-//                                           });
-//                                           SetOptions(merge: true);
-
-//                                           Navigator.pop(context);
-//                                         });
-//                                       },
-//                                       child: Text(
-//                                         "Yes",
-//                                         style: TextStyle(
-//                                             color: Colors.white,
-//                                             fontSize: 20),
-//                                       ),
-//                                     ),
-//                                   ),
-//                                 ],
-//                               ),
-//                             );
-//                           });
-//                     });
-//                   },
-//                   icon: Icon(Icons.delete),
-//                 )
-//               ],
-//             ),
-
-///this
-// ListTile(
-//                   shape: RoundedRectangleBorder(
-//                     borderRadius: BorderRadius.circular(15.0),
-//                   ),
-//                   tileColor: Color.fromARGB(255, 120, 114, 186),
-//                   subtitle: Row(
-//                       mainAxisAlignment: MainAxisAlignment.end,
-//                       children: [
-//                         Text(data['userWishlists'].values.toList()[index]
-//                             ['wishlistType']),
-//                         Text(
-//                           snapshot.data!['userWishlists'].values
-//                               .toList()[index]['wishlistType'],
-//                           style: TextStyle(
-//                               color: Colors.white,
-//                               fontSize: 15,
-//                               fontWeight: FontWeight.bold),
-//                         ),
-//                         IconButton(
-//                             onPressed: () {
-//                               Alert(
-//                                   context: context,
-//                                   title:
-//                                       "Share Wishlist to another user by email",
-//                                   content: Column(
-//                                     children: <Widget>[
-//                                       SizedBox(
-//                                         height: 15.0,
-//                                       ),
-//                                       SizedBox(
-//                                         height: 45.0,
-//                                         child: TextField(
-//                                           controller: _ShareEmailAddress,
-//                                           decoration: InputDecoration(
-//                                             hintText: 'email address',
-//                                             hintStyle: TextStyle(
-//                                               color: Colors.grey,
-//                                             ),
-//                                             border: OutlineInputBorder(
-//                                               borderRadius:
-//                                                   BorderRadius.circular(
-//                                                       10.0),
-//                                               borderSide: BorderSide(
-//                                                 color: Colors.grey,
-//                                                 width: 2.0,
-//                                               ),
-//                                             ),
-//                                           ),
-//                                         ),
-//                                       ),
-//                                     ],
-//                                   ),
-//                                   buttons: [
-//                                     DialogButton(
-//                                       color: Color(0xFF5E57A5),
-//                                       onPressed: () =>
-//                                           Navigator.pop(context),
-//                                       child: Text(
-//                                         "Cancel",
-//                                         style: TextStyle(
-//                                             color: Colors.white,
-//                                             fontSize: 20),
-//                                       ),
-//                                     ),
-//                                     DialogButton(
-//                                       color: Color(0xFF5E57A5),
-//                                       onPressed: () {
-//                                         if (_ShareEmailAddress
-//                                             .text.isEmpty) {
-//                                           CustomFlutterToast_Error(
-//                                               message:
-//                                                   "Please enter an email",
-//                                               toastLength:
-//                                                   Toast.LENGTH_SHORT);
-//                                         } else if (!_ShareEmailAddress
-//                                                     .text
-//                                                     .contains('@') ==
-//                                                 true ||
-//                                             !_ShareEmailAddress.text
-//                                                     .contains('.com') ==
-//                                                 true ||
-//                                             !_ShareEmailAddress.text
-//                                                     .contains(
-//                                                         email_valid) ==
-//                                                 true) {
-//                                           CustomFlutterToast_Error(
-//                                               message:
-//                                                   "Please enter a valid email",
-//                                               toastLength:
-//                                                   Toast.LENGTH_SHORT);
-//                                         } else {
-//                                           ShareWishlistToUser
-//                                               shareWishlistTOuser =
-//                                               ShareWishlistToUser(
-//                                             emailAddressForSharing:
-//                                                 _ShareEmailAddress,
-//                                             currentUserEmail:
-//                                                 _auth.currentUser!.email,
-//                                             wishlistName: snapshot
-//                                                 .data!['userWishlists']
-//                                                 .keys
-//                                                 .toList()[index],
-//                                             currentUserId:
-//                                                 _auth.currentUser!.uid,
-//                                             wishlisttype: snapshot
-//                                                     .data!['userWishlists']
-//                                                     .values
-//                                                     .toList()[index]
-//                                                 ['wishlistType'],
-//                                             wishlistDescription: snapshot
-//                                                     .data!['userWishlists']
-//                                                     .values
-//                                                     .toList()[index]
-//                                                 ['wishlistDescription'],
-//                                           );
-//                                           setState(() {
-//                                             shareWishlistTOuser
-//                                                 .checkONtheSharedEmail();
-//                                             _ShareEmailAddress.clear();
-//                                           });
-
-//                                           Navigator.pop(context);
-//                                         }
-//                                       },
-//                                       child: Text(
-//                                         "Share",
-//                                         style: TextStyle(
-//                                             color: Colors.white,
-//                                             fontSize: 20),
-//                                       ),
-//                                     )
-//                                   ]).show();
-//                             },
-//                             icon: Icon(Icons.share_rounded)),
-//                         IconButton(
-//                           highlightColor: Colors.transparent,
-//                           splashColor: Colors.transparent,
-//                           onPressed: () {
-//                             setState(() {
-//                               // delete them from firebase
-//                               //  wishlistNames.remove(wishlistn);
-//                               // //                                             wishlistTypeNew
-//                               // //                                                 .remove(wishlistTps);
-//                               showDialog(
-//                                   context: context,
-//                                   builder: (context) {
-//                                     return AlertDialog(
-//                                       title: Text(
-//                                           'Are you sure you want to delete your wishlist?'),
-//                                       content: Row(
-//                                         children: [
-//                                           Expanded(
-//                                             child: DialogButton(
-//                                               color: Color(0xFF5E57A5),
-//                                               onPressed: () {
-//                                                 Navigator.pop(context);
-//                                               },
-//                                               child: Text(
-//                                                 "Cancel",
-//                                                 style: TextStyle(
-//                                                     color: Colors.white,
-//                                                     fontSize: 20),
-//                                               ),
-//                                             ),
-//                                           ),
-//                                           Expanded(
-//                                             child: DialogButton(
-//                                               color: Color(0xFF5E57A5),
-//                                               onPressed: () {
-//                                                 setState(() {
-//                                                   FirebaseFirestore
-//                                                       wishlist =
-//                                                       FirebaseFirestore
-//                                                           .instance;
-//                                                   final docref = wishlist
-//                                                       .collection(
-//                                                           'wishlists')
-//                                                       .doc(FirebaseAuth
-//                                                           .instance
-//                                                           .currentUser!
-//                                                           .uid);
-//                                                   docref.update({
-//                                                     'userWishlists.${snapshot.data!['userWishlists'].keys.toList()[index]}':
-//                                                         FieldValue
-//                                                             .delete()
-//                                                   });
-//                                                   SetOptions(merge: true);
-
-//                                                   Navigator.pop(context);
-//                                                 });
-//                                               },
-//                                               child: Text(
-//                                                 "Yes",
-//                                                 style: TextStyle(
-//                                                     color: Colors.white,
-//                                                     fontSize: 20),
-//                                               ),
-//                                             ),
-//                                           ),
-//                                         ],
-//                                       ),
-//                                     );
-//                                   });
-//                             });
-//                           },
-//                           icon: Icon(Icons.delete),
-//                         ),
-//                       ]),
-//                   onTap: () {
-//                     Navigator.push(
-//                         context,
-//                         MaterialPageRoute(
-//                             builder: (context) => WishlistPage(
-//                                   isSharedUser: false,
-//                                   wishlistName: snapshot
-//                                       .data!['userWishlists'].keys
-//                                       .toList()[index],
-//                                   wishlistType: snapshot
-//                                       .data!['userWishlists'].values
-//                                       .toList()[index]['wishlistType'],
-//                                   uid: _auth.currentUser!.uid,
-//                                   wishlistDescription: snapshot
-//                                           .data!['userWishlists'].values
-//                                           .toList()[index]
-//                                       ['wishlistDescription'],
-//                                 )));
-//                   },
-//                   leading: ClipRRect(
-//                     borderRadius: BorderRadius.circular(10),
-//                     child: wishlistImages(snapshot
-//                         .data!['userWishlists'].values
-//                         .toList()[index]['wishlistType']),
-//                   ),
-//                   title: Text(
-//                     snapshot.data!['userWishlists'].keys.toList()[index],
-//                     style: TextStyle(
-//                       color: Colors.black87,
-//                       fontSize: 20,
-//                     ),
-//                   ),
-//                 );
-
-
-
-///this
-
-// Row(
-//                               mainAxisAlignment: MainAxisAlignment.end,
-//                               children: [
-//                                 IconButton(
-//                                     onPressed: () {
-//                                       Alert(
-//                                           context: context,
-//                                           title:
-//                                               "Share Wishlist to another user by email",
-//                                           content: Column(
-//                                             children: <Widget>[
-//                                               SizedBox(
-//                                                 height: 15.0,
-//                                               ),
-//                                               SizedBox(
-//                                                 height: 45.0,
-//                                                 child: TextField(
-//                                                   controller:
-//                                                       _ShareEmailAddress,
-//                                                   decoration: InputDecoration(
-//                                                     hintText: 'email address',
-//                                                     hintStyle: TextStyle(
-//                                                       color: Colors.grey,
-//                                                     ),
-//                                                     border: OutlineInputBorder(
-//                                                       borderRadius:
-//                                                           BorderRadius.circular(
-//                                                               10.0),
-//                                                       borderSide: BorderSide(
-//                                                         color: Colors.grey,
-//                                                         width: 2.0,
-//                                                       ),
-//                                                     ),
-//                                                   ),
-//                                                 ),
-//                                               ),
-//                                             ],
-//                                           ),
-//                                           buttons: [
-//                                             DialogButton(
-//                                               color: Color(0xFF5E57A5),
-//                                               onPressed: () =>
-//                                                   Navigator.pop(context),
-//                                               child: Text(
-//                                                 "Cancel",
-//                                                 style: TextStyle(
-//                                                     color: Colors.white,
-//                                                     fontSize: 20),
-//                                               ),
-//                                             ),
-//                                             DialogButton(
-//                                               color: Color(0xFF5E57A5),
-//                                               onPressed: () {
-//                                                 if (_ShareEmailAddress
-//                                                     .text.isEmpty) {
-//                                                   CustomFlutterToast_Error(
-//                                                       message:
-//                                                           "Please enter an email",
-//                                                       toastLength:
-//                                                           Toast.LENGTH_SHORT);
-//                                                 } else if (!_ShareEmailAddress
-//                                                             .text
-//                                                             .contains('@') ==
-//                                                         true ||
-//                                                     !_ShareEmailAddress.text
-//                                                             .contains('.com') ==
-//                                                         true ||
-//                                                     !_ShareEmailAddress.text
-//                                                             .contains(
-//                                                                 email_valid) ==
-//                                                         true) {
-//                                                   CustomFlutterToast_Error(
-//                                                       message:
-//                                                           "Please enter a valid email",
-//                                                       toastLength:
-//                                                           Toast.LENGTH_SHORT);
-//                                                 } else {
-//                                                   ShareWishlistToUser
-//                                                       shareWishlistTOuser =
-//                                                       ShareWishlistToUser(
-//                                                     emailAddressForSharing:
-//                                                         _ShareEmailAddress,
-//                                                     currentUserEmail: _auth
-//                                                         .currentUser!.email,
-//                                                     wishlistName: snapshot
-//                                                         .data!['userWishlists']
-//                                                         .keys
-//                                                         .toList()[index],
-//                                                     currentUserId:
-//                                                         _auth.currentUser!.uid,
-//                                                     wishlisttype: snapshot
-//                                                             .data!['userWishlists']
-//                                                             .values
-//                                                             .toList()[index]
-//                                                         ['wishlistType'],
-//                                                     wishlistDescription: snapshot
-//                                                             .data!['userWishlists']
-//                                                             .values
-//                                                             .toList()[index]
-//                                                         ['wishlistDescription'],
-//                                                   );
-//                                                   setState(() {
-//                                                     shareWishlistTOuser
-//                                                         .checkONtheSharedEmail();
-//                                                     _ShareEmailAddress.clear();
-//                                                   });
-
-//                                                   Navigator.pop(context);
-//                                                 }
-//                                               },
-//                                               child: Text(
-//                                                 "Share",
-//                                                 style: TextStyle(
-//                                                     color: Colors.white,
-//                                                     fontSize: 20),
-//                                               ),
-//                                             )
-//                                           ]).show();
-//                                     },
-//                                     icon: Icon(Icons.share_rounded)),
-//                                 IconButton(
-//                                   highlightColor: Colors.transparent,
-//                                   splashColor: Colors.transparent,
-//                                   onPressed: () {
-//                                     setState(() {
-//                                       // delete them from firebase
-//                                       //  wishlistNames.remove(wishlistn);
-//                                       // //                                             wishlistTypeNew
-//                                       // //                                                 .remove(wishlistTps);
-//                                       showDialog(
-//                                           context: context,
-//                                           builder: (context) {
-//                                             return AlertDialog(
-//                                               title: Text(
-//                                                   'Are you sure you want to delete your wishlist?'),
-//                                               content: Row(
-//                                                 children: [
-//                                                   Expanded(
-//                                                     child: DialogButton(
-//                                                       color: Color(0xFF5E57A5),
-//                                                       onPressed: () {
-//                                                         Navigator.pop(context);
-//                                                       },
-//                                                       child: Text(
-//                                                         "Cancel",
-//                                                         style: TextStyle(
-//                                                             color: Colors.white,
-//                                                             fontSize: 20),
-//                                                       ),
-//                                                     ),
-//                                                   ),
-//                                                   Expanded(
-//                                                     child: DialogButton(
-//                                                       color: Color(0xFF5E57A5),
-//                                                       onPressed: () {
-//                                                         setState(() {
-//                                                           FirebaseFirestore
-//                                                               wishlist =
-//                                                               FirebaseFirestore
-//                                                                   .instance;
-//                                                           final docref = wishlist
-//                                                               .collection(
-//                                                                   'wishlists')
-//                                                               .doc(FirebaseAuth
-//                                                                   .instance
-//                                                                   .currentUser!
-//                                                                   .uid);
-//                                                           docref.update({
-//                                                             'userWishlists.${snapshot.data!['userWishlists'].keys.toList()[index]}':
-//                                                                 FieldValue
-//                                                                     .delete()
-//                                                           });
-//                                                           SetOptions(
-//                                                               merge: true);
-
-//                                                           Navigator.pop(
-//                                                               context);
-//                                                         });
-//                                                       },
-//                                                       child: Text(
-//                                                         "Yes",
-//                                                         style: TextStyle(
-//                                                             color: Colors.white,
-//                                                             fontSize: 20),
-//                                                       ),
-//                                                     ),
-//                                                   ),
-//                                                 ],
-//                                               ),
-//                                             );
-//                                           });
-//                                     });
-//                                   },
-//                                   icon: Icon(Icons.delete),
-//                                 ),
-//                               ]),

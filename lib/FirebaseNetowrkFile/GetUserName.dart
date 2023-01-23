@@ -15,15 +15,12 @@ class GetUserName extends StatelessWidget {
         if (snapshot.connectionState == ConnectionState.done) {
           Map<String, dynamic> data =
               snapshot.data!.data() as Map<String, dynamic>;
-          //  FirstNameLastName = "${data['firstname']} ${data['Lastname']}";
           return Text(
-            // "First Name: ${data['firstName']} last Name: ${data['lastName']}");
             "${data['firstname']} ${data['Lastname']}",
             style: TextStyle(
                 fontSize: 20, fontWeight: FontWeight.bold, color: Colors.black),
           );
         }
-        // return CircularProgressIndicator();
         return Text(
           "Loading...",
           style: TextStyle(

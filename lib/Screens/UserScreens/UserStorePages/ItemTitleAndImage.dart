@@ -17,8 +17,6 @@ class ItemTitleAndImage extends StatelessWidget {
     required this.storeName,
   });
 
-  // final StoreItems items;
-
   @override
   Widget build(BuildContext context) {
     return Padding(
@@ -26,10 +24,6 @@ class ItemTitleAndImage extends StatelessWidget {
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: <Widget>[
-          // Text(
-          //   "Mobile",
-          //   style: TextStyle(color: Colors.white),
-          // ),
           Text(
             '${itemTitle}',
             style: TextStyle(
@@ -66,23 +60,12 @@ class ItemTitleAndImage extends StatelessWidget {
               ),
               SizedBox(width: 10.0),
               ClipRRect(
-                borderRadius: BorderRadius.circular(20), // Image border
+                borderRadius: BorderRadius.circular(20),
                 child: SizedBox.fromSize(
                   size: Size(280, 300),
                   child: Image.network(itemImage, fit: BoxFit.cover),
                 ),
               ),
-              // Expanded(
-              //   child: Container(
-              //     child: ClipRRect(
-              //       borderRadius: BorderRadius.circular(18),
-              //       child: Image.network(
-              //         itemImage,
-              //         fit: BoxFit.cover,
-              //       ),
-              //     ),
-              //   ),
-              // )
             ],
           )
         ],
@@ -90,16 +73,3 @@ class ItemTitleAndImage extends StatelessWidget {
     );
   }
 }
-
-
-//  Container(
-//                 height: 250,
-//                 width: 250,
-//                 child: ClipRRect(
-//                   borderRadius: BorderRadius.circular(18),
-//                   child: Image.network(
-//                     itemImage,
-//                     fit: BoxFit.cover,
-//                   ),
-//                 ),
-//               )

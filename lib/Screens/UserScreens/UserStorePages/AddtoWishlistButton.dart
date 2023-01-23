@@ -180,18 +180,10 @@ class _AddToWishlistButtonState extends State<AddToWishlistButton> {
                                   child: ListTile(
                                     iconColor:
                                         Color.fromARGB(255, 120, 114, 186),
-
                                     shape: RoundedRectangleBorder(
                                       borderRadius: BorderRadius.circular(18),
                                     ),
                                     leading: Icon(Icons.card_giftcard_rounded),
-                                    // leading: Radio(
-                                    //     value: "radio value",
-                                    //     groupValue: "group value",
-                                    //     onChanged: (value) {
-
-                                    //       //selected value
-                                    //     }),
                                     title: Text(wishlistNames[i]),
                                     onTap: () {
                                       wishlistName = wishlistNames[i];

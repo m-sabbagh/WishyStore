@@ -13,10 +13,6 @@ class UserStorePage extends StatefulWidget {
   State<UserStorePage> createState() => _UserStorePageState();
 }
 
-//store categories are hardcoded , that means that we dont need firebase to store them
-//we can just use a list of strings to store them
-//we can also use a list of widgets to store them
-
 class _UserStorePageState extends State<UserStorePage> {
   Map<String, dynamic> storeData = {};
 
@@ -88,9 +84,6 @@ class _UserStorePageState extends State<UserStorePage> {
           color: Colors.black,
         ),
         onTap: () async {
-          //i want to navigatoe to the list of stores
-          //and i want to send the list of user ids of the stores
-
           Navigator.push(
             context,
             MaterialPageRoute(builder: (context) {
@@ -100,14 +93,6 @@ class _UserStorePageState extends State<UserStorePage> {
             }),
           );
         },
-        // subtitle: Text(
-        //   'Retail',
-        //   style: TextStyle(color: Colors.white, fontSize: 20),
-        // ),
-
-        // subtitle: Image.asset(
-        //   imageUrl,
-        // ),
         leading: ClipRRect(
           borderRadius: BorderRadius.circular(30),
           child: Image.asset(
@@ -119,10 +104,6 @@ class _UserStorePageState extends State<UserStorePage> {
           style:
               TextStyle(color: Color.fromARGB(255, 16, 15, 15), fontSize: 20),
         ),
-        // trailing: Icon(
-        //   Icons.arrow_forward_ios,
-        //   color: Colors.white,
-        // ),
       ),
     );
   }
@@ -149,15 +130,6 @@ class _UserStorePageState extends State<UserStorePage> {
         child: Padding(
           padding: const EdgeInsets.all(10.0),
           child: Column(
-            //           List<String> storeTypes = <String>[
-            //   'Retail store',
-            //   'Health and Beauty store',
-            //   'Gift store',
-            //   'Fitness store',
-            //   'Clothing store',
-            //   'Jewelry store',
-            // ];
-
             children: [
               SizedBox(
                 height: 10,

@@ -29,28 +29,6 @@ class _AddNewItemToStoreState extends State<AddNewItemToStore> {
     });
   }
 
-  // var imageurl;
-  // Future getImage() async {
-  //   image = await ImagePicker().pickImage(
-  //     source: ImageSource.gallery,
-  //     imageQuality: 100,
-  //     maxHeight: 512,
-  //     maxWidth: 512,
-  //   );
-  // }
-
-  // Future uploadImage(String? itemBarcode) async {
-  //   Reference ref = FirebaseStorage.instance.ref().child(itemBarcode!);
-  //   await ref.putFile(File(image!.path));
-  //   ref.getDownloadURL().then((value) async {
-  //     await FirebaseAuth.instance.currentUser!.updatePhotoURL(value);
-  //     imageurl = await value;
-  //     print(imageurl);
-  //   });
-  // }
-
-  //image size must be wirtten right ... 512x512 7ato habal
-  //when the storeowner uploads an image it shows it
   final _itemtitle = TextEditingController();
   final _itemprice = TextEditingController();
   final _itembarcode = TextEditingController();
@@ -121,16 +99,7 @@ class _AddNewItemToStoreState extends State<AddNewItemToStore> {
     _itembarcode.clear();
     _itemdescription.clear();
     imageURL = '';
-    // selectedItemCategory = null;
   }
-
-  // Image backgroundimage() {
-  //   if (FirebaseAuth.instance.currentUser!.photoURL != null) {
-  //     return Image.network(imageUrl);
-  //   } else {
-  //     return Image.asset('images/user_defulat.png');
-  //   }
-  // }
 
   @override
   void initState() {
@@ -176,24 +145,6 @@ class _AddNewItemToStoreState extends State<AddNewItemToStore> {
                     ),
                     GestureDetector(
                       onTap: () async {
-                        // ImagePicker imagePicker = ImagePicker();
-                        // XFile? filename = await imagePicker.pickImage(
-                        //     source: ImageSource.gallery);
-
-                        // String uniqueImageUrl =
-                        //     DateTime.now().millisecondsSinceEpoch.toString();
-
-                        // Reference refRoot = FirebaseStorage.instance.ref();
-                        // Reference refDirImage = refRoot.child(storename!);
-                        // //name the image whatever you want
-                        // Reference referenceImageToUpload =
-                        //     refDirImage.child(uniqueImageUrl);
-
-                        // //store the file
-                        // await referenceImageToUpload
-                        //     .putFile(File(filename!.path));
-                        // //get the url of the image
-                        // imageUrl = await refDirImage.getDownloadURL();
                         filevar = await Storage.getGalleryImage(image: filevar);
                         imageURL =
                             await Storage.uploadUserImage(image: filevar);

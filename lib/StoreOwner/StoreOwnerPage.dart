@@ -79,17 +79,7 @@ class _StoreOwnerPage extends State<StoreOwnerPage> {
                   children: [
                     Column(
                       crossAxisAlignment: CrossAxisAlignment.stretch,
-                      children: [
-                        // Card(
-                        //   child: SizedBox(
-                        //     height: 200,
-                        //     child: Image.asset(
-                        //       'images/asd.jpeg',
-                        //       fit: BoxFit.cover,
-                        //     ),
-                        //   ),
-                        // ),
-                      ],
+                      children: [],
                     ),
                   ],
                 ),

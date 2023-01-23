@@ -30,22 +30,6 @@ class _ListOfStoresState extends State<ListOfStores> {
   _ListOfStoresState(
       {required this.listOfStoreOwnerIds_UserId, required this.storetype});
 
-  // void getStores() async {
-  //   //take the user id from the list
-  //   //walk on every documment with the user id and get the store name and store logo
-  //   //add the store name and store logo to the list of store cards
-  //   for (int i = 0; i < listOfStoreOwnerIds_UserId.length; i++) {
-  //     await FirebaseFirestore.instance
-  //         .collection('StoreOwners')
-  //         .doc(listOfStoreOwnerIds_UserId[i])
-  //         .get()
-  //         .then((value) {
-  //       // print(value.data()!['storeName']);
-  //       // print(value.data()!['storeLogo']);
-  //     });
-  //   }
-  // }
-
   @override
   void initState() {
     super.initState();
@@ -83,34 +67,6 @@ class _ListOfStoresState extends State<ListOfStores> {
                       )));
         });
       },
-      // child: Stack(
-      // alignment: Alignment.center,
-      // children: [
-      //   Container(
-      //     height: 180,
-      //     width: 130,
-      //     child: ClipRRect(
-      //       borderRadius: BorderRadius.circular(20),
-      //       child: SizedBox.fromSize(
-      //         size: Size.fromRadius(80),
-      //         child: Image.network((imageURL), fit: BoxFit.cover),
-      //       ),
-      //     ),
-      //   ),
-      //   Positioned(
-      //     bottom: 0,
-      //     child: Container(
-      //       color: Colors.black,
-      //       child: Text(
-      //         storeName,
-      //         style: TextStyle(
-      //           fontSize: 15,
-      //           color: Colors.white,
-      //         ),
-      //       ),
-      //     ),
-      //   ),
-      // ],
       child: Padding(
         padding: const EdgeInsets.all(1.0),
         child: SafeArea(
@@ -202,9 +158,7 @@ class _ListOfStoresState extends State<ListOfStores> {
 
   @override
   Widget build(BuildContext context) {
-    //suppsoed to be a list of storecards
     return Scaffold(
-      // backgroundColor: Colors.red,
       appBar: AppBar(
         automaticallyImplyLeading: false,
         backgroundColor: Colors.transparent,
@@ -326,11 +280,6 @@ class delegate extends SearchDelegate {
                                 storeCategories: storescategories[index],
                               )));
                 }),
-            // if (!searchresults.contains(query))
-            //   Center(
-            //     child: Text('No results found',
-            //         style: TextStyle(color: Colors.red)),
-            //   ),
           ],
         );
       }),

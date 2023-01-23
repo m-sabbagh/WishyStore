@@ -138,7 +138,6 @@ class _UsersThatSharedInWishHubState extends State<UsersThatSharedInWishHub> {
                                     shape: RoundedRectangleBorder(
                                       borderRadius: BorderRadius.circular(20.0),
                                     ),
-
                                     title: Text(
                                       wishlistNames[index],
                                       style: TextStyle(
@@ -155,13 +154,6 @@ class _UsersThatSharedInWishHubState extends State<UsersThatSharedInWishHub> {
                                       EvaIcons.giftOutline,
                                       color: Colors.black87,
                                     ),
-                                    // trailing: IconButton(
-                                    //   icon: Icon(
-                                    //     Icons.delete,
-                                    //     color: Colors.black87,
-                                    //   ),
-                                    //   onPressed: () {},
-                                    // ),
                                     onTap: () {
                                       Navigator.push(
                                         context,

@@ -118,7 +118,6 @@ class _EditItemsState extends State<EditItems> {
             child: Column(
               children: <Widget>[
                 SizedBox(height: 20.0),
-
                 Column(
                   crossAxisAlignment: CrossAxisAlignment.center,
                   children: [
@@ -147,7 +146,6 @@ class _EditItemsState extends State<EditItems> {
                     SizedBox(height: 5.0),
                   ],
                 ),
-
                 SizedBox(height: 20.0),
                 Container(
                   color: Colors.grey[200],
@@ -244,7 +242,6 @@ class _EditItemsState extends State<EditItems> {
                   ],
                 ),
                 SizedBox(height: 10.0),
-
                 SizedBox(height: 15.0),
                 Container(
                   color: Colors.grey[200],
@@ -285,56 +282,7 @@ class _EditItemsState extends State<EditItems> {
                   ),
                 ),
                 SizedBox(height: 20.0),
-
-                //To add new item
-
-// Store owner must add
-
-// Item id /barcode
-// Item category
-// Item picture
-// Item title
-// Item price
-// Item description
-
                 SizedBox(height: 20.0),
-                // Row(
-                //   mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                //   children: [
-                //     // MaterialButton(
-                //     //   shape: RoundedRectangleBorder(
-                //     //     borderRadius: BorderRadius.circular(10.0),
-                //     //   ),
-                //     //   onPressed: () {},
-                //     //   color: Colors.black,
-                //     //   child: Text(
-                //     //     "Show item example",
-                //     //     style: TextStyle(color: Colors.grey),
-                //     //   ),
-                //     // ),
-                //     MaterialButton(
-                //       onPressed: () async {
-                //         setState(() {
-                //           print(_itembarcode.text);
-                //           print(_itemtitle.text);
-                //           print(_itemprice.text);
-                //           print(_itemdescription.text);
-
-                //           // print(imageURL);
-                //         });
-                //         upadeItem();
-                //       },
-                //       shape: RoundedRectangleBorder(
-                //         borderRadius: BorderRadius.circular(10.0),
-                //       ),
-                //       color: Colors.black,
-                //       child: Text(
-                //         "Upade item",
-                //         style: TextStyle(color: Colors.grey),
-                //       ),
-                //     ),
-                //   ],
-                // ),
               ],
             ),
           ),

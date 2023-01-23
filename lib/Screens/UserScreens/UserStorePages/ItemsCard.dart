@@ -4,10 +4,7 @@ class ItemCard extends StatelessWidget {
   String itemImage;
   String itemTitle;
   String itemPrice;
-  //image
-  //price
-  //title
-  // final StoreItems storeItems;
+
   Function? press;
 
   ItemCard({
@@ -15,7 +12,6 @@ class ItemCard extends StatelessWidget {
     required this.itemImage,
     required this.itemTitle,
     required this.itemPrice,
-    // required this.storeItems,
     this.press,
   }) : super(key: key);
 

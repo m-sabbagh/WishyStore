@@ -23,16 +23,9 @@ class _WishHubPageState extends State<WishHubPage> {
 
   Map wishlistData4 = {};
 
-  // List<String> wishlistNames = [];
-
   Map wishlistData3 = {};
 
   List<String> wishlistType = [];
-//we want to check if theres any "sharedWishlistsFromUsers"
-// if empty return {}
-// if not empty
-
-// sharedwishlist ->  map
 
   String? name;
 
@@ -154,19 +147,19 @@ class _WishHubPageState extends State<WishHubPage> {
                                     title: Text(
                                       wishlistUsers.keys.elementAt(index),
                                       style: TextStyle(
-                                          color: Colors.black87,
+                                          color: Colors.grey.shade700,
                                           fontSize: 20,
                                           fontWeight: FontWeight.bold,
                                           fontFamily: 'Montserrat'),
                                     ),
                                     leading: Icon(
                                       Icons.location_history,
-                                      color: Colors.black87,
+                                      color: Colors.grey.shade700,
                                     ),
                                     trailing: IconButton(
                                       icon: Icon(
                                         Icons.delete,
-                                        color: Colors.black87,
+                                        color: Colors.grey.shade700,
                                       ),
                                       onPressed: () {
                                         setState(() {
@@ -218,7 +211,6 @@ class _WishHubPageState extends State<WishHubPage> {
                                                               });
                                                               SetOptions(
                                                                   merge: true);
-                                                              // checkIftheresWishlists();
                                                               Navigator.pop(
                                                                   context);
                                                             });

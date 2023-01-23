@@ -59,56 +59,6 @@ class _StoreOwnerPromotionsState extends State<StoreOwnerPromotions> {
             child: Row(
               mainAxisAlignment: MainAxisAlignment.spaceEvenly,
               children: [
-                // Expanded(
-                //   child: Container(
-                //     height: 100,
-                //     width: 200,
-                //     color: Colors.grey,
-                //     child: MaterialButton(
-                //       onPressed: () {
-                //         showDialog(
-                //             context: context,
-                //             builder: (context) {
-                //               return SizedBox(
-                //                 child: AlertDialog(
-                //                   title:
-                //                       Text('Popluar store promotion request'),
-                //                   content: Column(
-                //                     children: [
-                //                       Text(
-                //                           'This promotion will be shown in the popular store section'),
-                //                       TextField(
-                //                         decoration: InputDecoration(
-                //                           hintText:
-                //                               'Please enter promotion description',
-                //                         ),
-                //                       ),
-                //                     ],
-                //                   ),
-                //                   actions: [
-                //                     TextButton(
-                //                         onPressed: () {
-                //                           Navigator.pop(context);
-                //                         },
-                //                         child: Text('Cancel')),
-                //                     TextButton(
-                //                         onPressed: () {
-                //                           Navigator.pop(context);
-                //                         },
-                //                         child: Text('Send request')),
-                //                   ],
-                //                 ),
-                //               );
-                //             });
-                //       },
-                //       child: Center(
-                //           child: Text(
-                //         "Popluar store promotion",
-                //         style: TextStyle(color: Colors.white, fontSize: 12.8),
-                //       )),
-                //     ),
-                //   ),
-                // ),
                 SizedBox(
                   width: 10,
                 ),

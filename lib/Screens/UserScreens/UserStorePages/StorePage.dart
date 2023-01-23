@@ -103,20 +103,20 @@ class _StorePageState extends State<StorePage> with TickerProviderStateMixin {
               width: 10,
             ),
           ),
-          Card(
-            shape: RoundedRectangleBorder(
-              borderRadius: BorderRadius.circular(10.0),
-            ),
-            elevation: 4,
-            child: SizedBox(
-              height: 40,
-              width: 40,
-              child: IconButton(
-                onPressed: () {},
-                icon: Icon(Icons.search),
-              ),
-            ),
-          ),
+
+          //   shape: RoundedRectangleBorder(
+          //     borderRadius: BorderRadius.circular(10.0),
+          //   ),
+          //   elevation: 4,
+          //   child: SizedBox(
+          //     height: 40,
+          //     width: 40,
+          //     child: IconButton(
+          //       onPressed: () {},
+          //       icon: Icon(Icons.search),
+          //     ),
+          //   ),
+          // ),
           SizedBox(
             width: 10,
           ),
@@ -124,6 +124,10 @@ class _StorePageState extends State<StorePage> with TickerProviderStateMixin {
       ),
       SizedBox(
         height: 10,
+      ),
+      Divider(
+        color: Colors.grey,
+        thickness: 1,
       ),
     ]));
   }

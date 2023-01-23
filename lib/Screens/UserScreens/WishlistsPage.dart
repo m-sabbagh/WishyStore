@@ -53,12 +53,12 @@ class _WishlistPageState extends State<WishlistPage> {
         .then((value) {
       value.forEach((element) {
         wishlistData = element.data() as Map;
-        if (wishlistData['userWishlists'][wishlistname].length == 0) {
-        } else
+        if (wishlistData['userWishlists'][wishlistname] == null) {
+        } else if (wishlistData['userWishlists'][wishlistname].length == null) {
+        } else {
           wishlistData['userWishlists'][wishlistname]['UserItems']
               .forEach((key, value) {
             wishlistItems[key] = value;
-
             imageUrl.add(value['imageUrl']);
             itemTitle.add(value['itemTitle']);
             itemPrice.add(value['itemPrice']);
@@ -68,6 +68,7 @@ class _WishlistPageState extends State<WishlistPage> {
             itemDescription.add(value['itemDescription']);
             itemStoreName.add(value['itemStoreName']);
           });
+        }
       });
     });
   }
@@ -139,6 +140,17 @@ class _WishlistPageState extends State<WishlistPage> {
               if (snapshot.connectionState == ConnectionState.done) {
                 Map<String, dynamic> data =
                     snapshot.data!.data() as Map<String, dynamic>;
+                if (data['userWishlists'][wishlistname] == null) {
+                  return Center(
+                    child: Text(
+                      'This wishlist have been deleted by the owner',
+                      style: TextStyle(
+                          fontSize: 15,
+                          fontWeight: FontWeight.bold,
+                          color: Colors.grey),
+                    ),
+                  );
+                }
                 if (data['userWishlists'][wishlistname]['UserItems'].isEmpty ||
                     data['userWishlists'][wishlistname]['UserItems'] == null) {
                   return Center(
@@ -156,7 +168,6 @@ class _WishlistPageState extends State<WishlistPage> {
                       shrinkWrap: true,
                       itemCount: wishlistItems.length,
                       scrollDirection: Axis.vertical,
-                      physics: NeverScrollableScrollPhysics(),
                       itemBuilder: ((context, index) {
                         return Dismissible(
                           key: Key(itemTitle[index]),
@@ -173,25 +184,26 @@ class _WishlistPageState extends State<WishlistPage> {
                                 }
                               }
                             }, SetOptions(merge: true));
-
-                            //remove the item
-                            // itemTitle.removeAt(index);
-                            // itemPrice.removeAt(index);
-                            // imageUrl.removeAt(index);
-                            // isReserved.removeAt(index);
-                            // itemBarcode.removeAt(index);
-                            // itemCategory.removeAt(index);
-                            // itemDescription.removeAt(index);
-                            // itemStoreName.removeAt(index);
-
-                            // Then show a snackbar.
-                            Fluttertoast.showToast(
-                                msg: '${itemTitle[index]} deleted',
-                                toastLength: Toast.LENGTH_SHORT,
-                                gravity: ToastGravity.BOTTOM,
-                                backgroundColor: Colors.red,
-                                textColor: Colors.white,
-                                fontSize: 16.0);
+                            setState(() {
+                              Fluttertoast.showToast(
+                                  msg: '${itemTitle[index]} deleted',
+                                  toastLength: Toast.LENGTH_SHORT,
+                                  gravity: ToastGravity.BOTTOM,
+                                  backgroundColor: Colors.red,
+                                  textColor: Colors.white,
+                                  fontSize: 16.0);
+                              wishlistItems.remove(itemTitle[index]);
+                              itemTitle.removeAt(index);
+                              itemPrice.removeAt(index);
+                              imageUrl.removeAt(index);
+                              isReserved.removeAt(index);
+                              itemBarcode.removeAt(index);
+                              itemCategory.removeAt(index);
+                              itemDescription.removeAt(index);
+                              itemStoreName.removeAt(index);
+                              getItemsFor1Wishlist(
+                                  widget.wishlistName, widget.uid);
+                            });
                           },
                           background: Container(
                             color: Colors.red,

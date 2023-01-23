@@ -21,22 +21,6 @@ class _MyHomePageState extends State<UserSignUpPage> {
     User? user = await _auth.currentUser;
     UsersCollection usersCollection = UsersCollection();
 
-    // if (selectedUser == 'Store Owner') {
-    //   storeOwnersCollection.firstname = _firstNamecontroller.text;
-    //   storeOwnersCollection.lastname = _lastNamecontroller.text;
-    //   storeOwnersCollection.email = _emailcontroller.text;
-    //   storeOwnersCollection.password = _passwordcontroller.text;
-    //   storeOwnersCollection.userType = selectedUser;
-    //   storeOwnersCollection.uId = user!.uid;
-    //   storeOwnersCollection.infoFilled = false;
-    //   storeOwnersCollection.storeOwnerGranted = false;
-
-    //   await db
-    //       .collection('StoreOwners')
-    //       .doc(user.uid)
-    //       .set(storeOwnersCollection.toMap());
-    // }
-
     usersCollection.firstname = _firstNamecontroller.text;
     usersCollection.lastname = _lastNamecontroller.text;
     usersCollection.email = _emailcontroller.text;
@@ -45,38 +29,13 @@ class _MyHomePageState extends State<UserSignUpPage> {
     usersCollection.uId = user!.uid;
     await db.collection('Users').doc(user.uid).set(usersCollection.toMap());
 
-    // if (selectedUser == 'User') {
     await db.collection('wishlists').doc(user.uid).set({
       'uid': user.uid,
       'email address': _emailcontroller.text,
       'userWishlists': {},
       "sharedWishlistsFromUsers": {}
     });
-    // }
-
-    // if(selecteditem=='storeOwner'){
-    //   //for admin area
-    // }
   }
-
-  // // EmailVerficationPage obj = EmailVerficationPage();
-  // bool isVerfied = false;
-  //
-  // void setState(VoidCallback fn) {
-  //   super.setState(fn);
-  //   // isVerfied = FirebaseAuth.instance.currentUser!.emailVerified;
-  //
-  //   if (isVerfied == false) {
-  //     FirebaseAuth.instance.currentUser!.sendEmailVerification();
-  //     Timer.periodic(Duration(seconds: 3), (timer) {
-  //       if (FirebaseAuth.instance.currentUser!.emailVerified) {
-  //         // isVerfied = true;
-  //         timer.cancel();
-  //       }
-  //     });
-  //   }
-  // }
-  //verfication
 
   final GlobalKey<FormState> _formKey = GlobalKey<FormState>();
 
@@ -180,7 +139,6 @@ class _MyHomePageState extends State<UserSignUpPage> {
       } else if (pass_valid.hasMatch(_passwordcontroller.text) == false) {
         Fluttertoast.showToast(
             msg: 'Password is too weak',
-            // must contain at least one uppercase letter, one lowercase letter, one number and one special character
             toastLength: Toast.LENGTH_LONG,
             gravity: ToastGravity.BOTTOM,
             timeInSecForIosWeb: 5,
@@ -206,14 +164,7 @@ class _MyHomePageState extends State<UserSignUpPage> {
                 email: _emailcontroller.text.trim(),
                 password: _passwordcontroller.text.toString())
             .then((value) => addNewUser());
-        // collection.add({
-        //   'email': _emailcontroller.text,
-        //   'password': _passwordcontroller.text,
-        //   'firstName': _firstNamecontroller.text,
-        //   'lastName': _lastNamecontroller.text,
-        //   'userType': selecteditem,
-        //   'uid': _auth.currentUser!.uid,
-        // });
+
         Navigator.pushNamedAndRemoveUntil(
             context, NavigationBarForUser.id, (route) => false);
 
@@ -464,19 +415,6 @@ class _MyHomePageState extends State<UserSignUpPage> {
                     buttonName: 'Sign Up',
                     buttonColor: Color(0xFF5E57A5),
                     onPressed: () {
-                      //check if the email and password are valid
-                      // obj.verfiedEmail(
-                      //     _emailcontroller.text,
-                      //     _passwordcontroller.text,
-                      //     _auth,
-                      //     firstName,
-                      //     lastName,
-                      //     context,
-                      //     _formKey,
-                      //     isVerfied
-                      //     // selecteditem,
-                      //     );
-                      // verfication
                       setState(() {
                         showSpinner = true;
                       });

@@ -149,8 +149,6 @@ class _CategoryItemsState extends State<CategoryItems> {
                                 });
                           },
                         ),
-                        // trailing:
-                        //     Text(snapshot.data['categories'][widget.categoryName]),
                       ),
                     ),
                     SizedBox(

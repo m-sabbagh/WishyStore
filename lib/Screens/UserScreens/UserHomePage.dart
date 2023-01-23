@@ -279,17 +279,6 @@ class _UserHomePageState extends State<UserHomePage> {
                   SizedBox(
                     width: 230,
                   ),
-                  // GestureDetector(
-                  //   onTap: () {
-                  //     // Navigator.pushNamed(context, MyWishPage.id);
-                  //   },
-                  //   child: Text(
-                  //     "View all",
-                  //     style: TextStyle(
-                  //       color: Colors.black87,
-                  //     ),
-                  //   ),
-                  // ),
                 ],
               ),
               FutureBuilder(
@@ -404,17 +393,6 @@ class _UserHomePageState extends State<UserHomePage> {
                       ],
                     );
                   }
-                  // }
-
-                  // if (snapshot.hasData) {
-
-                  // }
-
-                  // else {
-                  //   return Center(
-                  //     child: CircularProgressIndicator(),
-                  //   );
-                  // }
                 },
               ),
               SizedBox(

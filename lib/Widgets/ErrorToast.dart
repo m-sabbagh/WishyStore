@@ -11,7 +11,3 @@ Future<bool?> CustomFlutterToast_Error({String? message, toastLength}) {
       textColor: Colors.white,
       fontSize: 16.0);
 }
-
-
-//toastLength
-//Toast.LENGTH_SHORT

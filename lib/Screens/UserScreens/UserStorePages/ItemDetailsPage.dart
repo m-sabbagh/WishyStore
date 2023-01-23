@@ -34,8 +34,6 @@ class _ItemDetailsPageState extends State<ItemDetailsPage> {
   Widget build(BuildContext context) {
     Size size = MediaQuery.of(context).size;
     return Scaffold(
-      // each product have a color
-      // backgroundColor: item.color,
       appBar: AppBar(
         backgroundColor: Colors.transparent,
         elevation: 0,
@@ -127,7 +125,6 @@ class _ItemDetailsPageState extends State<ItemDetailsPage> {
                           ),
                         ),
                         SizedBox(height: 20.0 / 2),
-                        // CounterWithFavBtn(),
                         SizedBox(height: 20.0 / 2),
                         if (widget.showAddToWishlistButton == true)
                           AddToWishlistButton(
@@ -145,14 +142,11 @@ class _ItemDetailsPageState extends State<ItemDetailsPage> {
                     ),
                   ),
                   ItemTitleAndImage(
-                    // itemBarcode: widget.itemBarcode,
                     itemTitle: widget.itemTitle,
                     itemPrice: widget.itemPrice,
                     itemImage: widget.itemImage,
                     itemCategory: widget.itemCategory,
                     storeName: widget.storeName,
-                    // itemDescription: widget.itemDescription,
-                    // itemCategory: widget.itemCategory,
                   ),
                 ],
               ),

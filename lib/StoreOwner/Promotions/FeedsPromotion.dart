@@ -63,11 +63,6 @@ class _FeedsPromotionState extends State<FeedsPromotion> {
               Column(
                 crossAxisAlignment: CrossAxisAlignment.center,
                 children: [
-                  // CircleAvatar(
-                  //   backgroundColor: Colors.grey,
-                  //   radius: 55,
-                  //   backgroundImage: backgroundimage().image,
-                  // ),
                   Container(
                     height: 200,
                     width: 400,
@@ -94,14 +89,6 @@ class _FeedsPromotionState extends State<FeedsPromotion> {
                     ),
                   ),
                   SizedBox(height: 5.0),
-                  // Text(
-                  //   'it is recommended to upload images\n with dimensions of 280x300 pixels.',
-                  //   style: TextStyle(
-                  //     color: Color.fromARGB(255, 211, 183, 105),
-                  //     fontSize: 15,
-                  //     fontWeight: FontWeight.bold,
-                  //   ),
-                  // ),
                   SizedBox(height: 30.0),
                   SizedBox(
                     height: 100,

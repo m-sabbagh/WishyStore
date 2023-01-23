@@ -196,10 +196,6 @@ class _WishlistCardState extends State<WishlistCard> {
                         splashColor: Colors.transparent,
                         onPressed: () {
                           setState(() {
-                            // delete them from firebase
-                            //  wishlistNames.remove(wishlistn);
-                            // //                                             wishlistTypeNew
-                            // //                                                 .remove(wishlistTps);
                             showDialog(
                                 context: context,
                                 builder: (context) {
